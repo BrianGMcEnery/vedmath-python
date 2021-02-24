@@ -10,21 +10,52 @@ def _to_vinculum(ds):
 
     def last_from_10(d):
         return 10 - d
+
+    def all_from_9_last_from_10(ds):
+        '''Apply the sutra to a list of digits'''
+        ans = list(map(all_from_9, ds[:-1]))
+        ans = ans + [last_from_10(ds[-1])]
+        return ans
+
+    def negate(ds):
+        '''Negate a list of digits'''
+        return [-d for d in ds]
     
     def one_more_than(d):
         return d + 1
 
-    dt = list(map(lambda e: e > 5, ds))
-    if max(ds) <= 5:
-        return ds
-    elif len(ds) == 1:
-        return [one_more_than(0)] + [-last_from_10(ds[-1])]
-    elif len(ds) == 2 and ds[0] <= 5:
-        return [one_more_than(ds[0])] + [-last_from_10(ds[-1])]
-    elif len(ds) == 2 and ds[1] <= 5:
-        return [one_more_than(0)] + [-last_from_10(ds[0])] + [ds[-1]]
-    elif len(ds) == 2:
-        return [one_more_than(0)] + [-all_from_9(ds[0])] + [-last_from_10(ds[-1])]
+    def find_splits(dt):
+        '''Find out where the truth values change'''
+        splits = [0]
+        current = dt[0]
+        try:
+            while True:
+                idx = dt.index(not current, splits[-1])
+                splits.append(idx)
+                current = not current
+        except:
+            return splits
+
+
+    truth_values = list(map(lambda e: e > 5, ds))
+    split_indxs = find_splits(truth_values)
+
+    ans = []
+    idx = 0
+    try:
+        while True:
+            sp1 = split_indxs[idx]
+            sp2 = split_indxs[idx+1]
+            if truth_values[sp1]: #the element is > 5
+                ans += negate(all_from_9_last_from_10(ds[sp1:sp2]))
+            else:
+                ans += ds[sp1:sp2]
+
+            idx += 1
+    except:
+        
+        return ans
+    
     
 
 class VNumber(Basic):
@@ -55,3 +86,9 @@ class VInteger(VNumber):
         '''
         ds = list(map (digit_from_vdigit, self.d))
         return VInteger(_to_vinculum(ds))
+
+    def get_digits(self):
+        '''
+        Returns a list of the digits as ints
+        '''
+        return list(map (digit_from_vdigit, self.d))
