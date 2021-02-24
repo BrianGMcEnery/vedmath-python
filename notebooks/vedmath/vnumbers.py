@@ -24,6 +24,13 @@ def _to_vinculum(ds):
     def one_more_than(d):
         return d + 1
 
+    def one_more_than_list(ds):
+        if ds == []:
+            return [1]
+        else:
+            ds[-1] += 1
+            return ds
+
     def find_splits(dt):
         '''Find out where the truth values change'''
         splits = [0]
@@ -40,8 +47,14 @@ def _to_vinculum(ds):
     truth_values = list(map(lambda e: e > 5, ds))
     split_indxs = find_splits(truth_values)
 
-    ans = []
+    if truth_values[0]: #the first element is > 5
+        ans = [1]
+    else:
+        ans = []
+
+
     idx = 0
+
     try:
         while True:
             sp1 = split_indxs[idx]
@@ -49,11 +62,15 @@ def _to_vinculum(ds):
             if truth_values[sp1]: #the element is > 5
                 ans += negate(all_from_9_last_from_10(ds[sp1:sp2]))
             else:
-                ans += ds[sp1:sp2]
+                ans += one_more_than_list(ds[sp1:sp2])
 
             idx += 1
     except:
-        
+        sp = split_indxs[idx]
+        if truth_values[sp]: #the element is > 5
+                ans += negate(all_from_9_last_from_10(ds[sp:]))
+        else:
+            ans += ds[sp:]
         return ans
     
     
