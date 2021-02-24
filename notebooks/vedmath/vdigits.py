@@ -14,23 +14,9 @@ def get_digits(n):
     digits_inner(n)
     digits.reverse()
     return digits[1:]
-""" 
-vds = {
-        S.VPosZero:0,
-        S.VNegZero:0,
-        S.VPosOne:1,
-        S.VNegOne:-1,
-        S.VPosTwo:2,
-        S.VNegTwo:-2,
-        S.VPosThree:3,
-        S.VNegThree:-3,
-        S.VPosFour:4,
-        S.VNegFour:-4,
-        S.VPosFive:5,
-        S.VNegFive:-5,
-    } """
 
-def from_vdigit(vd):
+
+def digit_from_vdigit(vd):
     '''
     Return a digit from a vdigit
     '''
@@ -43,10 +29,42 @@ def from_vdigit(vd):
         return 1
     elif vd == S.VNegOne:
         return -1
+    elif vd == S.VPosTwo:
+        return 2
+    elif vd == S.VNegTwo:
+        return -2
+    elif vd == S.VPosThree:
+        return 3
+    elif vd == S.VNegThree:
+        return -3
+    elif vd == S.VPosFour:
+        return 4
+    elif vd == S.VNegFour:
+        return -4
+    elif vd == S.VPosFive:
+        return 5
+    elif vd == S.VNegFive:
+        return -5
+    elif vd == S.VPosSix:
+        return 6
+    elif vd == S.VNegSix:
+        return -6
+    elif vd == S.VPosSeven:
+        return 7
+    elif vd == S.VNegSeven:
+        return -7
+    elif vd == S.VPosEight:
+        return 8
+    elif vd == S.VNegEight:
+        return -8
+    elif vd == S.VPosNine:
+        return 9
+    elif vd == S.VNegNine:
+        return -9
     else:
         raise ValueError(f"{vd} is of wrong type.")
 
-def to_vdigit(d):
+def digit_to_vdigit(d):
     '''
     Returns a singleton vdigit of d.
     '''
@@ -88,6 +106,8 @@ def to_vdigit(d):
         return S.VPosNine
     elif d == -9:
         return S.VNegNine
+    else:
+        raise ValueError(f"{d} is not a single digit.")
 
 
 class VDigit(Basic):
