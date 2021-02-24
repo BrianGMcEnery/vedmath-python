@@ -1,96 +1,110 @@
 from sympy import Basic, S
 from sympy.core.singleton import Singleton
 
-class VZero(Basic, metaclass=Singleton):
+def get_digits(n):
+    '''
+    Returns a list of digits in an integer
+    '''
+    digits = []
+    def digits_inner(i):
+        digits.append(i%10)
+        if i == 0:
+            return digits
+        digits_inner(i//10)
+    digits_inner(n)
+    digits.reverse()
+    return digits[1:]
+
+class VDigit(Basic):
     pass
 
-class VPosZero(Basic, metaclass=Singleton):
+class VPosZero(VDigit, metaclass=Singleton):
 
     def _latex(self, printer):
         return r"0"
 
-class VNegZero(Basic, metaclass=Singleton):
+class VNegZero(VDigit, metaclass=Singleton):
 
     def _latex(self, printer):
         return r"\bar{0}"
 
-class VPosOne(Basic, metaclass=Singleton):
+class VPosOne(VDigit, metaclass=Singleton):
     
     def _latex(self, printer):
         return r"1"
 
 
-class VPosTwo(Basic, metaclass=Singleton):
+class VPosTwo(VDigit, metaclass=Singleton):
     
     def _latex(self, printer):
         return r"2"
 
 
-class VPosThree(Basic, metaclass=Singleton):
+class VPosThree(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"3"
 
-class VPosFour(Basic, metaclass=Singleton):
+class VPosFour(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"4"
 
-class VPosFive(Basic, metaclass=Singleton):
+class VPosFive(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"5"
 
-class VPosSix(Basic, metaclass=Singleton):
+class VPosSix(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"6"
 
-class VPosSeven(Basic, metaclass=Singleton):
+class VPosSeven(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"7"
 
-class VPosEight(Basic, metaclass=Singleton):
+class VPosEight(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"8"
 
-class VPosNine(Basic, metaclass=Singleton):
+class VPosNine(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"9"
 
-class VNegOne(Basic, metaclass=Singleton):
+class VNegOne(VDigit, metaclass=Singleton):
     
     def _latex(self, printer):
         return r"\bar{1}"
 
 
-class VNegTwo(Basic, metaclass=Singleton):
+class VNegTwo(VDigit, metaclass=Singleton):
     
     def _latex(self, printer):
         return r"\bar{2}"
 
 
-class VNegThree(Basic, metaclass=Singleton):
+class VNegThree(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{3}"
 
-class VNegFour(Basic, metaclass=Singleton):
+class VNegFour(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{4}"
 
-class VNegFive(Basic, metaclass=Singleton):
+class VNegFive(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{5}"
 
-class VNegSix(Basic, metaclass=Singleton):
+class VNegSix(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{6}"
 
-class VNegSeven(Basic, metaclass=Singleton):
+class VNegSeven(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{7}"
 
-class VNegEight(Basic, metaclass=Singleton):
+class VNegEight(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{8}"
 
-class VNegNine(Basic, metaclass=Singleton):
+class VNegNine(VDigit, metaclass=Singleton):
     def _latex(self, printer):
         return r"\bar{9}"
 
