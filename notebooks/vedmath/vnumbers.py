@@ -5,13 +5,26 @@ def _to_vinculum(ds):
     '''
     Returns the digits ds in vinculum form.
     '''
-    def last_10(d):
+    def all_from_9(d):
+        return 9 - d
+
+    def last_from_10(d):
         return 10 - d
+    
+    def one_more_than(d):
+        return d + 1
+
     dt = list(map(lambda e: e > 5, ds))
     if max(ds) <= 5:
         return ds
     elif len(ds) == 1:
-        return [1] + [-last_10(ds[-1])]
+        return [one_more_than(0)] + [-last_from_10(ds[-1])]
+    elif len(ds) == 2 and ds[0] <= 5:
+        return [one_more_than(ds[0])] + [-last_from_10(ds[-1])]
+    elif len(ds) == 2 and ds[1] <= 5:
+        return [one_more_than(0)] + [-last_from_10(ds[0])] + [ds[-1]]
+    elif len(ds) == 2:
+        return [one_more_than(0)] + [-all_from_9(ds[0])] + [-last_from_10(ds[-1])]
     
 
 class VNumber(Basic):
