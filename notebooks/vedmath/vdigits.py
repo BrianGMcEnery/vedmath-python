@@ -1,9 +1,9 @@
 from sympy import Basic, S
 from sympy.core.singleton import Singleton
 
-def get_digits(n):
+def to_digits(n):
     '''
-    Returns a list of digits in an integer
+    Returns a list of digits of an integer.
     '''
     digits = []
     def digits_inner(i):

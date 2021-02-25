@@ -88,7 +88,7 @@ class VInteger(VNumber):
         if isinstance(i, list):
             digits = i
         else:
-            digits = get_digits(i)
+            digits = to_digits(i)
         obj.d = list(map(digit_to_vdigit, digits))
         return obj
 

@@ -1,10 +1,10 @@
 from vedmath import *
 
-def test_get_digits():
-    assert get_digits(345) == [3,4,5]
-    assert get_digits(0) == []
+def test_to_digits():
+    assert to_digits(345) == [3,4,5]
+    assert to_digits(0) == []
 
-class TestVInteger:
+class Test_VInteger:
     def test_to_vinculum(self):
         assert VInteger(4).to_vinculum().get_digits() == [4]
         assert VInteger(8).to_vinculum().get_digits() == [1, -2]
