@@ -98,7 +98,7 @@ def _from_vinculum(ds):
         ans = [1]
     else:
         ans = [] """
-
+    ans = []
     idx = 0
     try:
         while True:
@@ -153,7 +153,11 @@ class VInteger(VNumber):
         Transforms the digits so the number is written in normal form.
         '''
         ds = list(map (digit_from_vdigit, self.d))
-        return VInteger(_from_vinculum(ds))
+        ds = _from_vinculum(ds)
+        truth_values = list(map(lambda e: e < 0, ds))
+        if True in truth_values: # needs to go again
+            ds = _from_vinculum(ds)
+        return VInteger(ds)
 
     def get_digits(self):
         '''
