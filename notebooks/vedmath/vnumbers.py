@@ -85,7 +85,7 @@ def _from_vinculum(ds):
     def one_less_than_list(ds):
         '''Apply one_less_than to the last element of a list'''
         if ds == [1]:
-            return []
+            return [0]
         else:
             ds[-1] -= 1
             return ds
@@ -93,11 +93,6 @@ def _from_vinculum(ds):
     truth_values = list(map(lambda e: e < 0, ds))
     change_indxs = find_truth_changes(truth_values)
     
-    """ #special case to handle the first element
-    if truth_values[0]: #the first element is > 5
-        ans = [1]
-    else:
-        ans = [] """
     ans = []
     idx = 0
     try:
@@ -116,6 +111,9 @@ def _from_vinculum(ds):
                 ans += all_from_9_last_from_10(negate(ds[ci:]))
         else:
             ans += ds[ci:]
+
+        if ans[0] == 0: #chop leading 0
+            ans = ans[1:]
         return ans
    
 
@@ -154,9 +152,13 @@ class VInteger(VNumber):
         '''
         ds = list(map (digit_from_vdigit, self.d))
         ds = _from_vinculum(ds)
+
+        #test to see if all bar digits gone
         truth_values = list(map(lambda e: e < 0, ds))
-        if True in truth_values: # needs to go again
+        while True in truth_values: # needs to go again
             ds = _from_vinculum(ds)
+            truth_values = list(map(lambda e: e < 0, ds))
+        
         return VInteger(ds)
 
     def get_digits(self):
