@@ -166,3 +166,9 @@ class VInteger(VNumber):
         Returns a list of the digits as ints
         '''
         return list(map (digit_from_vdigit, self.d))
+
+    def __getitem__(self, key):
+        return self.d[key]
+
+    def __setitem__(self, key, value):
+        self.d[key] = value
