@@ -71,7 +71,53 @@ def _to_vinculum(ds):
             ans += ds[ci:]
         return ans
     
+def _from_vinculum(ds):
+    '''
+    Returns the digits ds in normal form.
+    '''
+    def negate(ds):
+        '''Negate a list of digits'''
+        return [-d for d in ds]
     
+    def one_more_than(d):
+        return d + 1
+
+    def one_less_than_list(ds):
+        '''Apply one_less_than to the last element of a list'''
+        if ds == [1]:
+            return []
+        else:
+            ds[-1] -= 1
+            return ds
+
+    truth_values = list(map(lambda e: e < 0, ds))
+    change_indxs = find_truth_changes(truth_values)
+    
+    """ #special case to handle the first element
+    if truth_values[0]: #the first element is > 5
+        ans = [1]
+    else:
+        ans = [] """
+
+    idx = 0
+    try:
+        while True:
+            ci = change_indxs[idx]
+            cip1 = change_indxs[idx+1]
+            if truth_values[ci]: #the element is < 0
+                ans += all_from_9_last_from_10(negate(ds[ci:cip1]))
+            else:
+                ans += one_less_than_list(ds[ci:cip1])
+            idx += 1
+    except:
+        #handle the final change
+        ci = change_indxs[idx]
+        if truth_values[ci]: #the element is < 0
+                ans += all_from_9_last_from_10(negate(ds[ci:]))
+        else:
+            ans += ds[ci:]
+        return ans
+   
 
 class VNumber(Basic):
     '''
@@ -101,6 +147,13 @@ class VInteger(VNumber):
         '''
         ds = list(map (digit_from_vdigit, self.d))
         return VInteger(_to_vinculum(ds))
+
+    def from_vinculum(self):
+        '''
+        Transforms the digits so the number is written in normal form.
+        '''
+        ds = list(map (digit_from_vdigit, self.d))
+        return VInteger(_from_vinculum(ds))
 
     def get_digits(self):
         '''
