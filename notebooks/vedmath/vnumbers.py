@@ -1,22 +1,33 @@
 from sympy import Basic, S, Expr, latex
 from .vdigits import *
 
+def all_from_9_last_from_10(ds):
+    '''Apply the sutra to a list of digits'''
+    def all_from_9(d):
+        return 9 - d
+    def last_from_10(d):
+        return 10 - d
+
+    ans = list(map(all_from_9, ds[:-1]))
+    ans = ans + [last_from_10(ds[-1])]
+    return ans
+
+def find_truth_changes(truth_values):
+    '''Find out where the truth values change'''
+    changes = [0]
+    current = truth_values[0]
+    try:
+        while True:
+            idx = truth_values.index(not current, changes[-1])
+            changes.append(idx)
+            current = not current
+    except:
+        return changes
+
 def _to_vinculum(ds):
     '''
     Returns the digits ds in vinculum form.
     '''
-    def all_from_9(d):
-        return 9 - d
-
-    def last_from_10(d):
-        return 10 - d
-
-    def all_from_9_last_from_10(ds):
-        '''Apply the sutra to a list of digits'''
-        ans = list(map(all_from_9, ds[:-1]))
-        ans = ans + [last_from_10(ds[-1])]
-        return ans
-
     def negate(ds):
         '''Negate a list of digits'''
         return [-d for d in ds]
@@ -25,52 +36,39 @@ def _to_vinculum(ds):
         return d + 1
 
     def one_more_than_list(ds):
+        '''Apply one_more_than to the last element of a list'''
         if ds == []:
             return [1]
         else:
             ds[-1] += 1
             return ds
 
-    def find_splits(dt):
-        '''Find out where the truth values change'''
-        splits = [0]
-        current = dt[0]
-        try:
-            while True:
-                idx = dt.index(not current, splits[-1])
-                splits.append(idx)
-                current = not current
-        except:
-            return splits
-
-
     truth_values = list(map(lambda e: e > 5, ds))
-    split_indxs = find_splits(truth_values)
-
+    change_indxs = find_truth_changes(truth_values)
+    
+    #special case to handle the first element
     if truth_values[0]: #the first element is > 5
         ans = [1]
     else:
         ans = []
 
-
     idx = 0
-
     try:
         while True:
-            sp1 = split_indxs[idx]
-            sp2 = split_indxs[idx+1]
-            if truth_values[sp1]: #the element is > 5
-                ans += negate(all_from_9_last_from_10(ds[sp1:sp2]))
+            ci = change_indxs[idx]
+            cip1 = change_indxs[idx+1]
+            if truth_values[ci]: #the element is > 5
+                ans += negate(all_from_9_last_from_10(ds[ci:cip1]))
             else:
-                ans += one_more_than_list(ds[sp1:sp2])
-
+                ans += one_more_than_list(ds[ci:cip1])
             idx += 1
     except:
-        sp = split_indxs[idx]
-        if truth_values[sp]: #the element is > 5
-                ans += negate(all_from_9_last_from_10(ds[sp:]))
+        #handle the final change
+        ci = change_indxs[idx]
+        if truth_values[ci]: #the element is > 5
+                ans += negate(all_from_9_last_from_10(ds[ci:]))
         else:
-            ans += ds[sp:]
+            ans += ds[ci:]
         return ans
     
     
