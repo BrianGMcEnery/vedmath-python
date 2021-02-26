@@ -1,2 +1,2 @@
 # vedmath-sympy
- Exploring Vedic Mathematics using SymPy
+ Exploring Vedic Mathematics using Python
