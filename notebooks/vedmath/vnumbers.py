@@ -132,10 +132,13 @@ class VInteger(VNumber):
         else:
             digits = to_digits(i)
         self.d = list(map(lambda d: VDigit(d), digits))
+
+    def __str__(self):
+        return f"VInteger({self.d})"
     
     def __repr__(self):
         return f"{self.d}"
-        
+
     def to_vinculum(self):
         '''
         Transforms the digits so the number is written in vinculum form.
