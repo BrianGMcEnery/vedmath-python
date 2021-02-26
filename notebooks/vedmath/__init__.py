@@ -1,6 +1,3 @@
-from .vdigits import ( to_digits, VDigit, VPosZero, VNegZero, VPosOne, VNegOne,
-    VPosTwo, VNegTwo, VPosThree, VNegThree, VPosFour, VNegFour, VPosFive,
-    VNegFive, VPosSix, VNegSix, VPosSeven, VNegSeven, VPosEight, VNegEight,
-    VPosNine, VNegNine, digit_to_vdigit, digit_from_vdigit)
+from .vdigits import ( to_digits, VDigit, digit_to_vdigit, digit_from_vdigit)
 
 from .vnumbers import VNumber, VInteger

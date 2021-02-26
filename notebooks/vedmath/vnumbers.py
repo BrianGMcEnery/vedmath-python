@@ -1,4 +1,3 @@
-from sympy import Basic, S, Expr, latex
 from .vdigits import *
 
 def all_from_9_last_from_10(ds):
@@ -117,7 +116,7 @@ def _from_vinculum(ds):
         return ans
    
 
-class VNumber(Basic):
+class VNumber():
     '''
     Root class for all numbers in vedmath.
     '''
@@ -125,20 +124,17 @@ class VNumber(Basic):
 
 
 class VInteger(VNumber):
-    __slots__ = ('d',)
+    
 
-    def __new__(cls, i):
-        obj = Expr.__new__(cls)
+    def __init__(self, i):
         if isinstance(i, list):
             digits = i
         else:
             digits = to_digits(i)
-        obj.d = list(map(digit_to_vdigit, digits))
-        return obj
-
-    def _latex(self, printer):
-        return latex(self.d)
-
+        self.d = list(map(digit_to_vdigit, digits))
+    
+    def __repr__(self):
+        return f"{self.d}"
     def to_vinculum(self):
         '''
         Transforms the digits so the number is written in vinculum form.
