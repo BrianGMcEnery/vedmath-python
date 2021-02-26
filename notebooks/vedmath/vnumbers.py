@@ -131,7 +131,7 @@ class VInteger(VNumber):
             digits = i
         else:
             digits = to_digits(i)
-        self.d = list(map(digit_to_vdigit, digits))
+        self.d = list(map(lambda d: VDigit(d), digits))
     
     def __repr__(self):
         return f"{self.d}"

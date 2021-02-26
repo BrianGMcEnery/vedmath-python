@@ -23,13 +23,6 @@ def digit_from_vdigit(vd):
     else:
         raise ValueError(f"{vd} is of wrong type.")
 
-def digit_to_vdigit(d):
-    '''
-    Returns a vdigit of d.
-    '''
-    return VDigit(d)
-
-
 class VDigit:
     """
     Root class for all digits in vedmath.
