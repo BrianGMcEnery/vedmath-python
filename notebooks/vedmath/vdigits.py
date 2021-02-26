@@ -114,7 +114,8 @@ class VDigit(Basic):
     """
     Root class for all digits in vedmath.
     """
-    pass
+    is_number = True
+    is_Atom = True
 
 class VPosZero(VDigit, metaclass=Singleton):
     __slots__ = ()
