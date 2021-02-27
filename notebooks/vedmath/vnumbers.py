@@ -1,4 +1,52 @@
-from .vdigits import *
+def to_digits(n):
+    '''
+    Returns a list of digits of an integer.
+    '''
+    digits = []
+    def digits_inner(i):
+        digits.append(i%10)
+        if i == 0:
+            return digits
+        digits_inner(i//10)
+    digits_inner(n)
+    digits.reverse()
+    return digits[1:]
+
+
+def digit_from_vdigit(vd):
+    '''
+    Return a digit from a vdigit
+    '''
+    if (type(vd) == VDigit):
+        return vd.get_val()
+    else:
+        raise ValueError(f"{vd} is of wrong type.")
+
+class VDigit:
+    """
+    Root class for all digits in vedmath.
+    """
+    _val = None
+
+    def __init__(self, d):
+        if d in range(-9, 10):
+            self._val = d
+        else:
+            raise ValueError(f'{d} is not a digit.')
+
+    def __str__(self):
+        return f"VDigit({self.get_val()})"
+
+    def __repr__(self):
+        return f"{self.get_val()}"
+
+    def add(self, other):
+        sum = self._val + other._val
+        return VInteger(sum)
+    
+    def get_val(self):
+        return self._val
+
 
 def all_from_9_last_from_10(ds):
     '''Apply the sutra to a list of digits'''
@@ -30,9 +78,6 @@ def _to_vinculum(ds):
     def negate(ds):
         '''Negate a list of digits'''
         return [-d for d in ds]
-    
-    def one_more_than(d):
-        return d + 1
 
     def one_more_than_list(ds):
         '''Apply one_more_than to the last element of a list'''
@@ -78,9 +123,6 @@ def _from_vinculum(ds):
         '''Negate a list of digits'''
         return [-d for d in ds]
     
-    def one_more_than(d):
-        return d + 1
-
     def one_less_than_list(ds):
         '''Apply one_less_than to the last element of a list'''
         if ds == [1]:
@@ -124,8 +166,9 @@ class VNumber():
 
 
 class VInteger(VNumber):
-    
-
+    '''
+    VInteger is a class for computing with integers.
+    '''
     def __init__(self, i):
         if isinstance(i, list):
             digits = i
