@@ -5,7 +5,7 @@ from vedmath import *
 def test_to_digits():
     assert to_digits(345) == [3,4,5]
     assert to_digits(0) == []
-    assert to_digits(-1) == [-1]
+    assert to_digits(-345) == [-3, -4, -5]
 
 random.seed(0)
 
@@ -26,8 +26,8 @@ class Test_VInteger:
         assert VInteger(91287625).to_vinculum().get_digits() == [1, -1, 1, 3, -1, -2, -4, 2, 5]
 
     def test_from_vinculum(self):
-        for i in range(100):
-            a = random.randint(0, 100000000)
+        for _ in range(100):
+            a = random.randint(0, 1000000000)
             ads = VInteger(a).get_digits()
             vads = VInteger(a).to_vinculum().from_vinculum().get_digits()
             assert ads == vads
