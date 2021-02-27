@@ -8,7 +8,14 @@ def to_digits(n):
         if i == 0:
             return digits
         digits_inner(i//10)
-    digits_inner(n)
+
+    # Must handle negative integers
+    if n >= 0:
+        digits_inner(n)
+    else:
+        digits_inner(-n)
+        digits = list(map(lambda e: -1 * e, digits))
+
     digits.reverse()
     return digits[1:]
 
@@ -40,9 +47,15 @@ class VDigit:
     def __repr__(self):
         return f"{self.get_val()}"
 
-    def add(self, other):
-        sum = self._val + other._val
-        return VInteger(sum)
+    def __add__(self, other):
+        if type(other) == VDigit:
+            sum = self._val + other._val
+            return VInteger(sum)
+
+    def __sub__(self, other):
+        if type(other) == VDigit:
+            d = self._val - other._val
+            return VInteger(d)
     
     def get_val(self):
         return self._val
