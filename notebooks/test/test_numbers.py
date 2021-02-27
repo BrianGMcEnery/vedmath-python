@@ -7,9 +7,6 @@ def test_to_digits():
     assert to_digits(0) == []
     assert to_digits(-345) == [-3, -4, -5]
 
-
-
-
 random.seed(0)
 
 class Test_VDigit:
@@ -36,7 +33,24 @@ class Test_VDigit:
         assert (d3 - d9).get_digits() == [-6]
         assert (d3 - dm9).get_digits() == [1,2]
 
+    def test_mul(self):
+        d1 = VDigit(1)
+        d3 = VDigit(3)
+        d9 = VDigit(9)
+        dm9 = VDigit(-9)
+        assert (d1 * d3).get_digits() == [3]
+        assert (d3 * d9).get_digits() == [2, 7]
+        assert (d3 * dm9).get_digits() == [-2, -7]
 
+    def test_neg(self):
+        d1 = VDigit(1)
+        d3 = VDigit(3)
+        d9 = VDigit(9)
+        dm9 = VDigit(-9)
+        assert -d1 == VDigit(-1)
+        assert -d3 == VDigit(-3)
+        assert -d9 == VDigit(-9)
+        assert -dm9 == VDigit(9)
 
 class Test_VNumber:
     # This test is here for completion of the import

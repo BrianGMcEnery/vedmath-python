@@ -49,13 +49,25 @@ class VDigit:
 
     def __add__(self, other):
         if type(other) == VDigit:
-            sum = self._val + other._val
-            return VInteger(sum)
+            ans = self._val + other._val
+            return VInteger(ans)
 
     def __sub__(self, other):
         if type(other) == VDigit:
-            d = self._val - other._val
-            return VInteger(d)
+            ans = self._val - other._val
+            return VInteger(ans)
+
+    def __mul__(self, other):
+        if type(other) == VDigit:
+            ans = self._val * other._val
+            return VInteger(ans)
+
+    def __neg__(self):
+        return VDigit(-self._val)
+
+    def __eq__(self, other):
+        if type(other) == VDigit:
+            return self._val == other._val
     
     def get_val(self):
         return self._val
