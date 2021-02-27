@@ -7,12 +7,42 @@ def test_to_digits():
     assert to_digits(0) == []
     assert to_digits(-345) == [-3, -4, -5]
 
-def test_digit_from_vdigit():
-    assert digit_from_vdigit(VDigit(7)) == 7
-    assert digit_from_vdigit(VDigit(-3)) == -3
+
 
 
 random.seed(0)
+
+class Test_VDigit:
+    def test_creation(self):
+        assert digit_from_vdigit(VDigit(7)) == 7
+        assert digit_from_vdigit(VDigit(0)) == 0
+        assert digit_from_vdigit(VDigit(-3)) == -3
+
+    def test_add(self):
+        d1 = VDigit(1)
+        d3 = VDigit(3)
+        d9 = VDigit(9)
+        dm9 = VDigit(-9)
+        assert (d1 + d3).get_digits() == [4]
+        assert (d3 + d9).get_digits() == [1,2]
+        assert (d3 + dm9).get_digits() == [-6]
+
+    def test_sub(self):
+        d1 = VDigit(1)
+        d3 = VDigit(3)
+        d9 = VDigit(9)
+        dm9 = VDigit(-9)
+        assert (d1 - d3).get_digits() == [-2]
+        assert (d3 - d9).get_digits() == [-6]
+        assert (d3 - dm9).get_digits() == [1,2]
+
+
+
+class Test_VNumber:
+    # This test is here for completion of the import
+    def test_creation(self):
+        assert type (VNumber()) == VNumber
+
 
 class Test_VInteger:
     def test_to_vinculum(self):
