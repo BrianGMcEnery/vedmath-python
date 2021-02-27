@@ -7,6 +7,11 @@ def test_to_digits():
     assert to_digits(0) == []
     assert to_digits(-345) == [-3, -4, -5]
 
+def test_digit_from_vdigit():
+    assert digit_from_vdigit(VDigit(7)) == 7
+    assert digit_from_vdigit(VDigit(-3)) == -3
+
+
 random.seed(0)
 
 class Test_VInteger:
@@ -27,7 +32,7 @@ class Test_VInteger:
 
     def test_from_vinculum(self):
         for _ in range(100):
-            a = random.randint(0, 1000000000)
+            a = random.randint(-1000000000, 1000000000)
             ads = VInteger(a).get_digits()
             vads = VInteger(a).to_vinculum().from_vinculum().get_digits()
             assert ads == vads

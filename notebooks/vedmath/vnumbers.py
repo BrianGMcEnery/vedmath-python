@@ -84,13 +84,14 @@ def find_truth_changes(truth_values):
     except:
         return changes
 
+def negate_digits(ds):
+    '''Negate a list of digits'''
+    return [-d for d in ds]
+
 def _to_vinculum(ds):
     '''
     Returns the digits ds in vinculum form.
     '''
-    def negate(ds):
-        '''Negate a list of digits'''
-        return [-d for d in ds]
 
     def one_more_than_list(ds):
         '''Apply one_more_than to the last element of a list'''
@@ -115,7 +116,7 @@ def _to_vinculum(ds):
             ci = change_indxs[idx]
             cip1 = change_indxs[idx+1]
             if truth_values[ci]: #the element is > 5
-                ans += negate(all_from_9_last_from_10(ds[ci:cip1]))
+                ans += negate_digits(all_from_9_last_from_10(ds[ci:cip1]))
             else:
                 ans += one_more_than_list(ds[ci:cip1])
             idx += 1
@@ -123,7 +124,7 @@ def _to_vinculum(ds):
         #handle the final change
         ci = change_indxs[idx]
         if truth_values[ci]: #the element is > 5
-                ans += negate(all_from_9_last_from_10(ds[ci:]))
+                ans += negate_digits(all_from_9_last_from_10(ds[ci:]))
         else:
             ans += ds[ci:]
         return ans
@@ -132,9 +133,6 @@ def _from_vinculum(ds):
     '''
     Returns the digits ds in normal form.
     '''
-    def negate(ds):
-        '''Negate a list of digits'''
-        return [-d for d in ds]
     
     def one_less_than_list(ds):
         '''Apply one_less_than to the last element of a list'''
@@ -154,7 +152,7 @@ def _from_vinculum(ds):
             ci = change_indxs[idx]
             cip1 = change_indxs[idx+1]
             if truth_values[ci]: #the element is < 0
-                ans += all_from_9_last_from_10(negate(ds[ci:cip1]))
+                ans += all_from_9_last_from_10(negate_digits(ds[ci:cip1]))
             else:
                 ans += one_less_than_list(ds[ci:cip1])
             idx += 1
@@ -162,7 +160,7 @@ def _from_vinculum(ds):
         #handle the final change
         ci = change_indxs[idx]
         if truth_values[ci]: #the element is < 0
-                ans += all_from_9_last_from_10(negate(ds[ci:]))
+                ans += all_from_9_last_from_10(negate_digits(ds[ci:]))
         else:
             ans += ds[ci:]
 
@@ -199,14 +197,33 @@ class VInteger(VNumber):
         '''
         Transforms the digits so the number is written in vinculum form.
         '''
+        is_negative = False
         ds = list(map (digit_from_vdigit, self.d))
-        return VInteger(_to_vinculum(ds))
+
+        # Must handle negative digits
+        if ds[0] < 0:
+            is_negative = True
+            ds = negate_digits(ds)
+
+        ds = _to_vinculum(ds)
+
+        if is_negative:
+            ds = negate_digits(ds)
+
+        return VInteger(ds)
 
     def from_vinculum(self):
         '''
         Transforms the digits so the number is written in normal form.
         '''
+        is_negative = False
         ds = list(map (digit_from_vdigit, self.d))
+
+        # Must handle negative digits
+        if ds[0] < 0:
+            is_negative = True
+            ds = negate_digits(ds)
+
         ds = _from_vinculum(ds)
 
         #test to see if all bar digits gone
@@ -214,6 +231,9 @@ class VInteger(VNumber):
         while True in truth_values: # needs to go again
             ds = _from_vinculum(ds)
             truth_values = list(map(lambda e: e < 0, ds))
+
+        if is_negative:
+            ds = negate_digits(ds)
         
         return VInteger(ds)
 
