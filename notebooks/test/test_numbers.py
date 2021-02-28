@@ -52,6 +52,17 @@ class Test_VDigit:
         assert -d9 == VDigit(-9)
         assert -dm9 == VDigit(9)
 
+    def test_abs(self):
+        d1 = VDigit(1)
+        d3 = VDigit(3)
+        d9 = VDigit(9)
+        dm9 = VDigit(-9)
+        assert abs(d1) == VDigit(1)
+        assert abs(d3) == VDigit(3)
+        assert abs(d9) == VDigit(9)
+        assert abs(dm9) == VDigit(9)
+
+
 class Test_VNumber:
     # This test is here for completion of the import
     def test_creation(self):

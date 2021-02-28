@@ -64,6 +64,9 @@ class VDigit:
 
     def __neg__(self):
         return VDigit(-self._val)
+        
+    def __abs__(self):
+        return VDigit(abs(self._val))
 
     def __eq__(self, other):
         if type(other) == VDigit:
