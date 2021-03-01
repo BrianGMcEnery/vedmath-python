@@ -218,6 +218,9 @@ class VInteger(VNumber):
     def __len__(self):
         return len(self.d)
 
+    def __neg__(self):
+        return VInteger(negate_digits(self.get_digits()))
+
     def __add__(self, other):
         vs = self.to_vinculum()
         vo = other.to_vinculum()
@@ -239,12 +242,15 @@ class VInteger(VNumber):
                 c.append(su[0])
         
         s = VInteger(digits_from_vdigits(s))
-        c = VInteger(digits_from_vdigits(c)).padr_zero(1)
+        c = VInteger(digits_from_vdigits(c)).padr_zero(1) #pad to carry on
 
-        if c.all_zero():
-            return s.from_vinculum().upadl_zero()
+        if c.all_zero(): #No carries left
+            return s.upadl_zero().from_vinculum()
         else:
             return s + c
+
+    def __sub__(self, other):
+        return self + (-other)
 
     def all_zero(self):
         '''
