@@ -242,12 +242,12 @@ class VInteger(VNumber):
                 c.append(su[0])
         
         s = VInteger(digits_from_vdigits(s))
-        c = VInteger(digits_from_vdigits(c)).padr_zero(1) #pad to carry on
+        c = VInteger(digits_from_vdigits(c))
 
         if c.all_zero(): #No carries left
             return s.upadl_zero().from_vinculum()
         else:
-            return s + c
+            return s + (c.padr_zero(1)) #pad to carry on
 
     def __sub__(self, other):
         return self + (-other)
