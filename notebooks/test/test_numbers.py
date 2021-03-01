@@ -4,7 +4,7 @@ from vedmath import *
 
 def test_to_digits():
     assert to_digits(345) == [3,4,5]
-    assert to_digits(0) == []
+    assert to_digits(0) == [0]
     assert to_digits(-345) == [-3, -4, -5]
 
 random.seed(0)
@@ -92,11 +92,24 @@ class Test_VInteger:
             vads = VInteger(a).to_vinculum().from_vinculum().get_digits()
             assert ads == vads
 
-    def test_padl_zero(self):
+    def test_padlr_zero(self):
         vi = VInteger(325)
         assert vi.padl_zero(3).get_digits() == [0,0,0,3,2,5]
 
+        vi = VInteger(325)
+        assert vi.padr_zero(3).get_digits() == [3,2,5, 0, 0, 0]
+
+        vi = VInteger(325)
+        assert vi.padl_zero(3).upadl_zero().get_digits() == [3,2,5]
+
     def test_add(self):
-        v1 = VInteger(5129)
-        v2 = VInteger(2798)
-        assert (v1 + v2).get_digits() == [1,1,1,2,7]
+        for i in range(100):
+            i1 = random.randint(-1000000, 1000000)
+            i2 = random.randint(-1000000, 1000000)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            print(i)
+            print(f'i1: {i1}, i2: {i2}, i1 + i2 = {i1 + i2}')
+            print(f'v1: {v1}, v2: {v2}')
+            assert (v1 + v2).get_digits() == VInteger(i1 + i2).get_digits()
+            

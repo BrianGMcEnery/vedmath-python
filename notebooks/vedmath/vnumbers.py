@@ -9,25 +9,32 @@ def to_digits(n):
         digits_inner(i//10)
     
     digits = []
-    if n >= 0:
+    if n > 0:
         digits_inner(n)
+    elif n == 0:
+        digits = [0,0] # two zeros needed here
     else:
         # Handle negative integers
         digits_inner(-n)
         digits = list(map(lambda d: -d, digits))
-
     digits.reverse()
     return digits[1:]
 
 
 def digit_from_vdigit(vd):
     '''
-    Return a digit from a vdigit
+    Return a digit from a vdigit.
     '''
     if (type(vd) == VDigit):
         return vd.get_val()
     else:
         raise ValueError(f"{vd} is not a VDigit.")
+
+def digits_from_vdigits(vds):
+    '''
+    Return a list of digits from a list of vdigits.
+    '''
+    return list(map(digit_from_vdigit, vds))
 
 class VDigit:
     """
@@ -213,38 +220,67 @@ class VInteger(VNumber):
 
     def __add__(self, other):
         vs = self.to_vinculum()
-        vs = self
         vo = other.to_vinculum()
-        vo = other
         l = len(vs) - len(vo)
         if l > 0:
             vo = vo.padl_zero(l)
         elif l < 0:
             vs = vs.padl_zero(-l)
+
         s = [] #to hold the sum
         c = [] #to hold the carries
-        zipped = zip(vs, vo)
-        for vz in zipped:
+        
+        for vz in zip(vs, vo):
             su = vz[0] + vz[1]
             s.append(su[-1])
             if len(su) == 1:
                 c.append(VDigit(0))
             else:
                 c.append(su[0])
-            print(su)
-        print(s)
-        print(c)
+        
+        s = VInteger(digits_from_vdigits(s))
+        c = VInteger(digits_from_vdigits(c)).padr_zero(1)
 
+        if c.all_zero():
+            return s.from_vinculum().upadl_zero()
+        else:
+            return s + c
 
+    def all_zero(self):
+        '''
+        Returns True if all the digits are zero.
+        '''
+        all_True = list(map(lambda e: e == VDigit(0), self.d))
+        return False not in all_True
 
     def padl_zero(self, l):
         '''
-        Pad the integer by l leading zero digits.
+        Pad the integer by l leading zero digits on the left.
         '''
         lzeros = []
         for _ in range(l):
             lzeros.append(0)
         padded = lzeros + self.get_digits()
+        return VInteger(padded)
+
+    def upadl_zero(self):
+        '''
+        Take away leading zero's in the integer.
+        '''
+        ds = self.get_digits()
+        idx = 0
+        while ds[idx] == 0:
+            idx += 1
+        return VInteger(ds[idx:])
+
+    def padr_zero(self, l):
+        '''
+        Pad the integer by l trailing zero digits on the right.
+        '''
+        rzeros = []
+        for _ in range(l):
+            rzeros.append(0)
+        padded = self.get_digits() + rzeros
         return VInteger(padded)
 
 
