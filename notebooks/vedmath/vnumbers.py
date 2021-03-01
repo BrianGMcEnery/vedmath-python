@@ -2,19 +2,19 @@ def to_digits(n):
     '''
     Returns a list of digits of an integer.
     '''
-    digits = []
     def digits_inner(i):
         digits.append(i%10)
         if i == 0:
             return digits
         digits_inner(i//10)
-
-    # Must handle negative integers
+    
+    digits = []
     if n >= 0:
         digits_inner(n)
     else:
+        # Handle negative integers
         digits_inner(-n)
-        digits = list(map(lambda e: -1 * e, digits))
+        digits = list(map(lambda d: -d, digits))
 
     digits.reverse()
     return digits[1:]
@@ -27,7 +27,7 @@ def digit_from_vdigit(vd):
     if (type(vd) == VDigit):
         return vd.get_val()
     else:
-        raise ValueError(f"{vd} is of wrong type.")
+        raise ValueError(f"{vd} is not a VDigit.")
 
 class VDigit:
     """
@@ -215,7 +215,7 @@ class VInteger(VNumber):
         is_negative = False
         ds = list(map (digit_from_vdigit, self.d))
 
-        # Must handle negative digits
+        # Handle negative digits
         if ds[0] < 0:
             is_negative = True
             ds = negate_digits(ds)
@@ -234,7 +234,7 @@ class VInteger(VNumber):
         is_negative = False
         ds = list(map (digit_from_vdigit, self.d))
 
-        # Must handle negative digits
+        # Handle negative digits
         if ds[0] < 0:
             is_negative = True
             ds = negate_digits(ds)
