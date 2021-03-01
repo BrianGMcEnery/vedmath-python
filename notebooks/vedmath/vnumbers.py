@@ -208,6 +208,46 @@ class VInteger(VNumber):
     def __repr__(self):
         return f"{self.d}"
 
+    def __len__(self):
+        return len(self.d)
+
+    def __add__(self, other):
+        vs = self.to_vinculum()
+        vs = self
+        vo = other.to_vinculum()
+        vo = other
+        l = len(vs) - len(vo)
+        if l > 0:
+            vo = vo.padl_zero(l)
+        elif l < 0:
+            vs = vs.padl_zero(-l)
+        s = [] #to hold the sum
+        c = [] #to hold the carries
+        zipped = zip(vs, vo)
+        for vz in zipped:
+            su = vz[0] + vz[1]
+            s.append(su[-1])
+            if len(su) == 1:
+                c.append(VDigit(0))
+            else:
+                c.append(su[0])
+            print(su)
+        print(s)
+        print(c)
+
+
+
+    def padl_zero(self, l):
+        '''
+        Pad the integer by l leading zero digits.
+        '''
+        lzeros = []
+        for _ in range(l):
+            lzeros.append(0)
+        padded = lzeros + self.get_digits()
+        return VInteger(padded)
+
+
     def to_vinculum(self):
         '''
         Transforms the digits so the number is written in vinculum form.

@@ -91,3 +91,12 @@ class Test_VInteger:
             ads = VInteger(a).get_digits()
             vads = VInteger(a).to_vinculum().from_vinculum().get_digits()
             assert ads == vads
+
+    def test_padl_zero(self):
+        vi = VInteger(325)
+        assert vi.padl_zero(3).get_digits() == [0,0,0,3,2,5]
+
+    def test_add(self):
+        v1 = VInteger(5129)
+        v2 = VInteger(2798)
+        assert (v1 + v2).get_digits() == [1,1,1,2,7]
