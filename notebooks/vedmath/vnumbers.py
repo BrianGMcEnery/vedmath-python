@@ -329,7 +329,6 @@ class VInteger(VNumber):
         vc.append(vs[2] * vo[1] + vs[1] * vo[2]) # cross product
         vc.append(vs[2] * vo[2]) #left most vertical product
         
-        print(f'vc: {vc}')
         for v in vc:
             if len(v)== 1:
                 fc.append(VDigit(0))
