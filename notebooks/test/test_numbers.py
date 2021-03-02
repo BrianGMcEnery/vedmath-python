@@ -102,6 +102,9 @@ class Test_VInteger:
         vi = VInteger(325)
         assert vi.padl_zero(3).unpadl_zero().get_digits() == [3,2,5]
 
+        vi = VInteger(0)
+        assert vi.padl_zero(3).unpadl_zero().get_digits() == [0]
+
     def test_neg(self):
         vi = VInteger(325)
         assert (-vi).get_digits() == [-3, -2, -5]
