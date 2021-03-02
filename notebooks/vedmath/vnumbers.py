@@ -286,7 +286,7 @@ class VInteger(VNumber):
         
         vc.append(vs[0] * vo[0]) #right most vertical product
         if len(vs) > 1 and len (vo) > 1:
-            vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
+            vc.append(vs[1] * vo[0] + vs[0] * vo[1]) # cross product
             vc.append(vs[1] * vo[1]) #left most vertical product
         
         for v in vc:
@@ -366,7 +366,7 @@ class VInteger(VNumber):
         vc.append(vs[0] * vo[0]) #right most vertical product
         vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
         vc.append(vs[1] * vo[1] + vo[0] * vs[2] + vo[2] * vs[0]) #central product
-        vc.append(vs[0] * vo[3] + vo[0] * vs[3] + vs[1] * vo[2] + vs[2] * vo[1])
+        vc.append(vs[0] * vo[3] + vs[3] * vo[0] + vs[1] * vo[2] + vs[2] * vo[1])
         vc.append(vs[2] * vo[2] + vo[1] * vs[3] + vo[3] * vs[1]) #central product
         vc.append(vo[2] * vs[3] + vo[3] * vs[2]) # cross product
         vc.append(vs[3] * vo[3]) #left most vertical product
