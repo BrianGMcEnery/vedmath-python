@@ -243,9 +243,11 @@ class VInteger(VNumber):
         
         s = VInteger(digits_from_vdigits(s))
         c = VInteger(digits_from_vdigits(c))
-
+        
+        s = s.upadl_zero().from_vinculum()
+        
         if c.all_zero(): #No carries left
-            return s.upadl_zero().from_vinculum()
+            return s
         else:
             return s + (c.padr_zero(1)) #pad to carry on
 
