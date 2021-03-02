@@ -281,8 +281,9 @@ class VInteger(VNumber):
         sc = [] #to hold the second carries
         
         vc.append(vs[0] * vo[0]) #left most vertical product
-        vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
-        vc.append(vs[1] * vo[1]) #right most vertical product
+        if len(vs) > 1 and len (vo) > 1:
+            vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
+            vc.append(vs[1] * vo[1]) #right most vertical product
         
         for v in vc:
             if len(v)== 1:
@@ -323,8 +324,10 @@ class VInteger(VNumber):
 
     def unpadl_zero(self):
         '''
-        Take away leading zero's in the integer.
+        Take away leading zero's in the integer, unless the integer is zero.
         '''
+        if self.all_zero():
+            return VInteger(0)
         ds = self.get_digits()
         idx = 0
         while ds[idx] == 0:
