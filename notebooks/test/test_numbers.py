@@ -100,7 +100,7 @@ class Test_VInteger:
         assert vi.padr_zero(3).get_digits() == [3,2,5, 0, 0, 0]
 
         vi = VInteger(325)
-        assert vi.padl_zero(3).upadl_zero().get_digits() == [3,2,5]
+        assert vi.padl_zero(3).unpadl_zero().get_digits() == [3,2,5]
 
     def test_neg(self):
         vi = VInteger(325)
@@ -112,16 +112,16 @@ class Test_VInteger:
 
     def test_add(self):
         for _ in range(100):
-            i1 = random.randint(-1000000, 1000000)
-            i2 = random.randint(-1000000, 1000000)
+            i1 = random.randint(-1000000000, 1000000000)
+            i2 = random.randint(-1000000000, 1000000000)
             v1 = VInteger(i1)
             v2 = VInteger(i2)
             assert (v1 + v2).get_digits() == VInteger(i1 + i2).get_digits()
             
     def test_sub(self):
         for _ in range(100):
-            i1 = random.randint(-1000000, 1000000)
-            i2 = random.randint(-1000000, 1000000)
+            i1 = random.randint(-1000000000, 1000000000)
+            i2 = random.randint(-1000000000, 1000000000)
             v1 = VInteger(i1)
             v2 = VInteger(i2)
             assert (v1 - v2).get_digits() == VInteger(i1 - i2).get_digits()

@@ -244,7 +244,7 @@ class VInteger(VNumber):
         s = VInteger(digits_from_vdigits(s))
         c = VInteger(digits_from_vdigits(c))
         
-        s = s.upadl_zero().from_vinculum()
+        s = s.from_vinculum()
         
         if c.all_zero(): #No carries left
             return s
@@ -271,7 +271,7 @@ class VInteger(VNumber):
         padded = lzeros + self.get_digits()
         return VInteger(padded)
 
-    def upadl_zero(self):
+    def unpadl_zero(self):
         '''
         Take away leading zero's in the integer.
         '''
@@ -297,7 +297,7 @@ class VInteger(VNumber):
         Transforms the digits so the number is written in vinculum form.
         '''
         is_negative = False
-        ds = list(map (digit_from_vdigit, self.d))
+        ds = self.unpadl_zero().get_digits()
 
         # Handle negative digits
         if ds[0] < 0:
@@ -316,7 +316,7 @@ class VInteger(VNumber):
         Transforms the digits so the number is written in normal form.
         '''
         is_negative = False
-        ds = list(map (digit_from_vdigit, self.d))
+        ds = self.unpadl_zero().get_digits()
 
         # Handle negative digits
         if ds[0] < 0:
@@ -334,7 +334,7 @@ class VInteger(VNumber):
         if is_negative:
             ds = negate_digits(ds)
         
-        return VInteger(ds)
+        return VInteger(ds).unpadl_zero()
 
     def get_digits(self):
         '''
