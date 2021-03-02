@@ -222,6 +222,14 @@ class VInteger(VNumber):
         return VInteger(negate_digits(self.get_digits()))
 
     def __add__(self, other):
+        #handle zero addition
+        if self.all_zero():
+            ds = other.get_digits()
+            return VInteger(ds)
+        elif other.all_zero():
+            ds = self.get_digits()
+            return VInteger(ds)
+        
         vs = self.to_vinculum()
         vo = other.to_vinculum()
         l = len(vs) - len(vo)
@@ -292,7 +300,9 @@ class VInteger(VNumber):
         fc = list(map(lambda e: digit_from_vdigit(e), fc))
         sc = list(map(lambda e: digit_from_vdigit(e), sc))
         
-        return VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
+        p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
+
+        return p.unpadl_zero()
 
     def all_zero(self):
         '''

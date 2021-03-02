@@ -125,4 +125,14 @@ class Test_VInteger:
             v1 = VInteger(i1)
             v2 = VInteger(i2)
             assert (v1 - v2).get_digits() == VInteger(i1 - i2).get_digits()
+
+    def test_mul_vert_cross_len_2(self):
+        for _ in range (100):
+            i1 = random.randint(10, 99)
+            i2 = random.randint(10, 99)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            mv1v2 = v1._mul_vert_cross_len_2(v2)
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
             
