@@ -265,6 +265,8 @@ class VInteger(VNumber):
     def __mul__(self, other):
         if len(self) <= 2 and len(other) <= 2:
             return self._mul_vert_cross_len_2(other)
+        elif len(self) == 3 or len(other) == 3:
+            return self._mul_vert_cross_len_3(other)
 
     def _mul_vert_cross_len_2(self, other):
         vs = self
@@ -280,10 +282,10 @@ class VInteger(VNumber):
         fc = [] #to hold the first carries
         sc = [] #to hold the second carries
         
-        vc.append(vs[0] * vo[0]) #left most vertical product
+        vc.append(vs[0] * vo[0]) #right most vertical product
         if len(vs) > 1 and len (vo) > 1:
             vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
-            vc.append(vs[1] * vo[1]) #right most vertical product
+            vc.append(vs[1] * vo[1]) #left most vertical product
         
         for v in vc:
             if len(v)== 1:
@@ -304,6 +306,47 @@ class VInteger(VNumber):
         p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
 
         return p.unpadl_zero()
+
+    def _mul_vert_cross_len_3(self, other):
+        vs = self
+        vo = other
+        l = len(vs) - len(vo)
+        if l > 0:
+            vo = vo.padl_zero(l)
+        elif l < 0:
+            vs = vs.padl_zero(-l)
+
+        vc = [] #to hold the vertical and cross products
+        p = [] #to hold the product
+        fc = [] #to hold the first carries
+        sc = [] #to hold the second carries
+        
+        vc.append(vs[0] * vo[0]) #right most vertical product
+        vc.append(vo[0] * vs[1] + vo[1] * vs[0]) # cross product
+        vc.append(vs[1] * vo[1] + vo[0] * vs[2] + vo[2] * vs[0]) #central product
+        vc.append(vo[1] * vs[2] + vo[2] * vs[1]) # cross product
+        vc.append(vs[2] * vo[2]) #left most vertical product
+        
+        print(f'vc: {vc}')
+        for v in vc:
+            if len(v)== 1:
+                fc.append(VDigit(0))
+                sc.append(VDigit(0))
+            elif len(v) == 2:
+                fc.append(v[0])
+                sc.append(VDigit(0))
+            else:
+                fc.append(v[1])
+                sc.append(v[0])
+        
+        p = list(map(lambda e: digit_from_vdigit(e[-1]), vc))
+        fc = list(map(lambda e: digit_from_vdigit(e), fc))
+        sc = list(map(lambda e: digit_from_vdigit(e), sc))
+        
+        p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
+
+        return p.unpadl_zero()
+
 
     def all_zero(self):
         '''

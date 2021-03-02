@@ -135,8 +135,16 @@ class Test_VInteger:
             i2 = random.randint(-99, 99)
             v1 = VInteger(i1)
             v2 = VInteger(i2)
-            print(f'v1: {v1}, v2: {v2}')
             mv1v2 = v1._mul_vert_cross_len_2(v2)
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
+    def test_mul_vert_cross_len_3(self):
+        for _ in range (100):
+            i1 = random.randint(101, 999)
+            i2 = random.randint(101, 999)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            mv1v2 = v1._mul_vert_cross_len_3(v2)
             assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
 
             
