@@ -393,20 +393,15 @@ class VInteger(VNumber):
         elif l < 0:
             vs = vs.padl_zero(-l)
 
-        vc = [] #to hold the vertical and cross products
-        p = [] #to hold the product
-        fc = [] #to hold the first carries
-        sc = [] #to hold the second carries
-        tc = [] #to hold the third carries
         
         l = len(vs) - 1
         #the following generates indices for vert and crosswise mults
         #see the jupyter-lab notebook VertCross pattern.
-        pat = [[(j-i,i) for i in range(j+1)] for j in range(l + 1)]
+        pat_top = [[(j-i,i) for i in range(j+1)] for j in range(l + 1)]
         k = list(range(l, 0, -1))
-        fat = [[(j-i + k[j],i + k[j]) 
+        pat_bot = [[(j-i + k[j],i + k[j]) 
             for i in range(j + 1)] for j in range(l - 1, -1, -1)]
-        pat = pat + fat
+        pat = pat_top + pat_bot
         
         #the following forms the individual summations
         def sum_func(indx):
@@ -421,10 +416,17 @@ class VInteger(VNumber):
                     break
                 l -= 1
             return sum
-
+        
+        vc = [] #to hold the vertical and cross products
         for indx in pat:
             vc.append(sum_func(indx))
 
+        p = [] #to hold the product
+        fc = [] #to hold the first carries
+        sc = [] #to hold the second carries
+        tc = [] #to hold the third carries
+
+        #handle the carries
         for v in vc:
             if len(v)== 1:
                 fc.append(VDigit(0))
