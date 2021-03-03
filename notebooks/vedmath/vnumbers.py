@@ -394,13 +394,13 @@ class VInteger(VNumber):
             vs = vs.padl_zero(-l)
 
         
-        l = len(vs) - 1
+        lvs = len(vs) - 1
         #the following generates indices for vert and crosswise mults
         #see the jupyter-lab notebook VertCross pattern.
-        pat_top = [[(j-i,i) for i in range(j+1)] for j in range(l + 1)]
-        k = list(range(l, 0, -1))
+        pat_top = [[(j-i,i) for i in range(j+1)] for j in range(lvs + 1)]
+        k = list(range(lvs, 0, -1))
         pat_bot = [[(j-i + k[j],i + k[j]) 
-            for i in range(j + 1)] for j in range(l - 1, -1, -1)]
+            for i in range(j + 1)] for j in range(lvs - 1, -1, -1)]
         pat = pat_top + pat_bot
         
         #the following forms the individual summations
@@ -409,12 +409,12 @@ class VInteger(VNumber):
                 (e1, e2) = t
                 return vs[e1] * vo[e2]
             sum = VInteger(0)
-            l = len(indx)
+            li = len(indx)
             for i in indx:
                 sum = sum + in_sum_func(i)
-                if l <= 1:
+                if li <= 1:
                     break
-                l -= 1
+                li -= 1
             return sum
         
         vc = [] #to hold the vertical and cross products
@@ -450,8 +450,8 @@ class VInteger(VNumber):
         sc = list(map(lambda e: digit_from_vdigit(e), sc))
         tc = list(map(lambda e: digit_from_vdigit(e), tc))
         
-        p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
-        p = p + VInteger(tc).padr_zero(3)
+        p =  (VInteger(p) + VInteger(fc).padr_zero(1) + 
+                VInteger(sc).padr_zero(2) + VInteger(tc).padr_zero(3))
 
         return p.unpadl_zero()
 
