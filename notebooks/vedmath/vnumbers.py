@@ -263,12 +263,7 @@ class VInteger(VNumber):
         return self + (-other)
 
     def __mul__(self, other):
-        if len(self) <= 2 and len(other) <= 2:
-            return self._mul_vert_cross_len_2(other)
-        elif len(self) == 3 or len(other) == 3:
-            return self._mul_vert_cross_len_3(other)
-        elif len(self) == 4 or len(other) == 4:
-            return self._mul_vert_cross_len_4(other)
+            return self._mul_vert_cross(other)
 
     def _mul_vert_cross_len_2(self, other):
         vs = self
@@ -411,7 +406,6 @@ class VInteger(VNumber):
         pat = pat + fat
         
         def sum_func(indx):
-            print(f'indx: {indx}')
             def in_sum_func(t):
                 (e1, e2) = t
                 return vs[e1] * vo[e2]

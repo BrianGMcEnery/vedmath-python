@@ -158,12 +158,9 @@ class Test_VInteger:
 
     def test_mul_vert_cross(self):
         for _ in range (100):
-            i1 = random.randint(-9999, 9999)
-            i2 = random.randint(-9999, 9999)
+            i1 = random.randint(-999999999, 999999999)
+            i2 = random.randint(-999999999, 999999999)
             v1 = VInteger(i1)
             v2 = VInteger(i2)
             mv1v2 = v1._mul_vert_cross(v2)
-            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
-
-
-            
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()          
