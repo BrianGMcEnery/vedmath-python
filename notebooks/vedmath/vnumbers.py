@@ -404,7 +404,8 @@ class VInteger(VNumber):
         #see the jupyter-lab notebook VertCross pattern.
         pat = [[(j-i,i) for i in range(j+1)] for j in range(l + 1)]
         k = list(range(l, 0, -1))
-        fat = [[(j-i + k[j],i + k[j]) for i in range(j + 1)] for j in range(l - 1, -1, -1)]
+        fat = [[(j-i + k[j],i + k[j]) 
+            for i in range(j + 1)] for j in range(l - 1, -1, -1)]
         pat = pat + fat
         
         #the following forms the individual summations
