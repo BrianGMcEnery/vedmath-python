@@ -36,8 +36,8 @@ class VMul(VOp):
         Calculate product of a and b assuming that both are under the same 
         base.
         '''
-        ca = VProp.complement(a)
-        cb = VProp.complement(b)
+        ca = VProp.deficit(a)
+        cb = VProp.deficit(b)
         lhs = a - cb
         lhs = lhs.padr_zero(len(a))
         rhs = ca * cb
@@ -68,9 +68,9 @@ class VProp:
         return a.from_vinculum()
 
     @classmethod
-    def complement(cls, a:VInteger):
+    def deficit(cls, a:VInteger):
         '''
-        Compute the complement of an integer from the next highest whole.
+        Compute the deficit of an integer from the next highest whole.
         '''
         if a.is_whole() or a == VInteger(0):
             return VInteger(0)
@@ -82,7 +82,7 @@ class VProp:
             ac = -a
             is_negative = True
 
-        com = (VProp.nearest_whole_base(ac) - ac)
+        com = (VProp.next_highest_whole(ac) - ac)
 
         if is_negative:
             return -com
@@ -90,9 +90,9 @@ class VProp:
             return com
 
     @classmethod
-    def nearest_whole_base(cls, a:VInteger):
+    def next_highest_whole(cls, a:VInteger):
         '''
-        Compute the nearest whole base to an integer.
+        Compute the next highest whole of an integer.
         '''
         if a.is_whole() or a == VInteger(0):
             return a
@@ -106,6 +106,53 @@ class VProp:
 
         whole = [1]
         for _ in range(len(ac)):
+            whole.append(0)
+
+        if is_negative:
+            return -VInteger(whole)
+        else:
+            return VInteger(whole)
+
+    @classmethod
+    def excess(cls, a:VInteger):
+        '''
+        Compute the excess of an integer over the next lowest whole.
+        '''
+        if a.is_whole() or a == VInteger(0):
+            return VInteger(0)
+
+        ac = a
+        is_negative = False
+
+        if a < VInteger(0):
+            ac = -a
+            is_negative = True
+
+        com = (ac - VProp.next_lowest_whole(ac))
+
+        if is_negative:
+            return -com
+        else:
+            return com
+
+
+    @classmethod
+    def next_lowest_whole(cls, a:VInteger):
+        '''
+        Compute the next lowest whole of an integer.
+        '''
+        if a.is_whole() or a == VInteger(0):
+            return a
+
+        ac = a
+        is_negative = False
+
+        if a < VInteger(0):
+            ac = -a
+            is_negative = True
+
+        whole = [1]
+        for _ in range(len(ac[1:])):
             whole.append(0)
 
         if is_negative:
