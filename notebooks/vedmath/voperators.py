@@ -55,8 +55,24 @@ class VProp:
         '''
         Compute the complement of an integer from the next highest whole.
         '''
-        whole = [1]
-        for _ in range(len(a)):
-            whole.append(0)
 
-        return (VInteger(whole) - a)
+        if a.is_whole() or a == VInteger(0):
+            return VInteger(0)
+
+        ac = a
+        is_negative = False
+
+        if a < VInteger(0):
+            ac = -a
+            is_negative = True
+
+        whole = [1]
+        for _ in range(len(ac)):
+            whole.append(0)
+            
+        com = (VInteger(whole) - ac)
+
+        if is_negative:
+            return -com
+        else:
+            return com

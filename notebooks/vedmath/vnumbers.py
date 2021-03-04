@@ -265,6 +265,40 @@ class VInteger(VNumber):
     def __mul__(self, other):
             return self._mul_vert_cross(other)
 
+    def __eq__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() == other.to_int()
+
+    def __ne__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() != other.to_int()
+
+    def __lt__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() < other.to_int()
+
+    def __le__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() <= other.to_int()
+
+    def __gt__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() > other.to_int()
+
+    def __ge__(self, other):
+        if type(other) == VInteger:
+            return self.to_int() >= other.to_int()
+
+    def to_int(self):
+        '''
+        Transform a VInteger to an int.
+        '''
+        ds = self.get_digits()
+        ans = 0
+        for d in ds:
+            ans = 10 * ans + d
+        return ans
+
     def _mul_vert_cross_len_2(self, other):
         vs = self
         vo = other
@@ -462,6 +496,14 @@ class VInteger(VNumber):
         '''
         all_True = list(map(lambda e: e == VDigit(0), self.d))
         return False not in all_True
+
+    def is_whole(self):
+        '''
+        Returns True if the digits are a one followed by zeros.
+        '''
+        leading_one = (self.d[0] == VDigit(1))
+        rest_True = list(map(lambda e: e == VDigit(0), self.d[1:]))
+        return leading_one and (False not in rest_True)
 
     def padl_zero(self, l):
         '''

@@ -26,3 +26,10 @@ class Test_VProp:
             vads = VProp.to_vinculum(VInteger(a))
             vads = VProp.from_vinculum(vads).get_digits()
             assert ads == vads
+
+    def test_complement(self):
+        assert VProp.complement(VInteger(825)).get_digits() == [1, 7, 5]
+        assert VProp.complement(VInteger(-825)).get_digits() == [-1, -7, -5]
+        assert VProp.complement(VInteger([3, 4, 5])).get_digits() == [6, 5, 5]
+        assert VProp.complement(VInteger([3, -4, 5])).get_digits() == [7, 3, 5]
+        assert VProp.complement(VInteger(100)).get_digits() == [0]

@@ -163,4 +163,26 @@ class Test_VInteger:
             v1 = VInteger(i1)
             v2 = VInteger(i2)
             mv1v2 = v1._mul_vert_cross(v2)
-            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()          
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
+    def test_to_int(self):
+        assert VInteger(665).to_int() == 665
+        assert VInteger(-665).to_int() == -665
+        assert VInteger([-6, 4, -5]).to_int() == -565
+
+    def test_comparisons(self):
+        c = (VInteger(123) == VInteger(123))
+        assert c == True
+        c = (VInteger(123) == VInteger(124))
+        assert c == False
+        c = (VInteger(123) != VInteger(124))
+        assert c == True
+
+        c = (VInteger(123) < VInteger(124))
+        assert c == True
+        c = (VInteger(123) <= VInteger(124))
+        assert c == True
+        c = (VInteger(123) > VInteger(124))
+        assert c == False
+        c = (VInteger(123) >= VInteger(124))
+        assert c == False
