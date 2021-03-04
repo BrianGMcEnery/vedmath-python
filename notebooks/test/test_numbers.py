@@ -1,6 +1,6 @@
 import random
 
-from vedmath import *
+from vedmath import to_digits, VDigit, digit_from_vdigit, VNumber, VInteger
 
 def test_to_digits():
     assert to_digits(345) == [3,4,5]
