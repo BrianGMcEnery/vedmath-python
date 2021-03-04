@@ -14,6 +14,23 @@ class Test_VMul:
             mv1v2 = VMul.vert_cross(v1, v2)
             assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
 
+    def test_under_base(self):
+        for _ in range (5):
+            i1 = random.randint(87, 99)
+            i2 = random.randint(87, 99)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            mv1v2 = VMul.under_base(v1, v2)
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
+        for _ in range (5):
+            i1 = random.randint(870, 999)
+            i2 = random.randint(870, 999)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            mv1v2 = VMul.under_base(v1, v2)
+            assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
 class Test_VProp:
     def test_to_vinculum(self):
         assert VProp.to_vinculum(VInteger(19802476)).get_digits() == [2, 0, -2, 0, 2, 5, -2, -4]

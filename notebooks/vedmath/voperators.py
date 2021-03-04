@@ -24,7 +24,24 @@ class VMul(VOp):
     '''
     @classmethod
     def vert_cross(cls, a:VInteger, b:VInteger):
+        '''
+        Calculate multiplication using vertical and crosswise pattern,
+        the default method for VInteger types.
+        '''
         return a * b
+
+    @classmethod
+    def under_base(cls, a:VInteger, b:VInteger):
+        '''
+        Calculate product of a and b assuming that both are under the same 
+        base, and not to far.
+        '''
+        ca = VProp.complement(a)
+        cb = VProp.complement(b)
+        lhs = a - cb
+        lhs = lhs.padr_zero(len(a))
+        rhs = ca * cb
+        return lhs + rhs
 
 class VDiv(VOp):
     '''
