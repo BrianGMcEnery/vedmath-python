@@ -34,7 +34,7 @@ class VMul(VOp):
     def under_base(cls, a:VInteger, b:VInteger):
         '''
         Calculate product of a and b assuming that both are under the same 
-        base, and not to far.
+        base.
         '''
         ca = VProp.complement(a)
         cb = VProp.complement(b)
@@ -72,9 +72,30 @@ class VProp:
         '''
         Compute the complement of an integer from the next highest whole.
         '''
-
         if a.is_whole() or a == VInteger(0):
             return VInteger(0)
+
+        ac = a
+        is_negative = False
+
+        if a < VInteger(0):
+            ac = -a
+            is_negative = True
+
+        com = (VProp.nearest_whole_base(ac) - ac)
+
+        if is_negative:
+            return -com
+        else:
+            return com
+
+    @classmethod
+    def nearest_whole_base(cls, a:VInteger):
+        '''
+        Compute the nearest whole base to an integer.
+        '''
+        if a.is_whole() or a == VInteger(0):
+            return a
 
         ac = a
         is_negative = False
@@ -86,10 +107,9 @@ class VProp:
         whole = [1]
         for _ in range(len(ac)):
             whole.append(0)
-            
-        com = (VInteger(whole) - ac)
 
         if is_negative:
-            return -com
+            return -VInteger(whole)
         else:
-            return com
+            return VInteger(whole)
+
