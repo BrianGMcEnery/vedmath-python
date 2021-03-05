@@ -56,6 +56,29 @@ class VMul(VOp):
         rhs = ca * cb
         return lhs + rhs
 
+    @classmethod
+    def near_base(cls, a:VInteger, b:VInteger, base=VInteger(100)):
+        '''
+        Calculate product of a and b assuming that both are near the same 
+        base.
+        '''
+        if a < base:
+            ca = VProp.deficit(a)
+        else:
+            ca = VProp.excess(a)
+        if b < base:
+            cb = VProp.deficit(b)
+        else:
+            cb = VProp.excess(b)
+        
+        lhs = a + cb
+        if a < base:
+            lhs = lhs.padr_zero(len(a))
+        else:
+            lhs = lhs.padr_zero(len(a)-1)
+        rhs = ca * cb
+        return lhs + rhs
+
 class VDiv(VOp):
     '''
     Class to handle division in vedicmath.
