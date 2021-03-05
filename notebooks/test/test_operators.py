@@ -1,6 +1,6 @@
 import random
 
-from vedmath import VInteger, VMul, VProp
+from vedmath import VInteger, VMul, VDiv, VProp
 
 random.seed(0)
 
@@ -64,6 +64,20 @@ class Test_VMul:
             v2 = VInteger(i2)
             mv1v2 = VMul.near_base(v1, v2, base=VInteger(1000))
             assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
+
+class Test_VDiv:
+    def test_nikhilam_by_9_two_digit(self):
+        ans = VDiv.nikhilam_by_9_two_digit(VInteger(12))
+        assert ans == {'quotient': VInteger(1), 'remainder': VInteger(3)}
+        ans = VDiv.nikhilam_by_9_two_digit(VInteger(62))
+        assert ans == {'quotient': VInteger(6), 'remainder': VInteger(8)}
+        ans = VDiv.nikhilam_by_9_two_digit(VInteger(65))
+        assert ans == {'quotient': VInteger(7), 'remainder': VInteger(2)}
+        ans = VDiv.nikhilam_by_9_two_digit(VInteger(72))
+        assert ans == {'quotient': VInteger(8), 'remainder': VInteger(0)}
+
+
+
 
 class Test_VProp:
     def test_to_vinculum(self):

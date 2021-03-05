@@ -1,4 +1,4 @@
-from .vnumbers import VInteger
+from .vnumbers import VInteger, VDigit
 
 class VOp:
     '''
@@ -89,6 +89,23 @@ class VDiv(VOp):
     Class to handle division in vedicmath.
     '''
     pass
+
+    @classmethod
+    def nikhilam_by_9_two_digit(cls, a:VInteger):
+        '''
+        Special division method as per Tirthaji's book, pp 45.
+        '''
+        q = a[0].as_vinteger()
+        r = a[1].as_vinteger()
+
+        r = r + q
+
+        if r >= VInteger(9):
+            r = r - VInteger(9)
+            q = q + VInteger(1)
+
+        return {'quotient':q, 'remainder':r}
+
 
 class VProp:
     '''

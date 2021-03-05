@@ -82,6 +82,9 @@ class VDigit:
     def get_val(self):
         return self._val
 
+    def as_vinteger(self):
+        return VInteger(self._val)
+
 
 def all_from_9_last_from_10(ds):
     '''Apply the sutra to a list of digits'''

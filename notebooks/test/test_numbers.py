@@ -62,6 +62,10 @@ class Test_VDigit:
         assert abs(d9) == VDigit(9)
         assert abs(dm9) == VDigit(9)
 
+    def test_as_vinteger(self):
+        assert VDigit(3).as_vinteger().get_digits() == VInteger(3).get_digits()
+        assert VDigit(-3).as_vinteger().get_digits() == VInteger(-3).get_digits()
+
 
 class Test_VNumber:
     # This test is here for completion of the import
