@@ -49,8 +49,8 @@ class VMul(VOp):
         Calculate product of a and b assuming that both are over the same 
         base.
         '''
-        ca = VProp.excess(a)
-        cb = VProp.excess(b)
+        ca = VProp.surplus(a)
+        cb = VProp.surplus(b)
         lhs = a + cb
         lhs = lhs.padr_zero(len(a)-1)
         rhs = ca * cb
@@ -66,15 +66,15 @@ class VMul(VOp):
             return b.padr_zero(len(a)-1)
         elif b.is_whole():
             return a.padr_zero(len(b)-1)
-            
+
         if a < base:
             ca = VProp.deficit(a)
         else:
-            ca = VProp.excess(a)
+            ca = VProp.surplus(a)
         if b < base:
             cb = VProp.deficit(b)
         else:
-            cb = VProp.excess(b)
+            cb = VProp.surplus(b)
         
         lhs = a + cb
         if a < base:
@@ -155,9 +155,9 @@ class VProp:
             return VInteger(whole)
 
     @classmethod
-    def excess(cls, a:VInteger):
+    def surplus(cls, a:VInteger):
         '''
-        Compute the excess of an integer over the next lowest whole.
+        Compute the surplus of an integer over the next lowest whole.
         '''
         if a.is_whole() or a == VInteger(0):
             return VInteger(0)

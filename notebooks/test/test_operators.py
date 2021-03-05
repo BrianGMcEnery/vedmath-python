@@ -85,9 +85,10 @@ class Test_VProp:
         assert VProp.deficit(VInteger([3, -4, 5])).get_digits() == [-7, -3, -5]
         assert VProp.deficit(VInteger(100)).get_digits() == [0]
 
-    def test_excess(self):
-        assert VProp.excess(VInteger(113)).get_digits() == [1, 3]
-        assert VProp.excess(VInteger(-113)).get_digits() == [-1, -3]
-        assert VProp.excess(VInteger([1, 2, 3, 7])).get_digits() == [2, 3, 7]
-        assert VProp.excess(VInteger([1, 2, -3, -7])).get_digits() == [1, 6, 3]
-        assert VProp.excess(VInteger(100)).get_digits() == [0]
+    def test_surplus(self):
+        assert VProp.surplus(VInteger(113)).get_digits() == [1, 3]
+        assert VProp.surplus(VInteger(-113)).get_digits() == [-1, -3]
+        assert VProp.surplus(VInteger([1, 2, 3, 7])).get_digits() == [2, 3, 7]
+        assert VProp.surplus(VInteger([1, 2, -3, -7])).get_digits() == [1, 6, 3]
+        assert VProp.surplus(VInteger(100)).get_digits() == [0]
+
