@@ -38,8 +38,21 @@ class VMul(VOp):
         '''
         ca = VProp.deficit(a)
         cb = VProp.deficit(b)
-        lhs = a - cb
+        lhs = a + cb
         lhs = lhs.padr_zero(len(a))
+        rhs = ca * cb
+        return lhs + rhs
+
+    @classmethod
+    def over_base(cls, a:VInteger, b:VInteger):
+        '''
+        Calculate product of a and b assuming that both are over the same 
+        base.
+        '''
+        ca = VProp.excess(a)
+        cb = VProp.excess(b)
+        lhs = a + cb
+        lhs = lhs.padr_zero(len(a)-1)
         rhs = ca * cb
         return lhs + rhs
 
@@ -82,7 +95,7 @@ class VProp:
             ac = -a
             is_negative = True
 
-        com = (VProp.next_highest_whole(ac) - ac)
+        com = (ac - VProp.next_highest_whole(ac))
 
         if is_negative:
             return -com
