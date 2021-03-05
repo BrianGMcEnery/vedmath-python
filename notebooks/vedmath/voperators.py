@@ -62,6 +62,11 @@ class VMul(VOp):
         Calculate product of a and b assuming that both are near the same 
         base.
         '''
+        if a.is_whole():
+            return b.padr_zero(len(a)-1)
+        elif b.is_whole():
+            return a.padr_zero(len(b)-1)
+            
         if a < base:
             ca = VProp.deficit(a)
         else:
