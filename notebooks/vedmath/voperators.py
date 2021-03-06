@@ -93,7 +93,7 @@ class VDiv(VOp):
     @classmethod
     def nikhilam_by_9_two_digit(cls, a:VInteger):
         '''
-        Special division method as per Tirthaji's book, pp 45.
+        Special division by 9 as per Tirthaji's book, pp 45.
         '''
         q = a[0].as_vinteger()
         r = a[1].as_vinteger()
@@ -103,6 +103,21 @@ class VDiv(VOp):
         if r >= VInteger(9):
             r = r - VInteger(9)
             q = q + VInteger(1)
+
+        return {'quotient':q, 'remainder':r}
+
+    @classmethod
+    def nikhilam_by_9_three_digit(cls, a:VInteger):
+        '''
+        Special division by 9 as per Tirthaji's book, pp 46.
+        '''
+        q = a.all_but_last_as_vinteger()
+        r = a.last_as_vinteger()
+        q[1] = q[1] + q[0]
+        if len(q[1]) == 2:
+            q[0] = q[0] + VDigit(1)
+            q[1] = q[1] - VInteger(9)
+        r = r + q[1]
 
         return {'quotient':q, 'remainder':r}
 

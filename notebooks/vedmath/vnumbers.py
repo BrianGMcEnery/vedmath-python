@@ -597,3 +597,19 @@ class VInteger(VNumber):
 
     def __setitem__(self, key, value):
         self.d[key] = value
+
+    def all_but_last_as_vinteger(self):
+        ds = self.get_digits()
+        return VInteger(ds[:-1])
+
+    def last_as_vinteger(self):
+        ds = self.get_digits()
+        return VInteger(ds[-1])
+
+    def all_but_first_as_vinteger(self):
+        ds = self.get_digits()
+        return VInteger(ds[1:])
+
+    def first_as_vinteger(self):
+        ds = self.get_digits()
+        return VInteger(ds[0])
