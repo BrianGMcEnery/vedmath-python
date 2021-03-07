@@ -117,7 +117,13 @@ class VDiv(VOp):
         if len(q[1]) == 2:
             q[0] = q[0] + VDigit(1)
             q[1] = q[1] - VInteger(9)
+        
         r = r + q[1]
+
+        if len(r) == 2:
+            q[1] = q[1] + VInteger(1)
+            r = r - VInteger(9)
+        
 
         return {'quotient':q, 'remainder':r}
 
