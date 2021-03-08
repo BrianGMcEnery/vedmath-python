@@ -212,16 +212,16 @@ class VInteger(VNumber):
             digits = i
         else:
             digits = to_digits(i)
-        self.d = [VDigit(d) for d in digits]
+        self.ds = [VDigit(d) for d in digits]
 
     def __str__(self):
-        return f"VInteger({self.d})"
+        return f"VInteger({self.ds})"
     
     def __repr__(self):
-        return f"{self.d}"
+        return f"{self.ds}"
 
     def __len__(self):
-        return len(self.d)
+        return len(self.ds)
 
     def __neg__(self):
         return VInteger(negate_digits(self.get_digits()))
@@ -501,15 +501,15 @@ class VInteger(VNumber):
         '''
         Returns True if all the digits are zero.
         '''
-        all_zero = [e == VDigit(0) for e in self.d]
+        all_zero = [d == VDigit(0) for d in self.ds]
         return False not in all_zero
 
     def is_whole(self):
         '''
         Returns True if the digits are a one followed by zeros.
         '''
-        leading_one = (self.d[0] == VDigit(1))
-        rest_zero = [e == VDigit(0) for e in self.d[1:]]
+        leading_one = (self.ds[0] == VDigit(1))
+        rest_zero = [d == VDigit(0) for d in self.ds[1:]]
         return leading_one and (False not in rest_zero)
 
     def padl_zero(self, l0):
@@ -587,13 +587,13 @@ class VInteger(VNumber):
         '''
         Returns a list of the digits as ints
         '''
-        return [digit_from_vdigit(e) for e in self.d]
+        return [digit_from_vdigit(d) for d in self.ds]
 
     def __getitem__(self, key):
-        return self.d[key]
+        return self.ds[key]
 
     def __setitem__(self, key, value):
-        self.d[key] = value
+        self.ds[key] = value
 
     def all_but_last_as_vinteger(self):
         ds = self.get_digits()
