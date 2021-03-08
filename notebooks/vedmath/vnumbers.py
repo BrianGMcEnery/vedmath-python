@@ -95,7 +95,7 @@ def all_from_9_last_from_10(ds):
     def last_from_10(d):
         return 10 - d
 
-    ans = list(map(all_from_9, ds[:-1]))
+    ans = [all_from_9(d) for d in ds[:-1]]
     ans = ans + [last_from_10(ds[-1])]
     return ans
 
@@ -213,7 +213,7 @@ class VInteger(VNumber):
         else:
             digits = to_digits(i)
         self.d = [VDigit(d) for d in digits]
-        
+
     def __str__(self):
         return f"VInteger({self.d})"
     
