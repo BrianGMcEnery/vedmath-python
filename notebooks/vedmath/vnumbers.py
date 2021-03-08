@@ -268,7 +268,8 @@ class VInteger(VNumber):
         return self + (-other)
 
     def __mul__(self, other):
-            return self._mul_vert_cross(other)
+        prod = self.to_int() * other.to_int()
+        return VInteger(prod)
 
     def __eq__(self, other):
         if type(other) == VInteger:
