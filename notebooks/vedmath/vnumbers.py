@@ -211,7 +211,9 @@ class VInteger(VNumber):
         if isinstance(n, int):
             digits = to_digits(n)
         elif isinstance(n, list):
-            digits = n
+            print(f'n: {n}')
+            if isinstance(n[0], int):
+                digits = n
             
         self.ds = [VDigit(d) for d in digits]
 
@@ -228,6 +230,11 @@ class VInteger(VNumber):
         return VInteger(negate_digits(self.get_digits()))
 
     def __add__(self, other):
+        summ = self.to_int() + other.to_int()
+        return VInteger(summ)
+        
+    def _add_later(self, other):
+        #will use this later 
         #handle zero addition
         if self.all_zero():
             ds = other.get_digits()
