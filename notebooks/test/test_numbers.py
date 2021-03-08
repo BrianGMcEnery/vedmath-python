@@ -1,11 +1,11 @@
 import random
 
-from vedmath import to_digits, VDigit, digit_from_vdigit, VNumber, VInteger
+from vedmath import int_to_digits, VDigit, digit_from_vdigit, VNumber, VInteger
 
 def test_to_digits():
-    assert to_digits(345) == [3,4,5]
-    assert to_digits(0) == [0]
-    assert to_digits(-345) == [-3, -4, -5]
+    assert int_to_digits(345) == [3,4,5]
+    assert int_to_digits(0) == [0]
+    assert int_to_digits(-345) == [-3, -4, -5]
 
 random.seed(0)
 

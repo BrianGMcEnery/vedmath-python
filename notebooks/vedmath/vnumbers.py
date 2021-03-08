@@ -1,4 +1,4 @@
-def to_digits(n):
+def int_to_digits(n):
     '''
     Returns a list of digits of an integer.
     '''
@@ -215,7 +215,7 @@ class VInteger(VNumber):
             n: list of digits as VDigits
         '''
         if isinstance(n, int):
-            digits = to_digits(n)
+            digits = int_to_digits(n)
         elif isinstance(n, list):
             if isinstance(n[0], int):
                 digits = n
