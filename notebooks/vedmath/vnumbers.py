@@ -18,7 +18,7 @@ def to_digits(n):
     else:
         # Handle negative integers
         digits_inner(-n)
-        digits = list(map(lambda d: -d, digits))
+        digits = [-d for d in digits]
     digits.reverse()
     return digits[1:]
 
@@ -36,7 +36,7 @@ def digits_from_vdigits(vds):
     '''
     Return a list of digits from a list of vdigits.
     '''
-    return list(map(digit_from_vdigit, vds))
+    return [digit_from_vdigit(vd) for vd in vds]
 
 class VDigit:
     """
@@ -128,7 +128,7 @@ def _to_vinculum(ds):
             ds[-1] += 1
             return ds
 
-    truth_values = list(map(lambda e: e > 5, ds))
+    truth_values = [e > 5 for e in ds]
     change_indxs = find_truth_changes(truth_values)
     
     #special case to handle the first element
@@ -169,7 +169,7 @@ def _from_vinculum(ds):
             ds[-1] -= 1
             return ds
 
-    truth_values = list(map(lambda e: e < 0, ds))
+    truth_values = [e < 0 for e in ds]
     change_indxs = find_truth_changes(truth_values)
     
     ans = []
@@ -212,8 +212,8 @@ class VInteger(VNumber):
             digits = i
         else:
             digits = to_digits(i)
-        self.d = list(map(lambda d: VDigit(d), digits))
-
+        self.d = [VDigit(d) for d in digits]
+        
     def __str__(self):
         return f"VInteger({self.d})"
     
@@ -335,10 +335,10 @@ class VInteger(VNumber):
             else:
                 fc.append(v[1])
                 sc.append(v[0])
-        
-        p = list(map(lambda e: digit_from_vdigit(e[-1]), vc))
-        fc = list(map(lambda e: digit_from_vdigit(e), fc))
-        sc = list(map(lambda e: digit_from_vdigit(e), sc))
+
+        p = [digit_from_vdigit(e[-1]) for e in vc]
+        fc = [digit_from_vdigit(e) for e in fc]
+        sc = [digit_from_vdigit(e) for e in sc]
         
         p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
 
@@ -375,9 +375,9 @@ class VInteger(VNumber):
                 fc.append(v[1])
                 sc.append(v[0])
         
-        p = list(map(lambda e: digit_from_vdigit(e[-1]), vc))
-        fc = list(map(lambda e: digit_from_vdigit(e), fc))
-        sc = list(map(lambda e: digit_from_vdigit(e), sc))
+        p = [digit_from_vdigit(e[-1]) for e in vc]
+        fc = [digit_from_vdigit(e) for e in fc]
+        sc = [digit_from_vdigit(e) for e in sc]
         
         p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
 
@@ -416,9 +416,9 @@ class VInteger(VNumber):
                 fc.append(v[1])
                 sc.append(v[0])
         
-        p = list(map(lambda e: digit_from_vdigit(e[-1]), vc))
-        fc = list(map(lambda e: digit_from_vdigit(e), fc))
-        sc = list(map(lambda e: digit_from_vdigit(e), sc))
+        p = [digit_from_vdigit(e[-1]) for e in vc]
+        fc = [digit_from_vdigit(e) for e in fc]
+        sc = [digit_from_vdigit(e) for e in sc]
         
         p =  VInteger(p) + VInteger(fc).padr_zero(1) + VInteger(sc).padr_zero(2)
 
@@ -486,10 +486,10 @@ class VInteger(VNumber):
                 sc.append(v[1])
                 tc.append(v[0])
         
-        p = list(map(lambda e: digit_from_vdigit(e[-1]), vc))
-        fc = list(map(lambda e: digit_from_vdigit(e), fc))
-        sc = list(map(lambda e: digit_from_vdigit(e), sc))
-        tc = list(map(lambda e: digit_from_vdigit(e), tc))
+        p = [digit_from_vdigit(e[-1]) for e in vc]
+        fc = [digit_from_vdigit(e) for e in fc]
+        sc = [digit_from_vdigit(e) for e in sc]
+        tc = [digit_from_vdigit(e) for e in tc]
         
         p =  (VInteger(p) + VInteger(fc).padr_zero(1) + 
                 VInteger(sc).padr_zero(2) + VInteger(tc).padr_zero(3))
@@ -501,16 +501,16 @@ class VInteger(VNumber):
         '''
         Returns True if all the digits are zero.
         '''
-        all_True = list(map(lambda e: e == VDigit(0), self.d))
-        return False not in all_True
+        all_zero = [e == VDigit(0) for e in self.d]
+        return False not in all_zero
 
     def is_whole(self):
         '''
         Returns True if the digits are a one followed by zeros.
         '''
         leading_one = (self.d[0] == VDigit(1))
-        rest_True = list(map(lambda e: e == VDigit(0), self.d[1:]))
-        return leading_one and (False not in rest_True)
+        rest_zero = [e == VDigit(0) for e in self.d[1:]]
+        return leading_one and (False not in rest_zero)
 
     def padl_zero(self, l0):
         '''
@@ -573,10 +573,10 @@ class VInteger(VNumber):
         ds = _from_vinculum(ds)
 
         #test to see if all bar digits gone
-        truth_values = list(map(lambda e: e < 0, ds))
+        truth_values = [d < 0 for d in ds]
         while True in truth_values: # needs to go again
             ds = _from_vinculum(ds)
-            truth_values = list(map(lambda e: e < 0, ds))
+            truth_values = [d < 0 for d in ds]
 
         if is_negative:
             ds = negate_digits(ds)
@@ -587,7 +587,7 @@ class VInteger(VNumber):
         '''
         Returns a list of the digits as ints
         '''
-        return list(map (digit_from_vdigit, self.d))
+        return [digit_from_vdigit(e) for e in self.d]
 
     def __getitem__(self, key):
         return self.d[key]
