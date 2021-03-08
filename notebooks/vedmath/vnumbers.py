@@ -208,6 +208,12 @@ class VInteger(VNumber):
     VInteger is a class for computing with integers.
     '''
     def __init__(self, n):
+        '''
+        Instantiate a VInteger with
+            n: int
+            n: list of digits as ints
+            n: list of digits as VDigits
+        '''
         if isinstance(n, int):
             digits = to_digits(n)
         elif isinstance(n, list):
