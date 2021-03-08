@@ -207,11 +207,12 @@ class VInteger(VNumber):
     '''
     VInteger is a class for computing with integers.
     '''
-    def __init__(self, i):
-        if isinstance(i, list):
-            digits = i
-        else:
-            digits = to_digits(i)
+    def __init__(self, n):
+        if isinstance(n, int):
+            digits = to_digits(n)
+        elif isinstance(n, list):
+            digits = n
+            
         self.ds = [VDigit(d) for d in digits]
 
     def __str__(self):
