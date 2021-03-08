@@ -2,13 +2,15 @@ def to_digits(n):
     '''
     Returns a list of digits of an integer.
     '''
+    digits = []
+
     def digits_inner(i):
         digits.append(i%10)
         if i == 0:
             return digits
         digits_inner(i//10)
     
-    digits = []
+    
     if n > 0:
         digits_inner(n)
     elif n == 0:
@@ -424,11 +426,11 @@ class VInteger(VNumber):
     def _mul_vert_cross(self, other):
         vs = self
         vo = other
-        l = len(vs) - len(vo)
-        if l > 0:
-            vo = vo.padl_zero(l)
-        elif l < 0:
-            vs = vs.padl_zero(-l)
+        l0 = len(vs) - len(vo)
+        if l0 > 0:
+            vo = vo.padl_zero(l0)
+        elif l0 < 0:
+            vs = vs.padl_zero(-l0)
 
         
         lvs = len(vs) - 1
@@ -509,14 +511,11 @@ class VInteger(VNumber):
         rest_True = list(map(lambda e: e == VDigit(0), self.d[1:]))
         return leading_one and (False not in rest_True)
 
-    def padl_zero(self, l):
+    def padl_zero(self, l0):
         '''
-        Pad the integer by l leading zero digits on the left.
+        Pad the integer by l0 leading zero digits on the left.
         '''
-        lzeros = []
-        for _ in range(l):
-            lzeros.append(0)
-        padded = lzeros + self.get_digits()
+        padded = [0 for _ in range(l0)] + self.get_digits()
         return VInteger(padded)
 
     def unpadl_zero(self):
@@ -531,14 +530,11 @@ class VInteger(VNumber):
             idx += 1
         return VInteger(ds[idx:])
 
-    def padr_zero(self, l):
+    def padr_zero(self, l0):
         '''
-        Pad the integer by l trailing zero digits on the right.
+        Pad the integer by l0 trailing zero digits on the right.
         '''
-        rzeros = []
-        for _ in range(l):
-            rzeros.append(0)
-        padded = self.get_digits() + rzeros
+        padded = self.get_digits() + [0 for _ in range(l0)]
         return VInteger(padded)
 
 
