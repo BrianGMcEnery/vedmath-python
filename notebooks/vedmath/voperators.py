@@ -134,6 +134,37 @@ class VDiv(VOp):
 
         return {'quotient':q, 'remainder':r}
 
+    @classmethod
+    def nikhilam_by_9_many_digit(cls, a:VInteger):
+        '''
+        Special division by 9 for many digit as per Tirthaji's book, pp 46, 47.
+        '''
+        q = a.all_but_last_as_vinteger()
+        r = a.last_as_vinteger()
+
+        for i in range(1, len(q)):
+            q[i] = q[i] + q[i-1]
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(9)
+        
+        r = r + q[-1]
+        
+        if len(r) == 2:
+            q[-1] = q[-1] + VInteger(1)
+            r = r - VInteger(9)
+
+        for i in range(1, len(q)):
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(10)
+
+        while q.needs_resolution():
+            q = q.resolve()
+
+        q = q.unpadl_zero()
+        return {'quotient':q, 'remainder':r}
+
 
 class VProp:
     '''

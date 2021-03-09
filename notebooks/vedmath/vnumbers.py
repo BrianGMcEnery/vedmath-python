@@ -632,14 +632,34 @@ class VInteger(VNumber):
         ds = self.get_digits()
         return VInteger(ds[0])
 
+    def prepend(self, vd):
+        '''
+        Prepend the VDigit vd to the VInteger.
+        '''
+        ds = self.ds
+        ds.reverse()
+        ds.append(vd)
+        ds.reverse()
+        self.ds = ds
+
     def resolve(self):
         '''
         Resolve any carries or VIntegers.
         '''
         obj = copy.deepcopy(self)
+        obj.prepend(VDigit(0))
         for i, d in enumerate(obj):
             if type(d) == VInteger:
                 if len(d) == 1:
                     obj[i] = VDigit(d.to_int())
-
+                elif len(d) == 2:
+                    obj[i] = d[-1]
+                    obj[i-1] = obj[i-1] + d[0]
         return obj
+
+    def needs_resolution(self):
+        '''
+        Test whether the object needs to be resolved.
+        '''
+        return False in [type(d) == VDigit for d in self.ds]
+
