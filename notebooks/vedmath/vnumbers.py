@@ -59,7 +59,10 @@ class VDigit:
     def __add__(self, other):
         if type(other) == VDigit:
             ans = self._val + other._val
-            return VInteger(ans)
+        elif type(other) == VInteger:
+            ans = self._val + other.to_int()
+
+        return VInteger(ans)
 
     def __sub__(self, other):
         if type(other) == VDigit:

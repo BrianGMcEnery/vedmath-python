@@ -115,7 +115,7 @@ class VDiv(VOp):
         r = a.last_as_vinteger()
         q[1] = q[1] + q[0]
         if len(q[1]) == 2:
-            q[0] = q[0] + VDigit(1)
+            q[0] = q[0] + VInteger(1)
             q[1] = q[1] - VInteger(9)
         
         r = r + q[1]
@@ -124,7 +124,6 @@ class VDiv(VOp):
             q[1] = q[1] + VInteger(1)
             r = r - VInteger(9)
         
-
         return {'quotient':q, 'remainder':r}
 
 
