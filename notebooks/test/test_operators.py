@@ -86,6 +86,11 @@ class Test_VDiv:
         ans = VDiv.nikhilam_by_9_three_digit(VInteger(877))
         assert ans == {'quotient': VInteger(97), 'remainder': VInteger(4)}
 
+        for _ in range(20):
+            i = VInteger(random.randint(101, 999))
+            ans = VDiv.nikhilam_by_9_three_digit(i)
+            assert ans['quotient']*VInteger(9) + ans['remainder'] == i
+
 
 class Test_VProp:
     def test_to_vinculum(self):
