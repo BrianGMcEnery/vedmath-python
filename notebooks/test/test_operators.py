@@ -76,7 +76,15 @@ class Test_VDiv:
         ans = VDiv.nikhilam_by_9_two_digit(VInteger(72))
         assert ans == {'quotient': VInteger(8), 'remainder': VInteger(0)}
 
-
+    def test_nikhilam_by_9_three_digit(self):
+        ans = VDiv.nikhilam_by_9_three_digit(VInteger(103))
+        assert ans == {'quotient': VInteger(11), 'remainder': VInteger(4)}
+        ans = VDiv.nikhilam_by_9_three_digit(VInteger(211))
+        assert ans == {'quotient': VInteger(23), 'remainder': VInteger(4)}
+        ans = VDiv.nikhilam_by_9_three_digit(VInteger(871))
+        assert ans == {'quotient': VInteger(96), 'remainder': VInteger(7)}
+        ans = VDiv.nikhilam_by_9_three_digit(VInteger(877))
+        assert ans == {'quotient': VInteger(97), 'remainder': VInteger(4)}
 
 
 class Test_VProp:

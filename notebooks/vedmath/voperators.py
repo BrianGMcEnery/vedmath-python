@@ -113,26 +113,23 @@ class VDiv(VOp):
         '''
         q = a.all_but_last_as_vinteger()
         r = a.last_as_vinteger()
-        print(q, r)
+
         q[1] = q[1] + q[0]
-        print(q, r)
+
         if len(q[1]) == 2:
             q[0] = q[0] + VInteger(1)
             q[1] = q[1] - VInteger(9)
         
         r = r + q[1]
-        print(q, r)
 
         if len(r) == 2:
             q[1] = q[1] + VInteger(1)
             r = r - VInteger(9)
-        print(q, r)
 
         if len(q[1]) == 2:
             q[0] = q[0] + VInteger(1)
             q[1] = q[1] - VInteger(10)
 
-        print(q, r) 
         q = q.resolve()
 
         return {'quotient':q, 'remainder':r}
