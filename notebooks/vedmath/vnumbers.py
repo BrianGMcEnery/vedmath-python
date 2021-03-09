@@ -1,3 +1,5 @@
+import copy
+
 def int_to_digits(n):
     '''
     Returns a list of digits of an integer.
@@ -629,3 +631,15 @@ class VInteger(VNumber):
     def first_as_vinteger(self):
         ds = self.get_digits()
         return VInteger(ds[0])
+
+    def resolve(self):
+        '''
+        Resolve any carries or VIntegers.
+        '''
+        obj = copy.deepcopy(self)
+        for i, d in enumerate(obj):
+            if type(d) == VInteger:
+                if len(d) == 1:
+                    obj[i] = VDigit(d.to_int())
+
+        return obj
