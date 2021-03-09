@@ -130,7 +130,10 @@ class VDiv(VOp):
             q[0] = q[0] + VInteger(1)
             q[1] = q[1] - VInteger(10)
 
-        q = q.resolve()
+        while q.needs_resolution():
+            q = q.resolve()
+
+        q = q.unpadl_zero()
 
         return {'quotient':q, 'remainder':r}
 
