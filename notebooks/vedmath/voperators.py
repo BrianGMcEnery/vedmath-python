@@ -165,7 +165,7 @@ class VDiv(VOp):
         while q.needs_resolution():
             q = q.resolve()
 
-        q = q.unpadl_zero()
+        q = q.unpadl_zero() #eliminate any leading zero's 
         return {'quotient':q, 'remainder':r}
 
 

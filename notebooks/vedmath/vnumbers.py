@@ -644,10 +644,10 @@ class VInteger(VNumber):
 
     def resolve(self):
         '''
-        Resolve any carries or VIntegers.
+        Resolve any carries or VInteger mixins.
         '''
         obj = copy.deepcopy(self)
-        obj.prepend(VDigit(0))
+        obj.prepend(VDigit(0)) #in case a carry forward is necessary
         for i, d in enumerate(obj):
             if type(d) == VInteger:
                 if len(d) == 1:
