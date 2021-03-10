@@ -96,16 +96,14 @@ class VDigit:
         return self._val
 
 
-def all_from_9_last_from_10(ds):
+def all_from_9_last_from_10_list(ds):
     '''Apply the sutra to a list of digits'''
     def all_from_9(d):
         return 9 - d
     def last_from_10(d):
         return 10 - d
-
-    ans = [all_from_9(d) for d in ds[:-1]]
-    ans = ans + [last_from_10(ds[-1])]
-    return ans
+                           
+    return [all_from_9(d) for d in ds[:-1]] + [last_from_10(ds[-1])]
 
 def find_truth_changes(truth_values):
     '''Find out where the truth values change'''
@@ -151,7 +149,7 @@ def _to_vinculum(ds):
             ci = change_indxs[idx]
             cip1 = change_indxs[idx+1]
             if truth_values[ci]: #the element is > 5
-                ans += negate_digits(all_from_9_last_from_10(ds[ci:cip1]))
+                ans += negate_digits(all_from_9_last_from_10_list(ds[ci:cip1]))
             else:
                 ans += one_more_than_list(ds[ci:cip1])
             idx += 1
@@ -159,7 +157,7 @@ def _to_vinculum(ds):
         #handle the final change
         ci = change_indxs[idx]
         if truth_values[ci]: #the element is > 5
-                ans += negate_digits(all_from_9_last_from_10(ds[ci:]))
+                ans += negate_digits(all_from_9_last_from_10_list(ds[ci:]))
         else:
             ans += ds[ci:]
         return ans
@@ -187,7 +185,7 @@ def _from_vinculum(ds):
             ci = change_indxs[idx]
             cip1 = change_indxs[idx+1]
             if truth_values[ci]: #the element is < 0
-                ans += all_from_9_last_from_10(negate_digits(ds[ci:cip1]))
+                ans += all_from_9_last_from_10_list(negate_digits(ds[ci:cip1]))
             else:
                 ans += one_less_than_list(ds[ci:cip1])
             idx += 1
@@ -195,7 +193,7 @@ def _from_vinculum(ds):
         #handle the final change
         ci = change_indxs[idx]
         if truth_values[ci]: #the element is < 0
-                ans += all_from_9_last_from_10(negate_digits(ds[ci:]))
+                ans += all_from_9_last_from_10_list(negate_digits(ds[ci:]))
         else:
             ans += ds[ci:]
 
@@ -683,3 +681,7 @@ class VInteger(VNumber):
 
         return dsum
 
+    def all_from_9_last_from_10(self):
+        return VInteger(all_from_9_last_from_10_list(self.get_digits()))
+
+    
