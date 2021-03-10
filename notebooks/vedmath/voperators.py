@@ -168,6 +168,38 @@ class VDiv(VOp):
         q = q.unpadl_zero() #eliminate any leading zero's 
         return {'quotient':q, 'remainder':r}
 
+    @classmethod
+    def nikhilam_by_8_many_digit(cls, a:VInteger):
+        '''
+        Special division by 8 for many digit as per Tirthaji's book, pp 47.
+        '''
+        q = a.all_but_last_as_vinteger()
+        r = a.last_as_vinteger()
+
+        for i in range(1, len(q)):
+            q[i] = q[i] + VInteger(2) * q[i-1]
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(8)
+        
+        r = r + VInteger(2) * q[-1]
+
+        while r >= VInteger(8):
+            q[-1] = q[-1] + VInteger(1)
+            r = r - VInteger(8)
+
+        for i in range(1, len(q)):
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(10)
+
+        while q.needs_resolution():
+            q = q.resolve()
+
+        q = q.unpadl_zero() #eliminate any leading zero's 
+        return {'quotient':q, 'remainder':r}
+
+
 
 class VProp:
     '''
