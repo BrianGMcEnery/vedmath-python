@@ -92,6 +92,9 @@ class VDigit:
     def as_vinteger(self):
         return VInteger(self._val)
 
+    def to_int(self):
+        return self._val
+
 
 def all_from_9_last_from_10(ds):
     '''Apply the sutra to a list of digits'''
@@ -662,4 +665,21 @@ class VInteger(VNumber):
         Test whether the object needs to be resolved.
         '''
         return False in [type(d) == VDigit for d in self.ds]
+
+    def digit_sum(self):
+        '''
+        Compute the digit sum of an instance by summing the digits.
+        Elementary Vedic Mathematics pp 24
+        '''
+        dsum = 0
+        for d in self.get_digits():
+            dsum = dsum + d
+
+        while dsum > 9:
+            ds = int_to_digits(dsum)
+            dsum = 0
+            for d in ds:
+                dsum = dsum + d
+
+        return dsum
 
