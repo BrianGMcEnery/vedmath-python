@@ -152,10 +152,11 @@ class VDiv(VOp):
                 q[i] = q[i] - VInteger(9)
         
         r = r + q[-1]
-        
-        if len(r) == 2:
+
+        while r >= VInteger(9):
             q[-1] = q[-1] + VInteger(1)
             r = r - VInteger(9)
+        
 
         for i in range(1, len(q)):
             if len(q[i]) == 2:
@@ -187,6 +188,37 @@ class VDiv(VOp):
         while r >= VInteger(8):
             q[-1] = q[-1] + VInteger(1)
             r = r - VInteger(8)
+
+        for i in range(1, len(q)):
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(10)
+
+        while q.needs_resolution():
+            q = q.resolve()
+
+        q = q.unpadl_zero() #eliminate any leading zero's 
+        return {'quotient':q, 'remainder':r}
+
+    @classmethod
+    def nikhilam_by_7_many_digit(cls, a:VInteger):
+        '''
+        Special division by 7 for many digit as per Tirthaji's book, pp 47.
+        '''
+        q = a.all_but_last_as_vinteger()
+        r = a.last_as_vinteger()
+
+        for i in range(1, len(q)):
+            q[i] = q[i] + VInteger(3) * q[i-1]
+            if len(q[i]) == 2:
+                q[i-1] = q[i-1] + VInteger(1)
+                q[i] = q[i] - VInteger(7)
+        
+        r = r + VInteger(3) * q[-1]
+
+        while r >= VInteger(7):
+            q[-1] = q[-1] + VInteger(1)
+            r = r - VInteger(7)
 
         for i in range(1, len(q)):
             if len(q[i]) == 2:
