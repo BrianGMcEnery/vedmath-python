@@ -231,7 +231,26 @@ class VDiv(VOp):
         q = q.unpadl_zero() #eliminate any leading zero's 
         return {'quotient':q, 'remainder':r}
 
+    @classmethod
+    def straight_division_one_flag_digit(cls, a:VInteger, d:VInteger):
+        '''
+        Divide d into a using one flag digit.
+        '''
+        flag = d.last_as_vinteger()
+        fi = flag.to_int()
+        divisor = d.all_but_last_as_vinteger()
+        di = divisor.to_int()
 
+        quot = a.all_but_last_as_vinteger()
+        qi = quot.to_int()
+        r = a.last_as_vinteger()
+        ri = r.to_int()
+
+        ans = []
+        ans.append(qi//di)
+        rem = qi % di
+        ans.append(rem * 10 + ri - ans[0] * fi)
+        return {'quotient': VInteger(ans[0]), 'remainder':VInteger(ans[1])}
 
 class VProp:
     '''
