@@ -252,6 +252,37 @@ class VDiv(VOp):
         ans.append(rem * 10 + ri - ans[0] * fi)
         return {'quotient': VInteger(ans[0]), 'remainder':VInteger(ans[1])}
 
+    @classmethod
+    def straight_division_one_flag_digit_many(cls, a:VInteger, d:VInteger):
+        '''
+        Divide d into a using one flag digit, with many digits in a.
+        '''
+        flag = d.last_as_vinteger()
+        fi = flag.to_int()
+        divisor = d.all_but_last_as_vinteger()
+        di = divisor.to_int()
+
+        quot = a.all_but_last_as_vinteger()
+        qs = quot.get_digits()
+        qi = VInteger(qs[0:2]).to_int() # The first two digits
+        
+        ans = []
+        ans.append(qi//di)
+        rem = qi % di
+
+        i = 0
+        for q in qs[2:]:
+            qi = rem * 10 + q - ans[i] * fi
+            ans.append(qi//di)
+            rem = qi % di
+            i += 1
+
+        r = a.last_as_vinteger()
+        ri = r.to_int()
+        ans.append(rem * 10 + ri - ans[-1] * fi)
+        return {'quotient': VInteger(ans[:-1]), 'remainder':VInteger(ans[-1])}
+
+
 class VProp:
     '''
     Class to handle a variety of properties.
