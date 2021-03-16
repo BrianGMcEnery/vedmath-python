@@ -686,7 +686,7 @@ class VInteger(VNumber):
 
     def duplex(self):
         '''
-        Returns the duplex of a VInteger.
+        Returns the duplex of a VInteger as a VInteger.
         '''
         ds = self.ds
         ld = len(ds)
@@ -698,5 +698,26 @@ class VInteger(VNumber):
             middle = (ld // 2)
             ans = ans + (ds[middle] * ds[middle])
         return ans
+
+    def square(self):
+        '''
+        Returns the square of a VInteger as a VInteger 
+        based on using the duplex.
+        '''
+        ds = self.ds
+        ld = len(ds)
+        ans = VInteger(0)
+
+        for i in range(1, ld + 1):
+            dplx = VInteger(ds[0:i]).duplex()
+            ans = ans * VInteger(10) + dplx
+        
+        for i in range(1, ld):
+            dplx = VInteger(ds[i:]).duplex()
+            ans = ans * VInteger(10) + dplx
+
+        return ans
+
+
 
     
