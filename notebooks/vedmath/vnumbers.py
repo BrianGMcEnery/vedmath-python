@@ -701,20 +701,19 @@ class VInteger(VNumber):
 
     def square(self):
         '''
-        Returns the square of a VInteger as a VInteger 
-        based on using the duplex.
+        Returns the square of a VInteger as a VInteger using the duplex.
         '''
         ds = self.ds
         ld = len(ds)
         ans = VInteger(0)
 
         for i in range(1, ld + 1):
-            dplx = VInteger(ds[0:i]).duplex()
-            ans = ans * VInteger(10) + dplx
+            duplex = VInteger(ds[:i]).duplex()
+            ans = ans * VInteger(10) + duplex
         
         for i in range(1, ld):
-            dplx = VInteger(ds[i:]).duplex()
-            ans = ans * VInteger(10) + dplx
+            duplex = VInteger(ds[i:]).duplex()
+            ans = ans * VInteger(10) + duplex
 
         return ans
 
