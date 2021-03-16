@@ -684,4 +684,16 @@ class VInteger(VNumber):
     def all_from_9_last_from_10(self):
         return VInteger(all_from_9_last_from_10_list(self.get_digits()))
 
+    def duplex(self):
+        ds = self.get_digits()
+        ld = len(ds)
+        ans = 0
+        for i in range(0, ld // 2):
+            ans = ans + ds[i] * ds[-1-i]
+        ans = ans * 2
+        if ld % 2:
+            middle = (ld // 2)
+            ans = ans + (ds[middle] * ds[middle])
+        return ans
+
     
