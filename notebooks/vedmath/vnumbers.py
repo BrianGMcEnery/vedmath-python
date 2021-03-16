@@ -685,12 +685,15 @@ class VInteger(VNumber):
         return VInteger(all_from_9_last_from_10_list(self.get_digits()))
 
     def duplex(self):
-        ds = self.get_digits()
+        '''
+        Returns the duplex of a VInteger.
+        '''
+        ds = self.ds
         ld = len(ds)
-        ans = 0
+        ans = VInteger(0)
         for i in range(0, ld // 2):
             ans = ans + ds[i] * ds[-1-i]
-        ans = ans * 2
+        ans = ans * VInteger(2)
         if ld % 2:
             middle = (ld // 2)
             ans = ans + (ds[middle] * ds[middle])
