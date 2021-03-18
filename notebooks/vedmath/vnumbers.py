@@ -716,3 +716,42 @@ class VInteger(VNumber):
             ans = ans * VInteger(10) + duplex
 
         return ans
+
+    def _vc_inner_prod(self, other):
+        '''
+        Vertical and Crosswise inner product. Assume both VIntegers of same 
+        length.
+        '''
+        ld = len(self)
+        ans = VInteger(0)
+        for i in range(0, ld):
+            ans = ans + self[i] * other[ld - i - 1]
+
+        return ans
+
+    def vert_cross_product(self, other):
+        '''
+        Vertical Crosswise product. Based on duplex and squaring.
+        '''
+
+        vs = self
+        vo = other
+        l0 = len(vs) - len(vo)
+        if l0 > 0:
+            vo = vo.padl_zero(l0)
+        elif l0 < 0:
+            vs = vs.padl_zero(-l0)
+
+        lvs = len(vs)
+
+        ans = VInteger(0)
+
+        for i in range(1, lvs + 1):
+            inner_product = VInteger(vs[:i])._vc_inner_prod(VInteger(vo[:i]))
+            ans = ans * VInteger(10) + inner_product
+
+        for i in range(1, lvs):
+            inner_product = VInteger(vs[i:])._vc_inner_prod(VInteger(vo[i:]))
+            ans = ans * VInteger(10) + inner_product
+
+        return ans
