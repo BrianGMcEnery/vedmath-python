@@ -455,7 +455,6 @@ class VInteger(VNumber):
         elif l0 < 0:
             vs = vs.padl_zero(-l0)
 
-        
         lvs = len(vs) - 1
         #the following generates indices for vert and crosswise mults
         #see the jupyter-lab notebook VertCross pattern.
