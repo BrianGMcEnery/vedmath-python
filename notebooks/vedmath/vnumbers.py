@@ -460,6 +460,7 @@ class VInteger(VNumber):
         #the following generates indices for vert and crosswise mults
         #see the jupyter-lab notebook VertCross pattern.
         pat_top = [[(j-i,i) for i in range(j+1)] for j in range(lvs + 1)]
+
         k = list(range(lvs, 0, -1))
         pat_bot = [[(j-i + k[j],i + k[j]) for i in range(j + 1)] 
             for j in range(lvs - 1, -1, -1)]
@@ -666,7 +667,7 @@ class VInteger(VNumber):
 
     def digit_sum(self):
         '''
-        Compute the digit sum of an instance by summing the digits.
+        Compute the digit sum of a VInteger by summing the digits.
         Elementary Vedic Mathematics pp 24
         '''
         dsum = 0
@@ -716,7 +717,3 @@ class VInteger(VNumber):
             ans = ans * VInteger(10) + duplex
 
         return ans
-
-
-
-    
