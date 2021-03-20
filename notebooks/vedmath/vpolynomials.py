@@ -92,7 +92,7 @@ class VMonomial:
             inner_product = VMonomial(vs[i:])._vc_inner_prod(VMonomial(vo[i:]))
             ans.append(inner_product)
 
-        return VMonomial(ans)
+        return VMonomial(ans).unpadl_zero()
 
     def padl_zero(self, l0):
         '''
@@ -112,3 +112,10 @@ class VMonomial:
 
         print(idx)
         return VMonomial(coeff[idx:])
+
+    def padr_zero(self, l0):
+        '''
+        Pad the momomial by l0 trailing zero digits on the right.
+        '''
+        padded = self.coeff + [VInteger(0) for _ in range(l0)]
+        return VMonomial(padded)
