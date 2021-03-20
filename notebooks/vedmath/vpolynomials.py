@@ -100,3 +100,15 @@ class VMonomial:
         '''
         padded = [VInteger(0) for _ in range(l0)] + self.coeff
         return VMonomial(padded)
+
+    def unpadl_zero(self):
+        '''
+        Take away leading zero's in the monomial.
+        '''
+        coeff = self.coeff
+        idx = 0
+        while coeff[idx] == VInteger(0):
+            idx += 1
+
+        print(idx)
+        return VMonomial(coeff[idx:])
