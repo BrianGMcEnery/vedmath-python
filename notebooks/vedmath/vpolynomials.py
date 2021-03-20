@@ -53,5 +53,50 @@ class VMonomial:
             duplex = VMonomial(coeff[i:]).duplex()
             ans.append(duplex)
             
+        return VMonomial(ans)
+
+    def _vc_inner_prod(self, other):
+        '''
+        Vertical and Crosswise inner product. Assume both VMonomials of same 
+        length.
+        '''
+        ld = len(self)
+        ans = VInteger(0)
+        for i in range(0, ld):
+            ans = ans + self[i] * other[ld - i - 1]
+
         return ans
 
+    def vert_cross_product(self, other):
+        '''
+        Vertical Crosswise product. Based on duplex and squaring.
+        '''
+
+        vs = self
+        vo = other
+        l0 = len(vs) - len(vo)
+        if l0 > 0:
+            vo = vo.padl_zero(l0)
+        elif l0 < 0:
+            vs = vs.padl_zero(-l0)
+
+        lvs = len(vs)
+
+        ans = []
+
+        for i in range(1, lvs + 1):
+            inner_product = VMonomial(vs[:i])._vc_inner_prod(VMonomial(vo[:i]))
+            ans.append(inner_product)
+
+        for i in range(1, lvs):
+            inner_product = VMonomial(vs[i:])._vc_inner_prod(VMonomial(vo[i:]))
+            ans.append(inner_product)
+
+        return VMonomial(ans)
+
+    def padl_zero(self, l0):
+        '''
+        Pad the monomial by l0 leading zero Vintegers on the left.
+        '''
+        padded = [VInteger(0) for _ in range(l0)] + self.coeff
+        return VMonomial(padded)
