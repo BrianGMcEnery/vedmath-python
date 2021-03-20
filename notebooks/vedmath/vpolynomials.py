@@ -51,15 +51,9 @@ class VMonomial:
         '''
         cs = self.cs
         ld = len(cs)
-        ans = []
-
-        for i in range(1, ld + 1):
-            duplex = VMonomial(cs[:i]).duplex()
-            ans.append(duplex)
         
-        for i in range(1, ld):
-            duplex = VMonomial(cs[i:]).duplex()
-            ans.append(duplex)
+        ans = [VMonomial(cs[:i]).duplex() for i in range(1, ld + 1)]
+        ans = ans + [VMonomial(cs[i:]).duplex() for i in range(1, ld)]
             
         return VMonomial(ans)
 
