@@ -169,7 +169,7 @@ class Test_VInteger:
             mv1v2 = v1._mul_vert_cross(v2)
             assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
 
-    def test_to_int(self):
+    def test_int(self):
         assert int(VInteger(665)) == 665
         assert int(VInteger(-665)) == -665
         assert int(VInteger([-6, 4, -5])) == -565
@@ -199,3 +199,12 @@ class Test_VInteger:
         assert VInteger(3).square() == VInteger(9)
         assert VInteger(43).square() == VInteger(1849)
         assert VInteger(523).square() == VInteger(273529)
+
+    def test_vert_cross_product(self):
+        for _ in range (100):
+            i1 = random.randint(-999999999, 999999999)
+            i2 = random.randint(-999999999, 999999999)
+            v1 = VInteger(i1)
+            v2 = VInteger(i2)
+            mv1v2 = v1.vert_cross_product(v2)
+            assert mv1v2 == VInteger(i1 * i2)

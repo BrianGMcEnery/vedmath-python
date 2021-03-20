@@ -84,15 +84,11 @@ class VMonomial:
 
         lvs = len(vs)
 
-        ans = []
+        ans = [VMonomial(vs[:i])._vc_inner_prod(VMonomial(vo[:i]))
+                for i in range(1, lvs + 1)]
 
-        for i in range(1, lvs + 1):
-            inner_product = VMonomial(vs[:i])._vc_inner_prod(VMonomial(vo[:i]))
-            ans.append(inner_product)
-
-        for i in range(1, lvs):
-            inner_product = VMonomial(vs[i:])._vc_inner_prod(VMonomial(vo[i:]))
-            ans.append(inner_product)
+        ans = ans + [VMonomial(vs[i:])._vc_inner_prod(VMonomial(vo[i:]))
+                for i in range(1, lvs)]
 
         return VMonomial(ans).unpadl_zero()
 

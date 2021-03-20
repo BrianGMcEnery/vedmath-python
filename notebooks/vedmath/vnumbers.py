@@ -700,15 +700,14 @@ class VInteger(VNumber):
         '''
         ds = self.ds
         ld = len(ds)
-        ans = VInteger(0)
 
-        for i in range(1, ld + 1):
-            duplex = VInteger(ds[:i]).duplex()
-            ans = ans * VInteger(10) + duplex
-        
-        for i in range(1, ld):
-            duplex = VInteger(ds[i:]).duplex()
-            ans = ans * VInteger(10) + duplex
+        lans = []
+        lans = [VInteger(ds[:i]).duplex() for i in range(1, ld + 1)]
+        lans = lans + [VInteger(ds[i:]).duplex() for i in range(1, ld)]
+
+        ans = VInteger(0)
+        for e in lans:
+            ans = ans * VInteger(10) + e
 
         return ans
 
@@ -739,14 +738,14 @@ class VInteger(VNumber):
 
         lvs = len(vs)
 
+        lans = []
+        lans = [VInteger(vs[:i])._vc_inner_prod(VInteger(vo[:i])) 
+                    for i in range(1, lvs + 1)]
+        lans = lans + [VInteger(vs[i:])._vc_inner_prod(VInteger(vo[i:])) 
+                    for i in range(1, lvs)]
+
         ans = VInteger(0)
-
-        for i in range(1, lvs + 1):
-            inner_product = VInteger(vs[:i])._vc_inner_prod(VInteger(vo[:i]))
-            ans = ans * VInteger(10) + inner_product
-
-        for i in range(1, lvs):
-            inner_product = VInteger(vs[i:])._vc_inner_prod(VInteger(vo[i:]))
-            ans = ans * VInteger(10) + inner_product
+        for e in lans:
+            ans = ans * VInteger(10) + e
 
         return ans
