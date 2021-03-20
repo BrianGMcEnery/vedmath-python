@@ -170,9 +170,9 @@ class Test_VInteger:
             assert mv1v2.get_digits() == VInteger(i1 * i2).get_digits()
 
     def test_to_int(self):
-        assert VInteger(665).to_int() == 665
-        assert VInteger(-665).to_int() == -665
-        assert VInteger([-6, 4, -5]).to_int() == -565
+        assert int(VInteger(665)) == 665
+        assert int(VInteger(-665)) == -665
+        assert int(VInteger([-6, 4, -5])) == -565
 
     def test_comparisons(self):
         c = (VInteger(123) == VInteger(123))

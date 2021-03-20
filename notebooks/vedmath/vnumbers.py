@@ -62,7 +62,7 @@ class VDigit:
         if type(other) == VDigit:
             ans = self._val + other._val
         elif type(other) == VInteger:
-            ans = self._val + other.to_int()
+            ans = self._val + int(other)
 
         return VInteger(ans)
 
@@ -92,7 +92,7 @@ class VDigit:
     def as_vinteger(self):
         return VInteger(self._val)
 
-    def to_int(self):
+    def __int__(self):
         return self._val
 
 
@@ -243,7 +243,7 @@ class VInteger(VNumber):
         return VInteger(negate_digits(self.get_digits()))
 
     def __add__(self, other):
-        summ = self.to_int() + other.to_int()
+        summ = int(self) + int(other)
         return VInteger(summ)
 
     def _add_later(self, other):
@@ -290,34 +290,34 @@ class VInteger(VNumber):
         return self + (-other)
 
     def __mul__(self, other):
-        prod = self.to_int() * other.to_int()
+        prod = int(self) * int(other)
         return VInteger(prod)
 
     def __eq__(self, other):
         if type(other) == VInteger:
-            return self.to_int() == other.to_int()
+            return int(self) == int(other)
 
     def __ne__(self, other):
         if type(other) == VInteger:
-            return self.to_int() != other.to_int()
+            return int(self) != int(other)
 
     def __lt__(self, other):
         if type(other) == VInteger:
-            return self.to_int() < other.to_int()
+            return int(self) < int(other)
 
     def __le__(self, other):
         if type(other) == VInteger:
-            return self.to_int() <= other.to_int()
+            return int(self) <= int(other)
 
     def __gt__(self, other):
         if type(other) == VInteger:
-            return self.to_int() > other.to_int()
+            return int(self) > int(other)
 
     def __ge__(self, other):
         if type(other) == VInteger:
-            return self.to_int() >= other.to_int()
+            return int(self) >= int(other)
 
-    def to_int(self):
+    def __int__(self):
         '''
         Transform a VInteger to an int.
         '''
@@ -652,7 +652,7 @@ class VInteger(VNumber):
         for i, d in enumerate(obj):
             if type(d) == VInteger:
                 if len(d) == 1:
-                    obj[i] = VDigit(d.to_int())
+                    obj[i] = VDigit(int(d))
                 elif len(d) == 2:
                     obj[i] = d[-1]
                     obj[i-1] = obj[i-1] + d[0]
