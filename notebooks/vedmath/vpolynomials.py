@@ -22,6 +22,14 @@ class VMonomial:
     def __setitem__(self, key, value):
         self.cs[key] = value
 
+    def __eq__(self, other):
+        if type(other) == VMonomial:
+            return self.cs == other.cs
+
+    def __ne__(self, other):
+        if type(other) == VMonomial:
+            return self.cs != other.cs
+
     def duplex(self):
         '''
         Returns the duplex of a VMonomial as a VInteger.
