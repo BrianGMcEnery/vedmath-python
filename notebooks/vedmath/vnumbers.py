@@ -30,7 +30,7 @@ def digit_from_vdigit(vd):
     Return a digit from a vdigit.
     '''
     if (type(vd) == VDigit):
-        return vd.get_val()
+        return vd.d
     else:
         raise ValueError(f"{vd} is not a VDigit.")
 
@@ -48,52 +48,48 @@ class VDigit:
 
     def __init__(self, d):
         if d in range(-9, 10):
-            self._val = d
+            self.d = d
         else:
             raise ValueError(f'{d} is not a digit.')
 
     def __str__(self):
-        return f"VDigit({self.get_val()})"
+        return f"VDigit({self.d})"
 
     def __repr__(self):
-        return f"{self.get_val()}"
+        return f"{self.d}"
 
     def __add__(self, other):
         if type(other) == VDigit:
-            ans = self._val + other._val
+            ans = self.d + other.d
         elif type(other) == VInteger:
-            ans = self._val + int(other)
-
+            ans = self.d + int(other)
         return VInteger(ans)
 
     def __sub__(self, other):
         if type(other) == VDigit:
-            ans = self._val - other._val
+            ans = self.d - other.d
             return VInteger(ans)
 
     def __mul__(self, other):
         if type(other) == VDigit:
-            ans = self._val * other._val
+            ans = self.d * other.d
             return VInteger(ans)
 
     def __neg__(self):
-        return VDigit(-self._val)
+        return VDigit(-self.d)
         
     def __abs__(self):
-        return VDigit(abs(self._val))
+        return VDigit(abs(self.d))
 
     def __eq__(self, other):
         if type(other) == VDigit:
-            return self._val == other._val
+            return self.d == other.d
     
-    def get_val(self):
-        return self._val
-
     def as_vinteger(self):
-        return VInteger(self._val)
+        return VInteger(self.d)
 
     def __int__(self):
-        return self._val
+        return self.d
 
 
 def all_from_9_last_from_10_list(ds):
