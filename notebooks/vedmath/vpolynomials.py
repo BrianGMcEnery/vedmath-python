@@ -4,53 +4,53 @@ class VMonomial:
     '''
     VMonomial to represent a monomial in vedmath.
     '''
-    def __init__(self, coeff):
-        self.coeff = coeff
+    def __init__(self, cs):
+        self.cs = cs
     
     def __str__(self):
-        return f"VMonomial({self.coeff})"
+        return f"VMonomial({self.cs})"
     
     def __repr__(self):
-        return f"VMonomial({self.coeff})"
+        return f"VMonomial({self.cs})"
 
     def __len__(self):
-        return len(self.coeff)
+        return len(self.cs)
     
     def __getitem__(self, key):
-        return self.coeff[key]
+        return self.cs[key]
 
     def __setitem__(self, key, value):
-        self.coeff[key] = value
+        self.cs[key] = value
 
     def duplex(self):
         '''
         Returns the duplex of a VMonomial as a VInteger.
         '''
-        coeff = self.coeff
-        ld = len(coeff)
+        cs = self.cs
+        ld = len(cs)
         ans = VInteger(0)
         for i in range(0, ld // 2):
-            ans = ans + coeff[i] * coeff[-1-i]
+            ans = ans + cs[i] * cs[-1-i]
         ans = ans * VInteger(2)
         if ld % 2:
             middle = (ld // 2)
-            ans = ans + (coeff[middle] * coeff[middle])
+            ans = ans + (cs[middle] * cs[middle])
         return ans
 
     def square(self):
         '''
         Returns the square of a VMonomial as a VMonomial using the duplex.
         '''
-        coeff = self.coeff
-        ld = len(coeff)
+        cs = self.cs
+        ld = len(cs)
         ans = []
 
         for i in range(1, ld + 1):
-            duplex = VMonomial(coeff[:i]).duplex()
+            duplex = VMonomial(cs[:i]).duplex()
             ans.append(duplex)
         
         for i in range(1, ld):
-            duplex = VMonomial(coeff[i:]).duplex()
+            duplex = VMonomial(cs[i:]).duplex()
             ans.append(duplex)
             
         return VMonomial(ans)
@@ -98,24 +98,23 @@ class VMonomial:
         '''
         Pad the monomial by l0 leading zero Vintegers on the left.
         '''
-        padded = [VInteger(0) for _ in range(l0)] + self.coeff
+        padded = [VInteger(0) for _ in range(l0)] + self.cs
         return VMonomial(padded)
 
     def unpadl_zero(self):
         '''
         Take away leading zero's in the monomial.
         '''
-        coeff = self.coeff
+        cs = self.cs
         idx = 0
-        while coeff[idx] == VInteger(0):
+        while cs[idx] == VInteger(0):
             idx += 1
 
-        print(idx)
-        return VMonomial(coeff[idx:])
+        return VMonomial(cs[idx:])
 
     def padr_zero(self, l0):
         '''
         Pad the momomial by l0 trailing zero digits on the right.
         '''
-        padded = self.coeff + [VInteger(0) for _ in range(l0)]
+        padded = self.cs + [VInteger(0) for _ in range(l0)]
         return VMonomial(padded)

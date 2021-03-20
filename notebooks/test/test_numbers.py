@@ -190,3 +190,12 @@ class Test_VInteger:
         assert c == False
         c = (VInteger(123) >= VInteger(124))
         assert c == False
+
+    def test_duplex_square(self):
+        assert VInteger(3).duplex() == VInteger(9)
+        assert VInteger(43).duplex() == VInteger(24)
+        assert VInteger(523).duplex() == VInteger(34)
+
+        assert VInteger(3).square() == VInteger(9)
+        assert VInteger(43).square() == VInteger(1849)
+        assert VInteger(523).square() == VInteger(273529)
