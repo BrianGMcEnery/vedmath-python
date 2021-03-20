@@ -217,14 +217,14 @@ class VInteger(VNumber):
             n: list of digits as VDigits
         '''
         if isinstance(n, int):
-            digits = int_to_digits(n)
+            ds = int_to_digits(n)
         elif isinstance(n, list):
             if isinstance(n[0], int):
-                digits = n
+                ds = n
             elif isinstance(n[0], VDigit):
-                digits = digits_from_vdigits(n)
+                ds = digits_from_vdigits(n)
             
-        self.ds = [VDigit(d) for d in digits]
+        self.ds = [VDigit(d) for d in ds]
 
     def __str__(self):
         return f"VInteger({self.ds})"
@@ -527,8 +527,7 @@ class VInteger(VNumber):
         Returns True if the digits are a one followed by zeros.
         '''
         leading_one = (self.ds[0] == VDigit(1))
-        rest_zero = [d == VDigit(0) for d in self.ds[1:]]
-        return leading_one and (False not in rest_zero)
+        return leading_one and VInteger(self.ds[1:]).all_zero()
 
     def padl_zero(self, l0):
         '''
