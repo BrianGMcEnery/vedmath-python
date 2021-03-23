@@ -264,7 +264,7 @@ class VDiv(VOp):
 
         quot = a.all_but_last_as_vinteger()
         qs = quot.get_digits()
-        qi = VInteger(qs[0:2]).to_int() # The first two digits
+        qi = int(VInteger.fromints(qs[0:2])) # The first two digits
         
         ans = []
         ans.append(qi//di)
@@ -343,9 +343,9 @@ class VProp:
             whole.append(0)
 
         if is_negative:
-            return -VInteger(whole)
+            return -VInteger.fromints(whole)
         else:
-            return VInteger(whole)
+            return VInteger.fromints(whole)
 
     @classmethod
     def surplus(cls, a:VInteger):
@@ -390,7 +390,7 @@ class VProp:
             whole.append(0)
 
         if is_negative:
-            return -VInteger(whole)
+            return -VInteger.fromints(whole)
         else:
-            return VInteger(whole)
+            return VInteger.fromints(whole)
 

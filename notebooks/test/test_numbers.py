@@ -137,7 +137,7 @@ class Test_VInteger:
     def test_int(self):
         assert int(VInteger(665)) == 665
         assert int(VInteger(-665)) == -665
-        assert int(VInteger([-6, 4, -5])) == -565
+        assert int(VInteger.fromints([-6, 4, -5])) == -565
 
     def test_comparisons(self):
         c = (VInteger(123) == VInteger(123))

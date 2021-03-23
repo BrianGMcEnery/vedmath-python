@@ -209,22 +209,31 @@ class VInteger(VNumber):
     '''
     VInteger is a class for computing with integers.
     '''
-    def __init__(self, n):
+    def __init__(self, n:int):
         '''
-        Instantiate a VInteger with
-            n: int
-            n: list of digits as ints
-            n: list of digits as VDigits
+        Instantiate a VInteger from an integer n.
         '''
-        if isinstance(n, int):
-            ds = int_to_digits(n)
-        elif isinstance(n, list):
-            if isinstance(n[0], int):
-                ds = n
-            elif isinstance(n[0], VDigit):
-                ds = digits_from_vdigits(n)
-            
-        self.ds = [VDigit(d) for d in ds]
+        self.ds = [VDigit(d) for d in int_to_digits(n)]
+
+    @classmethod
+    def fromints(cls, ds):
+        '''
+        Return a VInteger from a list of digits as ints.
+        '''
+        ans = cls(0)
+        ans.ds = [VDigit(d) for d in ds]
+        return ans
+
+    @classmethod
+    def fromvdigits(cls, ds):
+        '''
+        Return a VInteger from a list of digits as VDigits.
+        '''
+        ans = cls(0)
+        ans.ds = ds
+        return ans
+
+
 
     def __str__(self):
         return f"VInteger({self.ds})"
@@ -236,7 +245,7 @@ class VInteger(VNumber):
         return len(self.ds)
 
     def __neg__(self):
-        return VInteger(negate_digits(self.get_digits()))
+        return VInteger.fromints(negate_digits(self.get_digits()))
 
     def __add__(self, other):
         summ = int(self) + int(other)
@@ -334,14 +343,14 @@ class VInteger(VNumber):
         Returns True if the digits are a one followed by zeros.
         '''
         leading_one = (self.ds[0] == VDigit(1))
-        return leading_one and VInteger(self.ds[1:]).all_zero()
+        return leading_one and VInteger.fromvdigits(self.ds[1:]).all_zero()
 
     def padl_zero(self, l0):
         '''
         Pad the integer by l0 leading zero digits on the left.
         '''
         padded = [0 for _ in range(l0)] + self.get_digits()
-        return VInteger(padded)
+        return VInteger.fromints(padded)
 
     def unpadl_zero(self):
         '''
@@ -353,14 +362,14 @@ class VInteger(VNumber):
         idx = 0
         while ds[idx] == 0:
             idx += 1
-        return VInteger(ds[idx:])
+        return VInteger.fromints(ds[idx:])
 
     def padr_zero(self, l0):
         '''
         Pad the integer by l0 trailing zero digits on the right.
         '''
         padded = self.get_digits() + [0 for _ in range(l0)]
-        return VInteger(padded)
+        return VInteger.fromints(padded)
 
 
     def to_vinculum(self):
@@ -380,7 +389,7 @@ class VInteger(VNumber):
         if is_negative:
             ds = negate_digits(ds)
 
-        return VInteger(ds)
+        return VInteger.fromints(ds)
 
     def from_vinculum(self):
         '''
@@ -405,7 +414,7 @@ class VInteger(VNumber):
         if is_negative:
             ds = negate_digits(ds)
         
-        return VInteger(ds).unpadl_zero()
+        return VInteger.fromints(ds).unpadl_zero()
 
     def get_digits(self):
         '''
@@ -421,19 +430,19 @@ class VInteger(VNumber):
 
     def all_but_last_as_vinteger(self):
         ds = self.get_digits()
-        return VInteger(ds[:-1])
+        return VInteger.fromints(ds[:-1])
 
     def last_as_vinteger(self):
         ds = self.get_digits()
-        return VInteger(ds[-1])
+        return VInteger.fromints(ds[-1:])
 
     def all_but_first_as_vinteger(self):
         ds = self.get_digits()
-        return VInteger(ds[1:])
+        return VInteger.fromints(ds[1:])
 
     def first_as_vinteger(self):
         ds = self.get_digits()
-        return VInteger(ds[0])
+        return VInteger.fromints(ds[0])
 
     def prepend(self, vd):
         '''
@@ -509,8 +518,10 @@ class VInteger(VNumber):
         ld = len(ds)
 
         lans = []
-        lans = [VInteger(ds[:i]).duplex() for i in range(1, ld + 1)]
-        lans = lans + [VInteger(ds[i:]).duplex() for i in range(1, ld)]
+        lans = [VInteger.fromvdigits(ds[:i]).duplex() 
+            for i in range(1, ld + 1)]
+        lans = lans + [VInteger.fromvdigits(ds[i:]).duplex() 
+            for i in range(1, ld)]
 
         ans = VInteger(0)
         for e in lans:
@@ -546,9 +557,9 @@ class VInteger(VNumber):
         lvs = len(vs)
 
         lans = []
-        lans = [VInteger(vs[:i])._vc_inner_prod(VInteger(vo[:i])) 
+        lans = [VInteger.fromvdigits(vs[:i])._vc_inner_prod(VInteger.fromvdigits(vo[:i])) 
                     for i in range(1, lvs + 1)]
-        lans = lans + [VInteger(vs[i:])._vc_inner_prod(VInteger(vo[i:])) 
+        lans = lans + [VInteger.fromvdigits(vs[i:])._vc_inner_prod(VInteger.fromvdigits(vo[i:])) 
                     for i in range(1, lvs)]
 
         ans = VInteger(0)
