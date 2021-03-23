@@ -519,8 +519,7 @@ class VInteger(VNumber):
         '''
         Returns True if all the digits are zero.
         '''
-        all_zero = [d == VDigit(0) for d in self.ds]
-        return False not in all_zero
+        return all([d == VDigit(0) for d in self.ds])
 
     def is_whole(self):
         '''
