@@ -238,7 +238,7 @@ class VInteger():
         return len(self.ds)
 
     def __neg__(self):
-        return VInteger.fromints(negate_digits(self.get_digits()))
+        return VInteger.fromvdigits([-d for d in self.ds])
 
     def __add__(self, other):
         summ = int(self) + int(other)
