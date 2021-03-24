@@ -292,9 +292,9 @@ class VInteger():
         return VInteger(prod)
 
     def __eq__(self, other):
-        if type(other) == VInteger:
-            return int(self) == int(other)
-
+        if len(self) == len(other):
+            return all(a == b for a, b in zip(self, other))
+            
     def __ne__(self, other):
         if type(other) == VInteger:
             return int(self) != int(other)
