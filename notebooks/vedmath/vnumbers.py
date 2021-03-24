@@ -198,14 +198,7 @@ def _from_vinculum(ds):
         return ans
    
 
-class VNumber():
-    '''
-    Root class for all numbers in vedmath.
-    '''
-    pass
-
-
-class VInteger(VNumber):
+class VInteger():
     '''
     VInteger is a class for computing with integers.
     '''

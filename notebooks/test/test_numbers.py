@@ -1,6 +1,6 @@
 import random
 
-from vedmath import int_to_digits, VDigit, digit_from_vdigit, VNumber, VInteger
+from vedmath import int_to_digits, VDigit, digit_from_vdigit, VInteger
 
 def test_to_digits():
     assert int_to_digits(345) == [3,4,5]
@@ -65,12 +65,6 @@ class Test_VDigit:
     def test_as_vinteger(self):
         assert VDigit(3).as_vinteger().get_digits() == VInteger(3).get_digits()
         assert VDigit(-3).as_vinteger().get_digits() == VInteger(-3).get_digits()
-
-
-class Test_VNumber:
-    # This test is here for completion of the import
-    def test_creation(self):
-        assert type (VNumber()) == VNumber
 
 
 class Test_VInteger:
