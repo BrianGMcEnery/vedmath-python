@@ -1,4 +1,5 @@
 import copy
+import functools
 
 def int_to_digits(n):
     '''
@@ -232,7 +233,7 @@ class VInteger():
         return f"VInteger({self.ds})"
     
     def __repr__(self):
-        return f"{self.ds}"
+        return f"VInteger({self.ds})"
 
     def __len__(self):
         return len(self.ds)
@@ -319,12 +320,8 @@ class VInteger():
         '''
         Transform a VInteger to an int.
         '''
-        ds = self.get_digits()
-        ans = 0
-        for d in ds:
-            ans = 10 * ans + d
-        return ans
-
+        return functools.reduce(lambda x, y: 10 * x + y, self.get_digits() , 0)
+        
     def all_zero(self):
         '''
         Returns True if all the digits are zero.
