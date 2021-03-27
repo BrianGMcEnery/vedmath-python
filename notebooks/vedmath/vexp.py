@@ -15,6 +15,15 @@ class VInt:
         self.ds = [VDigit(d) for d in int_to_digits(n)]
 
     @classmethod
+    def fromints(cls, ds):
+        '''
+        Return a VInt from a list of digits as ints.
+        '''
+        ans = cls(0)
+        ans.ds = [VDigit(d) for d in ds]
+        return ans
+
+    @classmethod
     def fromvdigits(cls, ds):
         '''
         Return a VInt from a list of digits as VDigits.
@@ -46,10 +55,13 @@ class VInt:
 
     def __int__(self):
         '''Return a VInt transformed to int.'''
-        return functools.reduce(lambda x, y: 10 * x + y, self.get_digits() , 0)
+        return functools.reduce(lambda x, y: 10 * x + y, self.get_digits(), 0)
 
     def get_digits(self):
         '''
         Returns a list of the digits as ints
         '''
         return digits_from_vdigits(self.ds)
+
+    def __eq__(self, other):
+        return int(self) == int(other)
