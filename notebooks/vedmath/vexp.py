@@ -1,6 +1,7 @@
 import numbers
+import functools
 
-from vedmath import VDigit, int_to_digits
+from vedmath import VDigit, int_to_digits, digits_from_vdigits
 
 class VInt:
     '''
@@ -43,3 +44,12 @@ class VInt:
             msg = '{cls.__name__} indices must be integers'
             raise TypeError(msg.format(cls=cls))
 
+    def __int__(self):
+        '''Return a VInt transformed to int.'''
+        return functools.reduce(lambda x, y: 10 * x + y, self.get_digits() , 0)
+
+    def get_digits(self):
+        '''
+        Returns a list of the digits as ints
+        '''
+        return digits_from_vdigits(self.ds)
