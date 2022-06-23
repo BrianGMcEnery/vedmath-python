@@ -45,8 +45,7 @@ class VDigit:
     """
     Root class for all digits in vedmath.
     """
-    _val = None
-
+    
     def __init__(self, d):
         if d in range(-9, 10):
             self.d = d
