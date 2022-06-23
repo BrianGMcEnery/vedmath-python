@@ -8,22 +8,21 @@ def int_to_digits(n):
     digits = []
 
     def digits_inner(i):
-        digits.append(i%10)
         if i == 0:
             return digits
+        digits.append(i%10)
         digits_inner(i//10)
-    
     
     if n > 0:
         digits_inner(n)
     elif n == 0:
-        digits = [0,0] # two zeros needed here
+        digits = [0] # two zeros needed here
     else:
         # Handle negative integers
         digits_inner(-n)
         digits = [-d for d in digits]
     digits.reverse()
-    return digits[1:]
+    return digits
 
 
 def digit_from_vdigit(vd):
