@@ -16,7 +16,7 @@ def int_to_digits(n):
     if n > 0:
         digits_inner(n)
     elif n == 0:
-        digits = [0] # two zeros needed here
+        digits = [0]
     else:
         # Handle negative integers
         digits_inner(-n)
