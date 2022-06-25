@@ -53,7 +53,12 @@ class VDigit:
         return f"VDigit({self.d})"
 
     def __repr__(self):
-        return f"{self.d}"
+        return f"VDigit({self.d})"
+
+    def __eq__(self, other):
+        '''Return a equality test based on int comparison.'''
+        return self.d == other.d
+
 
 class VInt():
     '''
@@ -97,9 +102,9 @@ class VInt():
         '''Return the item specified by index.'''
         cls = type(self)
         if isinstance(index, slice):
-            return cls.fromvdigits(self.ds[index])
+            return self.ds[index]
         elif isinstance(index, numbers.Integral):
-            return cls.fromvdigits([self.ds[index]])
+            return self.ds[index]
         else:
             raise TypeError(f'{cls.__name__} indices must be integers')
 
@@ -116,3 +121,16 @@ class VInt():
         Returns a list of the digits as ints
         '''
         return digits_from_vdigits(self.ds)
+
+    def get_vdigits(self):
+        '''
+        Returns a list of the vdigits
+        '''
+        return self.ds
+
+
+a = VInt(1234)
+
+b = a[2]
+
+c = type(b)

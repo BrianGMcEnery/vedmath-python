@@ -38,10 +38,10 @@ class Test_VInt:
     def test_slicing(self):
         a = VInt(1234)
         assert len(a) == 4
-        assert a[2] == VInt(3)
-        assert a[:] == VInt(1234)
-        assert a[:-1] == VInt(123)
-        assert a[2:] == VInt(34) 
+        assert a[2] == VDigit(3)
+        assert a[:] == VInt(1234).get_vdigits()
+        assert a[:-1] == VInt(123).get_vdigits()
+        assert a[2:] == VInt(34).get_vdigits()
 
     def test_transformation(self):
         a = VInt(1234)
