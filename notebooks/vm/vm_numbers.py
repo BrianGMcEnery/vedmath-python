@@ -1,3 +1,5 @@
+import numbers, functools
+
 def int_to_digits(n):
     '''
     Returns a list of digits of an integer.
@@ -81,10 +83,36 @@ class VInt():
         ans.ds = ds
         return ans
 
-
-
     def __str__(self):
-        return f"VInteger({self.ds})"
+        return f"VInt({self.ds})"
     
     def __repr__(self):
-        return f"VInteger({self.ds})"
+        return f"VInt({self.ds})"
+
+    def __len__(self):
+        '''Return the length of the VInt.'''
+        return len(self.ds)
+
+    def __getitem__(self, index):
+        '''Return the item specified by index.'''
+        cls = type(self)
+        if isinstance(index, slice):
+            return cls.fromvdigits(self.ds[index])
+        elif isinstance(index, numbers.Integral):
+            return self.ds[index]
+        else:
+            msg = '{cls.__name__} indices must be integers'
+            raise TypeError(msg.format(cls=cls))
+
+    def __int__(self):
+        '''Return a VInt transformed to int.'''
+        return functools.reduce(lambda x, y: 10 * x + y, self.get_digits(), 0)
+
+    def __eq__(self, other):
+        return int(self) == int(other)
+
+    def get_digits(self):
+        '''
+        Returns a list of the digits as ints
+        '''
+        return digits_from_vdigits(self.ds)
