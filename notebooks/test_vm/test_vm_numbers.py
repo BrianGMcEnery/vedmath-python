@@ -1,5 +1,5 @@
 import random
-from vm import int_to_digits, VDigit, digit_from_vdigit
+from vm import int_to_digits, VDigit, digit_from_vdigit, VInt
 
 random.seed(0)
 
@@ -14,3 +14,8 @@ class Test_VDigit:
         assert digit_from_vdigit(VDigit(7)) == 7
         assert digit_from_vdigit(VDigit(0)) == 0
         assert digit_from_vdigit(VDigit(-3)) == -3
+
+class Test_VInt:
+    def test_creation(self):
+        pass
+

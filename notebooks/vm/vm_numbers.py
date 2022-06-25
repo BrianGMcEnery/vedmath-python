@@ -53,20 +53,20 @@ class VDigit:
     def __repr__(self):
         return f"{self.d}"
 
-class VInteger():
+class VInt():
     '''
-    VInteger is a class for computing with integers.
+    VInt is a class for computing with integers.
     '''
     def __init__(self, n:int):
         '''
-        Instantiate a VInteger from an integer n.
+        Instantiate a VInt from an integer n.
         '''
         self.ds = [VDigit(d) for d in int_to_digits(n)]
 
     @classmethod
     def fromints(cls, ds):
         '''
-        Return a VInteger from a list of digits as ints.
+        Return a VInt from a list of digits as ints.
         '''
         ans = cls(0)
         ans.ds = [VDigit(d) for d in ds]
@@ -75,7 +75,7 @@ class VInteger():
     @classmethod
     def fromvdigits(cls, ds):
         '''
-        Return a VInteger from a list of digits as VDigits.
+        Return a VInt from a list of digits as VDigits.
         '''
         ans = cls(0)
         ans.ds = ds
