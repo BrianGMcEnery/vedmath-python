@@ -99,16 +99,16 @@ class VInt():
         if isinstance(index, slice):
             return cls.fromvdigits(self.ds[index])
         elif isinstance(index, numbers.Integral):
-            return self.ds[index]
+            return cls.fromvdigits([self.ds[index]])
         else:
-            msg = '{cls.__name__} indices must be integers'
-            raise TypeError(msg.format(cls=cls))
+            raise TypeError(f'{cls.__name__} indices must be integers')
 
     def __int__(self):
         '''Return a VInt transformed to int.'''
         return functools.reduce(lambda x, y: 10 * x + y, self.get_digits(), 0)
 
     def __eq__(self, other):
+        '''Return a equality test based on int comparison.'''
         return int(self) == int(other)
 
     def get_digits(self):
