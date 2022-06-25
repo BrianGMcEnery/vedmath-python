@@ -21,13 +21,13 @@ class Test_VInt:
         assert a.get_digits() == [3]
         a = VInt(123)
         assert a.get_digits() == [1,2,3]
-        a = VInt.fromdigits([1,2,3])
+        a = VInt.from_digits([1,2,3])
         assert a.get_digits() == [1,2,3]
-        a = VInt.fromdigits([1,-2,3])
+        a = VInt.from_digits([1,-2,3])
         assert a.get_digits() == [1,-2,3]
-        a = VInt.fromvdigits([VDigit(1), VDigit(2), VDigit(3)])
+        a = VInt.from_vdigits([VDigit(1), VDigit(2), VDigit(3)])
         assert a.get_digits() == [1,2,3]
-        a = VInt.fromvdigits([VDigit(1), VDigit(-2), VDigit(3)])
+        a = VInt.from_vdigits([VDigit(1), VDigit(-2), VDigit(3)])
         assert a.get_digits() == [1,-2,3]
         
 
@@ -51,5 +51,5 @@ class Test_VInt:
     def test_transformation(self):
         a = VInt(1234)
         assert int(a) == 1234
-        a = VInt.fromdigits([1, -2, 3])
+        a = VInt.from_digits([1, -2, 3])
         assert int(a) == 83

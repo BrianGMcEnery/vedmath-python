@@ -71,7 +71,7 @@ class VInt():
         self.ds = [VDigit(d) for d in int_to_digits(n)]
 
     @classmethod
-    def fromdigits(cls, ds):
+    def from_digits(cls, ds):
         '''
         Return a VInt from a list of digits as ints.
         '''
@@ -80,9 +80,9 @@ class VInt():
         return ans
 
     @classmethod
-    def fromvdigits(cls, ds):
+    def from_vdigits(cls, ds):
         '''
-        Return a VInt from a list of digits as VDigits.
+        Return a VInt from a list of VDigits.
         '''
         ans = cls(0)
         ans.ds = ds
