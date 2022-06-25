@@ -38,7 +38,7 @@ def digits_from_vdigits(vds):
 
 class VDigit:
     """
-    Root class for all digits in vedmath.
+    Root class for all digits in vm.
     """
     
     def __init__(self, d):
@@ -52,3 +52,39 @@ class VDigit:
 
     def __repr__(self):
         return f"{self.d}"
+
+class VInteger():
+    '''
+    VInteger is a class for computing with integers.
+    '''
+    def __init__(self, n:int):
+        '''
+        Instantiate a VInteger from an integer n.
+        '''
+        self.ds = [VDigit(d) for d in int_to_digits(n)]
+
+    @classmethod
+    def fromints(cls, ds):
+        '''
+        Return a VInteger from a list of digits as ints.
+        '''
+        ans = cls(0)
+        ans.ds = [VDigit(d) for d in ds]
+        return ans
+
+    @classmethod
+    def fromvdigits(cls, ds):
+        '''
+        Return a VInteger from a list of digits as VDigits.
+        '''
+        ans = cls(0)
+        ans.ds = ds
+        return ans
+
+
+
+    def __str__(self):
+        return f"VInteger({self.ds})"
+    
+    def __repr__(self):
+        return f"VInteger({self.ds})"
