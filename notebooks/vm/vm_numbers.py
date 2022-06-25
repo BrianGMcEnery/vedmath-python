@@ -71,7 +71,7 @@ class VInt():
         self.ds = [VDigit(d) for d in int_to_digits(n)]
 
     @classmethod
-    def fromints(cls, ds):
+    def fromdigits(cls, ds):
         '''
         Return a VInt from a list of digits as ints.
         '''
@@ -106,15 +106,35 @@ class VInt():
         elif isinstance(index, numbers.Integral):
             return self.ds[index]
         else:
-            raise TypeError(f'{cls.__name__} indices must be integers')
+            raise TypeError(f'{cls.__name__} indices must be integers or slices')
 
     def __int__(self):
         '''Return a VInt transformed to int.'''
         return functools.reduce(lambda x, y: 10 * x + y, self.get_digits(), 0)
 
     def __eq__(self, other):
-        '''Return a equality test based on int comparison.'''
+        '''Return a == test based on int comparison.'''
         return int(self) == int(other)
+
+    def __ne__(self, other):
+        '''Return a != test based on int comparison.'''
+        return int(self) != int(other)
+
+    def __lt__(self, other):
+        '''Return a < test based on int comparison.'''
+        return int(self) < int(other)
+    
+    def __le__(self, other):
+        '''Return a <= test based on int comparison.'''
+        return int(self) <= int(other)
+
+    def __gt__(self, other):
+        '''Return a < test based on int comparison.'''
+        return int(self) > int(other)
+    
+    def __ge__(self, other):
+        '''Return a <= test based on int comparison.'''
+        return int(self) >= int(other)
 
     def get_digits(self):
         '''

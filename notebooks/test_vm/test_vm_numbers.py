@@ -21,19 +21,24 @@ class Test_VInt:
         assert a.get_digits() == [3]
         a = VInt(123)
         assert a.get_digits() == [1,2,3]
+        a = VInt.fromdigits([1,2,3])
+        assert a.get_digits() == [1,2,3]
+        a = VInt.fromdigits([1,-2,3])
+        assert a.get_digits() == [1,-2,3]
         a = VInt.fromvdigits([VDigit(1), VDigit(2), VDigit(3)])
         assert a.get_digits() == [1,2,3]
         a = VInt.fromvdigits([VDigit(1), VDigit(-2), VDigit(3)])
         assert a.get_digits() == [1,-2,3]
-        a = VInt.fromints([1,2,3])
-        assert a.get_digits() == [1,2,3]
-        a = VInt.fromints([1,-2,3])
-        assert a.get_digits() == [1,-2,3]
+        
 
     def test_comparison(self):
         a = VInt(1234)
-        comp = (a == VInt(1234))
-        assert comp == True
+        assert (a == VInt(1234)) == True
+        assert (a != VInt(1334)) == True
+        assert (a < VInt(2234)) == True
+        assert (a <= VInt(2234)) == True
+        assert (a > VInt(234)) == True
+        assert (a >= VInt(234)) == True
 
     def test_slicing(self):
         a = VInt(1234)
@@ -46,5 +51,5 @@ class Test_VInt:
     def test_transformation(self):
         a = VInt(1234)
         assert int(a) == 1234
-        a = VInt.fromvdigits([VDigit(1), VDigit(-2), VDigit(3)])
+        a = VInt.fromdigits([1, -2, 3])
         assert int(a) == 83
