@@ -23,20 +23,12 @@ def int_to_digits(n):
     digits.reverse()
     return digits
 
-def digit_from_vdigit(vd):
-    '''
-    Return a digit from a vdigit.
-    '''
-    if (type(vd) == VDigit):
-        return vd.d
-    else:
-        raise ValueError(f"{vd} is not a VDigit.")
 
 def digits_from_vdigits(vds):
     '''
     Return a list of digits from a list of vdigits.
     '''
-    return [digit_from_vdigit(vd) for vd in vds]
+    return [vd.get_digit() for vd in vds]
 
 class VDigit:
     """
@@ -58,6 +50,10 @@ class VDigit:
     def __eq__(self, other):
         '''Return a equality test based on int comparison.'''
         return self.d == other.d
+
+    def get_digit(self):
+        '''Return the digit.'''
+        return self.d
 
 
 class VInt():
@@ -147,10 +143,3 @@ class VInt():
         Returns a list of the vdigits
         '''
         return self.ds
-
-
-a = VInt(1234)
-
-b = a[2]
-
-c = type(b)
