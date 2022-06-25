@@ -9,7 +9,7 @@ def int_to_digits(n):
 
     def digits_inner(i):
         if i == 0:
-            return digits
+            return
         digits.append(i%10)
         digits_inner(i//10)
     
