@@ -157,6 +157,11 @@ class VDigit:
         '''Return a equality test based on int comparison.'''
         return self.d == other.d
 
+    def __mul__(self, other):
+        if type(other) == VDigit:
+            ans = self.d * other.d
+            return VInt(ans)
+
     def get_digit(self):
         '''Return the digit.'''
         return self.d
@@ -237,6 +242,14 @@ class VInt():
     def __ge__(self, other):
         '''Return a <= test based on int comparison.'''
         return int(self) >= int(other)
+
+    def __mul__(self, other):
+        prod = int(self) * int(other)
+        return VInt(prod)
+
+    def __add__(self, other):
+        summ = int(self) + int(other)
+        return VInt(summ)
 
     def get_digits(self):
         '''
@@ -389,4 +402,78 @@ class VInt():
             af9l10 = negate_digits(af9l10)
 
         return VInt.from_digits(af9l10)
+    
+    def duplex(self):
+        '''
+        Returns the duplex of a VInteger as a VInteger.
+        '''
+        ds = self.ds
+        ld = len(ds)
+        ans = VInt(0)
+        for i in range(0, ld // 2):
+            ans = ans + ds[i] * ds[-1-i]
+        ans = ans * VInt(2)
+        if ld % 2:
+            middle = (ld // 2)
+            ans = ans + (ds[middle] * ds[middle])
+        return ans
+
+    def square(self):
+        '''
+        Returns the square of a VInteger as a VInteger using the duplex.
+        '''
+        ds = self.ds
+        ld = len(ds)
+
+        lans = []
+        lans = [VInt.from_vdigits(ds[:i]).duplex() 
+            for i in range(1, ld + 1)]
+        lans = lans + [VInt.from_vdigits(ds[i:]).duplex() 
+            for i in range(1, ld)]
+
+        ans = VInt(0)
+        for e in lans:
+            ans = ans * VInt(10) + e
+
+        return ans
+
+    
+
+    def vert_cross_product(self, other):
+        '''
+        Vertical Crosswise product. Based on duplex and squaring.
+        '''
+
+        def vc_inner_prod(a, b):
+            '''
+            Vertical and Crosswise inner product. Assume both VInts of same 
+            length.
+            '''
+            ld = len(a)
+            ans = VInt(0)
+            for i in range(0, ld):
+                ans = ans + a[i] * b[ld - i - 1]
+
+            return ans
+
+        vs = self
+        vo = other
+        l0 = len(vs) - len(vo)
+        if l0 > 0:
+            vo = vo.padl_zero(l0)
+        elif l0 < 0:
+            vs = vs.padl_zero(-l0)
+
+        lvs = len(vs)
+
+        lans = []
+        lans = [vc_inner_prod(VInt.from_vdigits(vs[:i]), VInt.from_vdigits(vo[:i]))
+                    for i in range(1, lvs + 1)]
+        lans = lans + [vc_inner_prod(VInt.from_vdigits(vs[i:]), VInt.from_vdigits(vo[i:]))
+                    for i in range(1, lvs)]
         
+        ans = VInt(0)
+        for e in lans:
+            ans = ans * VInt(10) + e
+
+        return ans

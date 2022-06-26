@@ -171,3 +171,21 @@ class Test_VInt:
         assert a.all_from_9_last_from_10() == VInt(654)
         a = VInt(-346)
         assert a.all_from_9_last_from_10() == VInt(-654)
+
+    def test_duplex_square(self):
+        assert VInt(3).duplex() == VInt(9)
+        assert VInt(43).duplex() == VInt(24)
+        assert VInt(523).duplex() == VInt(34)
+
+        assert VInt(3).square() == VInt(9)
+        assert VInt(43).square() == VInt(1849)
+        assert VInt(523).square() == VInt(273529)
+
+    def test_vert_cross_product(self):
+        for _ in range (100):
+            i1 = random.randint(-999999999, 999999999)
+            i2 = random.randint(-999999999, 999999999)
+            v1 = VInt(i1)
+            v2 = VInt(i2)
+            mv1v2 = v1.vert_cross_product(v2)
+            assert mv1v2 == VInt(i1 * i2)
