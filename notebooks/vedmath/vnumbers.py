@@ -116,7 +116,7 @@ def negate_digits(ds):
     '''Negate a list of digits'''
     return [-d for d in ds]
 
-def _to_vinculum(ds):
+def to_vinculum(ds):
     '''
     Returns the digits ds in vinculum form.
     '''
@@ -372,7 +372,7 @@ class VInteger():
             is_negative = True
             ds = negate_digits(ds)
 
-        ds = _to_vinculum(ds)
+        ds = to_vinculum(ds)
 
         if is_negative:
             ds = negate_digits(ds)

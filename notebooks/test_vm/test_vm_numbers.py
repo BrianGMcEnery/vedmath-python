@@ -1,6 +1,6 @@
 import random
 from vm import (int_to_digits, negate_digits, all_from_9_last_from_10, 
-                digits_from_vdigits, VDigit, VInt)
+    find_truth_changes, to_vinculum, digits_from_vdigits, VDigit, VInt)
 
 random.seed(0)
 
@@ -15,6 +15,20 @@ def test_negate_digits():
 
 def test_af9l10():
     assert all_from_9_last_from_10([3, 4, 6]) == [6, 5, 4]
+
+def test_truth_changes():
+    assert find_truth_changes([True, False]) == [0, 1]
+    assert find_truth_changes([True, False, True]) == [0, 1, 2]
+    assert find_truth_changes([True, True, True]) == [0]
+    assert find_truth_changes([True, True, False]) == [0, 2]
+
+def test_to_vinculum():
+    assert to_vinculum([3, 4, 5]) == [3, 4, 5]
+    assert to_vinculum([3, 7, 8]) == [4, -2, -2]
+    assert to_vinculum([6, 7, 8]) == [1, -3, -2, -2]
+    assert to_vinculum([3, 7, 8, 1, 7, 6]) == [4, -2, -2, 2, -2, -4]
+
+ 
 
 class Test_VDigit:
     def test_creation(self):

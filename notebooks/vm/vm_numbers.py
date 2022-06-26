@@ -56,12 +56,12 @@ def find_truth_changes(truth_values):
         return changes
 
 
-def _to_vinculum(ds):
+def to_vinculum(ds):
     '''
     Returns the digits ds in vinculum form.
     '''
 
-    def one_more_than_list(ds):
+    def one_more_than(ds:list):
         '''Apply one_more_than to the last element of a list'''
         if ds == []:
             return [1]
@@ -86,7 +86,7 @@ def _to_vinculum(ds):
             if truth_values[ci]: #the element is > 5
                 ans += negate_digits(all_from_9_last_from_10(ds[ci:cip1]))
             else:
-                ans += one_more_than_list(ds[ci:cip1])
+                ans += one_more_than(ds[ci:cip1])
             idx += 1
     except:
         #handle the final change
@@ -275,7 +275,7 @@ class VInt():
             is_negative = True
             ds = negate_digits(ds)
 
-        ds = _to_vinculum(ds)
+        ds = to_vinculum(ds)
 
         if is_negative:
             ds = negate_digits(ds)
