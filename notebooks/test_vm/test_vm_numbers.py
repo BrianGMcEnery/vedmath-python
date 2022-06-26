@@ -1,6 +1,7 @@
 import random
 from vm import (int_to_digits, negate_digits, all_from_9_last_from_10, 
-    find_truth_changes, to_vinculum, digits_from_vdigits, VDigit, VInt)
+    find_truth_changes, to_vinculum, from_vinculum, 
+    digits_from_vdigits, VDigit, VInt)
 
 random.seed(0)
 
@@ -28,7 +29,12 @@ def test_to_vinculum():
     assert to_vinculum([6, 7, 8]) == [1, -3, -2, -2]
     assert to_vinculum([3, 7, 8, 1, 7, 6]) == [4, -2, -2, 2, -2, -4]
 
- 
+def test_from_vinculum():
+    assert from_vinculum([3,4,5]) == [3,4,5]
+    assert from_vinculum([4, -2, -2]) == [3, 7, 8]
+    assert from_vinculum([1, -3, -2, -2]) == [6, 7, 8]
+    assert from_vinculum([4, -2, -2, 2, -2, -4]) == [3, 7, 8, 1, 7, 6]
+
 
 class Test_VDigit:
     def test_creation(self):
@@ -117,3 +123,13 @@ class Test_VInt:
         assert a.to_vinculum().get_digits() == [-2, 3, 2, 2]
         a = VInt(1678089)
         assert a.to_vinculum().get_digits() == [2, -3, -2, -2, 1, -1, -1]
+
+    def test_from_vinculum(self):
+        a = VInt(1234)
+        assert a.from_vinculum() == VInt(1234)
+        a = VInt.from_digits([2, -3, -2, -2])
+        assert a.from_vinculum().get_digits() == [1, 6, 7, 8]
+        a = VInt.from_digits([-2, 3, 2, 2])
+        assert a.from_vinculum().get_digits() == [-1, -6, -7, -8]
+        a = VInt.from_digits([2, -3, -2, -2, 1, -1, -1])
+        assert a.from_vinculum().get_digits() == [1, 6, 7, 8, 0, 8, 9]

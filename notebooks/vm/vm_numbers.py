@@ -97,6 +97,45 @@ def to_vinculum(ds):
             ans += ds[ci:]
         return ans
 
+def from_vinculum(ds):
+    '''
+    Returns the digits ds in normal form.
+    '''
+    
+    def one_less_than(ds:list):
+        '''Apply one_less_than to the last element of a list'''
+        if ds == [1]:
+            return [0]
+        else:
+            ds[-1] -= 1
+            return ds
+
+    truth_values = [e < 0 for e in ds]
+    change_indxs = find_truth_changes(truth_values)
+    
+    ans = []
+    idx = 0
+    try:
+        while True:
+            ci = change_indxs[idx]
+            cip1 = change_indxs[idx+1]
+            if truth_values[ci]: #the element is < 0
+                ans += all_from_9_last_from_10(negate_digits(ds[ci:cip1]))
+            else:
+                ans += one_less_than(ds[ci:cip1])
+            idx += 1
+    except:
+        #handle the final change
+        ci = change_indxs[idx]
+        if truth_values[ci]: #the element is < 0
+                ans += all_from_9_last_from_10(negate_digits(ds[ci:]))
+        else:
+            ans += ds[ci:]
+
+        if ans[0] == 0: #chop leading 0
+            ans = ans[1:]
+        return ans
+
 class VDigit:
     """
     Root class for all digits in vm.
@@ -281,3 +320,28 @@ class VInt():
             ds = negate_digits(ds)
 
         return VInt.from_digits(ds)
+
+    def from_vinculum(self):
+        '''
+        Transforms the digits so the number is written in normal form.
+        '''
+        is_negative = False
+        ds = self.unpadl_zero().get_digits()
+
+        # Handle negative digits
+        if ds[0] < 0:
+            is_negative = True
+            ds = negate_digits(ds)
+
+        ds = from_vinculum(ds)
+
+        #test to see if all bar digits gone
+        truth_values = [d < 0 for d in ds]
+        while True in truth_values: # needs to go again
+            ds = from_vinculum(ds)
+            truth_values = [d < 0 for d in ds]
+
+        if is_negative:
+            ds = negate_digits(ds)
+        
+        return VInt.from_digits(ds).unpadl_zero()
