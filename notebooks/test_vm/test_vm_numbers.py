@@ -133,3 +133,26 @@ class Test_VInt:
         assert a.from_vinculum().get_digits() == [-1, -6, -7, -8]
         a = VInt.from_digits([2, -3, -2, -2, 1, -1, -1])
         assert a.from_vinculum().get_digits() == [1, 6, 7, 8, 0, 8, 9]
+
+    def test_first_last(self):
+        a = VInt(123456)
+        assert a.first_digit() == VDigit(1)
+        assert a.all_but_first_digit() == VInt(23456).get_vdigits()
+        assert a.last_digit() == VDigit(6)
+        assert a.all_but_last_digit() == VInt(12345).get_vdigits()
+
+    def test_digit_sum(self):
+        a = VInt(1234)
+        assert a.digit_sum() == 1
+        a = VInt.from_digits([2, -3, -2, -2])
+        assert a.digit_sum() == 4
+        a = VInt.from_digits([1, 6, 7, 8, 0, 8, 9])
+        assert a.digit_sum() == 3
+        a = VInt.from_digits([2, -3, -2, -2, 1, -1, -1])
+        assert a.digit_sum() == 3
+
+    def test_all_from_9_last_10(self):
+        a = VInt(346)
+        assert a.all_from_9_last_from_10() == VInt(654)
+        a = VInt(-346)
+        assert a.all_from_9_last_from_10() == VInt(-654)

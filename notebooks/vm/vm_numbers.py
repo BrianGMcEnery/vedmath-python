@@ -1,6 +1,6 @@
 import numbers, functools
 
-def int_to_digits(n):
+def int_to_digits(n:int):
     '''
     Returns a list of digits of an integer.
     '''
@@ -345,3 +345,47 @@ class VInt():
             ds = negate_digits(ds)
         
         return VInt.from_digits(ds).unpadl_zero()
+
+    def first_digit(self):
+        return self[0]
+
+    def all_but_first_digit(self):
+        return self[1:]
+
+    def last_digit(self):
+        return self[-1]
+
+    def all_but_last_digit(self):
+        return self[:-1]
+
+    def digit_sum(self):
+        '''
+        Compute the digit sum of a VInt by summing the digits.
+        Elementary Vedic Mathematics pp 24
+        '''
+        dsum = 0
+        for d in self.get_digits():
+            dsum = dsum + d
+
+        while abs(dsum) > 9:
+            ds = int_to_digits(dsum)
+            dsum = 0
+            for d in ds:
+                dsum = dsum + d
+
+        if dsum < 0:
+           return dsum + 9
+        return dsum
+
+    def all_from_9_last_from_10(self):
+        ds = self.get_digits()
+        negative = False
+        if ds[0] < 0:
+            negative = True
+            ds = negate_digits(ds)
+
+        af9l10 = all_from_9_last_from_10(ds)
+        if negative:
+            af9l10 = negate_digits(af9l10)
+
+        return VInt.from_digits(af9l10)
