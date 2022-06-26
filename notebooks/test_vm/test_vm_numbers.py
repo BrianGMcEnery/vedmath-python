@@ -115,14 +115,22 @@ class Test_VInt:
         assert c.unpadr_zero().get_digits() == [1, 2, 3, 4]
 
     def test_to_vinculum(self):
-        a = VInt(1234)
-        assert a.to_vinculum() == VInt(1234)
-        a = VInt(1678)
-        assert a.to_vinculum().get_digits() == [2, -3, -2, -2]
-        a = VInt(-1678)
-        assert a.to_vinculum().get_digits() == [-2, 3, 2, 2]
-        a = VInt(1678089)
-        assert a.to_vinculum().get_digits() == [2, -3, -2, -2, 1, -1, -1]
+        assert VInt(4).to_vinculum().get_digits() == [4]
+        assert VInt(8).to_vinculum().get_digits() == [1, -2]
+        assert VInt(35).to_vinculum().get_digits() == [3, 5]
+        assert VInt(38).to_vinculum().get_digits() == [4, -2]
+        assert VInt(62).to_vinculum().get_digits() == [1, -4, 2]
+        assert VInt(67).to_vinculum().get_digits() == [1, -3, -3]
+        assert VInt(243).to_vinculum().get_digits() == [2, 4, 3]
+        assert VInt(207).to_vinculum().get_digits() == [2, 1, -3]
+        assert VInt(267).to_vinculum().get_digits() == [3, -3, -3]
+        assert VInt(627).to_vinculum().get_digits() == [1, -4, 3, -3]
+        assert VInt(672).to_vinculum().get_digits() == [1, -3, -3, 2]
+        assert (VInt(19802476).to_vinculum().get_digits() == 
+        [2, 0, -2, 0, 2, 5, -2, -4])
+        assert (VInt(91287625).to_vinculum().get_digits() == 
+        [1, -1, 1, 3, -1, -2, -4, 2, 5])
+
 
     def test_from_vinculum(self):
         a = VInt(1234)
@@ -133,6 +141,13 @@ class Test_VInt:
         assert a.from_vinculum().get_digits() == [-1, -6, -7, -8]
         a = VInt.from_digits([2, -3, -2, -2, 1, -1, -1])
         assert a.from_vinculum().get_digits() == [1, 6, 7, 8, 0, 8, 9]
+
+    def test_from_vinculum_further(self):
+        for _ in range(100):
+            a = random.randint(-1000000000, 1000000000)
+            ads = VInt(a).get_digits()
+            vads = VInt(a).to_vinculum().from_vinculum().get_digits()
+            assert ads == vads
 
     def test_first_last(self):
         a = VInt(123456)
