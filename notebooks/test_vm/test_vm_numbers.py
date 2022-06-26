@@ -1,5 +1,6 @@
 import random
-from vm import int_to_digits, digits_from_vdigits, VDigit, VInt
+from vm import (int_to_digits, negate_digits, all_from_9_last_from_10, 
+                digits_from_vdigits, VDigit, VInt)
 
 random.seed(0)
 
@@ -8,6 +9,12 @@ def test_int_to_digits():
     assert int_to_digits(0) == [0]
     assert int_to_digits(-345) == [-3, -4, -5]
 
+def test_negate_digits():
+    assert negate_digits([3, 4, 5]) == [-3, -4, -5]
+    assert negate_digits([-3, 4, -5]) == [3, -4, 5]
+
+def test_af9l10():
+    assert all_from_9_last_from_10([3, 4, 6]) == [6, 5, 4]
 
 class Test_VDigit:
     def test_creation(self):

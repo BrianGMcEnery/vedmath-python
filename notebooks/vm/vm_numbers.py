@@ -30,6 +30,73 @@ def digits_from_vdigits(vds):
     '''
     return [vd.get_digit() for vd in vds]
 
+def negate_digits(ds):
+    '''Negate a list of digits'''
+    return [-d for d in ds]
+
+def all_from_9_last_from_10(ds:list):
+    '''Apply the sutra to a list of digits'''
+    def all_from_9(d):
+        return 9 - d
+    def last_from_10(d):
+        return 10 - d
+                           
+    return [all_from_9(d) for d in ds[:-1]] + [last_from_10(ds[-1])]
+
+def find_truth_changes(truth_values):
+    '''Find out where the truth values change'''
+    changes = [0]
+    current = truth_values[0]
+    try:
+        while True:
+            idx = truth_values.index(not current, changes[-1])
+            changes.append(idx)
+            current = not current
+    except:
+        return changes
+
+
+def _to_vinculum(ds):
+    '''
+    Returns the digits ds in vinculum form.
+    '''
+
+    def one_more_than_list(ds):
+        '''Apply one_more_than to the last element of a list'''
+        if ds == []:
+            return [1]
+        else:
+            ds[-1] += 1
+            return ds
+
+    truth_values = [e > 5 for e in ds]
+    change_indxs = find_truth_changes(truth_values)
+    
+    #special case to handle the first element
+    if truth_values[0]: #the first element is > 5
+        ans = [1]
+    else:
+        ans = []
+
+    idx = 0
+    try:
+        while True:
+            ci = change_indxs[idx]
+            cip1 = change_indxs[idx+1]
+            if truth_values[ci]: #the element is > 5
+                ans += negate_digits(all_from_9_last_from_10(ds[ci:cip1]))
+            else:
+                ans += one_more_than_list(ds[ci:cip1])
+            idx += 1
+    except:
+        #handle the final change
+        ci = change_indxs[idx]
+        if truth_values[ci]: #the element is > 5
+                ans += negate_digits(all_from_9_last_from_10(ds[ci:]))
+        else:
+            ans += ds[ci:]
+        return ans
+
 class VDigit:
     """
     Root class for all digits in vm.
@@ -195,3 +262,22 @@ class VInt():
         while ds[idx] == 0:
             idx -= 1
         return VInt.from_digits(ds[:idx + 1])
+
+    def to_vinculum(self):
+        '''
+        Transforms the digits so the number is written in vinculum form.
+        '''
+        is_negative = False
+        ds = self.unpadl_zero().get_digits()
+
+        # Handle negative digits
+        if ds[0] < 0:
+            is_negative = True
+            ds = negate_digits(ds)
+
+        ds = _to_vinculum(ds)
+
+        if is_negative:
+            ds = negate_digits(ds)
+
+        return VInt.from_digits(ds)
