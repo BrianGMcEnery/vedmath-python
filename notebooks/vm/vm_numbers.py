@@ -437,8 +437,6 @@ class VInt():
 
         return ans
 
-    
-
     def vert_cross_product(self, other):
         '''
         Vertical Crosswise product. Based on duplex and squaring.
