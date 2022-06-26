@@ -107,3 +107,13 @@ class Test_VInt:
         c = a.padr_zero(4)
         assert c.get_digits() == [1, 2, 3, 4, 0, 0, 0, 0]
         assert c.unpadr_zero().get_digits() == [1, 2, 3, 4]
+
+    def test_to_vinculum(self):
+        a = VInt(1234)
+        assert a.to_vinculum() == VInt(1234)
+        a = VInt(1678)
+        assert a.to_vinculum().get_digits() == [2, -3, -2, -2]
+        a = VInt(-1678)
+        assert a.to_vinculum().get_digits() == [-2, 3, 2, 2]
+        a = VInt(1678089)
+        assert a.to_vinculum().get_digits() == [2, -3, -2, -2, 1, -1, -1]
