@@ -143,3 +143,55 @@ class VInt():
         Returns a list of the vdigits
         '''
         return self.ds
+
+    def all_zero(self):
+        '''
+        Returns True if all the digits are zero.
+        '''
+        return all([d == VDigit(0) for d in self.ds])
+
+    def is_whole(self, vd=VDigit(1)):
+        '''
+        Returns True if there is a single digit vd followed by zeros.
+        '''
+        leading = vd == self[0]
+        remainder_zero = VInt.from_vdigits(self[1:]).all_zero()
+        return leading and remainder_zero
+
+    def padl_zero(self, l0):
+        '''
+        Pad the integer by l0 leading zero digits on the left.
+        '''
+        padded = [0 for _ in range(l0)] + self.get_digits()
+        return VInt.from_digits(padded)
+
+    def unpadl_zero(self):
+        '''
+        Take away leading zero's in the integer, unless the integer is zero.
+        '''
+        if self.all_zero():
+            return VInt(0)
+        ds = self.get_digits()
+        idx = 0
+        while ds[idx] == 0:
+            idx += 1
+        return VInt.from_digits(ds[idx:])
+
+    def padr_zero(self, l0):
+        '''
+        Pad the integer by l0 trailing zero digits on the right.
+        '''
+        padded = self.get_digits() + [0 for _ in range(l0)]
+        return VInt.from_digits(padded)
+
+    def unpadr_zero(self):
+        '''
+        Take away trailing zero's in the integer, unless the integer is zero.
+        '''
+        if self.all_zero():
+            return VInt(0)
+        ds = self.get_digits()
+        idx = len(ds) - 1
+        while ds[idx] == 0:
+            idx -= 1
+        return VInt.from_digits(ds[:idx + 1])

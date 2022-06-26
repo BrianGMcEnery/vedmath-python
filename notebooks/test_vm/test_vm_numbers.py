@@ -56,3 +56,33 @@ class Test_VInt:
         assert int(a) == 1234
         a = VInt.from_digits([1, -2, 3])
         assert int(a) == 83
+
+    def test_zero(self):
+        a = VInt(1234)
+        assert a.all_zero() == False
+        a = VInt(0)
+        assert a.all_zero() == True
+        a = VInt.from_digits([0, 0, 0])
+        assert a.all_zero() == True
+        a = VInt.from_digits([0, 1, 0])
+        assert a.all_zero() == False
+
+    def test_whole(self):
+        a = VInt(1000)
+        assert a.is_whole() == True
+        a = VInt(2000)
+        assert a.is_whole() == False
+        assert a.is_whole(VDigit(2)) == True
+        a = VInt(2345)
+        assert a.is_whole() == False
+
+    def test_padding(self):
+        a = VInt(1234)
+        
+        b = a.padl_zero(4)
+        assert b.get_digits() == [0, 0, 0, 0, 1, 2, 3, 4]
+        assert b.unpadl_zero().get_digits() == [1, 2, 3, 4]
+
+        c = a.padr_zero(4)
+        assert c.get_digits() == [1, 2, 3, 4, 0, 0, 0, 0]
+        assert c.unpadr_zero().get_digits() == [1, 2, 3, 4]
