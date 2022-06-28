@@ -52,7 +52,7 @@ class Triple:
 
     def get_values(self):
         '''
-        Return a tuple of the attributes x, y, r
+        Return a tuple of the attributes x, y, r.
         '''
         return (self.x, self.y, self.r)
 
@@ -152,3 +152,63 @@ TRIPLE_360 = Triple(1, 0, 1)
 TRIPLE_30 = Triple(sqrt(3), 1 ,2)
 TRIPLE_45 = Triple(1, 1, sqrt(2))
 TRIPLE_60 = Triple(1, sqrt(3) ,2)
+
+class CodeNumber:
+    ''' Class to compute with the code numbers of triples. For details
+    see chapter 6 of the Triples book.
+    '''
+
+    def __init__(self, c, d):
+        '''Initialise attributes.'''
+        self.c = c
+        self.d = d
+
+    def __repr__(self) -> str:
+        '''Return canonical string representation.'''
+        return f'CodeNumber{self.get_values()}'
+
+    def __eq__(self, other) -> bool:
+        '''Comparison of codenumbers.'''
+        return self.get_values() == other.get_values()
+
+    def get_values(self):
+        '''Return a tuple of the attributes c, d.'''
+        return (self.c, self.d)
+
+    def get_triple(self):
+        '''Return a triple corresponding to the codenumbers c and d, as per 
+        formula on pp67 of the Triple book.'''
+        c, d = self.get_values()
+        return Triple(c * c - d * d, 2 * c * d, c * c + d * d)
+
+    def reduce(self):
+        '''
+        Reduce to the form where the elements have no common factors.
+        '''
+        c, d = self.get_values()
+        if type(c) == int and type(d) == int:
+            div = gcd(c, d)
+            if div > 1:
+                c, d = c / div, d / div
+
+        return CodeNumber(c, d)
+
+# Constants as per pp 72 in the Triples book
+
+CODENUMBER_0 = CodeNumber(1, 0)
+CODENUMBER_90 = CodeNumber(1, 1)
+CODENUMBER_180 = CodeNumber(0, 1)
+CODENUMBER_270 = CodeNumber(1, -1)
+CODENUMBER_360 = CodeNumber(1, 0)
+
+
+def code_number_of(t:Triple) -> CodeNumber:
+    '''Return the codenumber corresponding to a triple, pp 68 in 
+    Triples book.'''
+    x, y, r = t.get_values()
+    return CodeNumber(x + r, y).reduce()
+
+def triple_of(cn:CodeNumber) -> Triple:
+    '''Return the triple corresponding to a codenumber. Function defined 
+    for completion.'''
+    return cn.get_triple()

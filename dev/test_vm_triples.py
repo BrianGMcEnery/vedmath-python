@@ -1,6 +1,9 @@
 from math import sqrt
 from vm import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
-                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60)
+                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, CodeNumber,
+                CODENUMBER_0, CODENUMBER_90, CODENUMBER_180, CODENUMBER_270, 
+                CODENUMBER_360,
+                code_number_of, triple_of)
 
 class Test_Triple:
     def test_creation(self):
@@ -90,4 +93,25 @@ class Test_Triple:
         triple_75 = TRIPLE_30 + TRIPLE_45
         assert triple_75 == Triple(sqrt(3) - 1, 1 + sqrt(3), 2 * sqrt(2))
 
+class Test_CodeNumber:
+    def test_creation(self):
+        assert CodeNumber(7, 3).get_values() == (7, 3)
     
+    def test_repr(self):
+        assert repr(CodeNumber(7, 3)) == 'CodeNumber(7, 3)'
+
+    def test_triple(self):
+        assert CodeNumber(10, 3).get_triple() == Triple(91, 60, 109)
+        assert CodeNumber(6, 1).get_triple() == Triple(35, 12, 37)
+        assert CodeNumber(-6, -4).get_triple().reduce() == Triple(5, 12, 13)
+
+    def test_quadrant_codenumbers(self):
+        assert CODENUMBER_0 == CodeNumber(1, 0)
+        assert CODENUMBER_90 == CodeNumber(1, 1)
+        assert CODENUMBER_180 == CodeNumber(0, 1)
+        assert CODENUMBER_270 == CodeNumber(1, -1)
+        assert CODENUMBER_360 == CodeNumber(1, 0)
+
+def test_code_number_and_triple():
+    assert code_number_of(Triple(21, 20, 29)) == CodeNumber(5, 2)
+    assert triple_of(CodeNumber(5, 2)) == Triple(21, 20, 29)
