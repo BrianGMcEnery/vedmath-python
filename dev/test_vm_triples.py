@@ -1,4 +1,5 @@
-from vm import Triple
+from vm import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
+                TRIPLE_360)
 
 class Test_Triple:
     def test_creation(self):
@@ -53,4 +54,15 @@ class Test_Triple:
         assert a - b - c == Triple(836, 123, 845)
         assert a - a == Triple(169, 0, 169)
 
-        
+    def test_quadrant_triples(self):
+        assert TRIPLE_0 == Triple(1, 0, 1)
+        assert TRIPLE_90 == Triple(0, 1, 1)
+        assert TRIPLE_180 == Triple(-1, 0, 1)
+        assert TRIPLE_270 == Triple(0, -1, 1)
+        assert TRIPLE_360 == Triple(1, 0, 1)
+
+    def test_arithmetic_with_quadrants(self):
+        a = Triple(4, 3, 5)
+        assert a + TRIPLE_90 == Triple(-3, 4, 5)
+        assert TRIPLE_180 - a == Triple(-4, 3, 5)
+        assert a + TRIPLE_180 == Triple(-4, -3, 5)

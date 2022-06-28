@@ -89,3 +89,9 @@ class Triple:
         o = other.get_values()
         ratios = [e[0] / e[1] for e in zip(s, o)]
         return all([r == ratios[0] for r in ratios])
+
+TRIPLE_0 = Triple(1, 0, 1)
+TRIPLE_90 = Triple(0, 1, 1)
+TRIPLE_180 = Triple(-1, 0, 1)
+TRIPLE_270 = Triple(0, -1, 1)
+TRIPLE_360 = Triple(1, 0, 1)
