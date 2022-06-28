@@ -13,7 +13,29 @@ class Triple:
         self.c = c
 
     def __repr__(self) -> str:
+        ''' Return canonical string representation.'''
         return f'Triple{self.get_values()}'
+
+    def __eq__(self, other) -> bool:
+        ''' Comparison based on the values.'''
+        return self.get_values() == other.get_values()
+
+    def __add__(self, other):
+        '''Addition of triples, using formula on pp8 of book on Triples.'''
+        x, y, r = self.get_values()
+        bx, by, br = other.get_values()
+        return Triple(x * bx - y * by, y * bx + x * by, r * br)
+
+    def __sub__(self, other):
+        '''Subtraction of triples, using method on pp10 of book on Triples.'''
+        x, y, r = self.get_values()
+        bx, by, br = other.get_values()
+        return Triple(x * bx + y * by, y * bx - x * by, r * br)
+
+    def double(self):
+        '''Double angle formula, pp9 in Triple book.'''
+        x, y, r = self.get_values()
+        return Triple(x * x - y * y, 2 * x * y, r * r)
 
     def get_values(self):
         '''
@@ -54,3 +76,16 @@ class Triple:
         Tan of the angle of the triple.
         '''
         return self.b / self.a
+
+    def complimentary(self):
+        '''
+        Returns the complimentary triple.
+        '''
+        return Triple(self.b, self.a, self.c)
+
+    def similar(self, other):
+        ''' Test for similarity between triples.'''
+        s = self.get_values()
+        o = other.get_values()
+        ratios = [e[0] / e[1] for e in zip(s, o)]
+        return all([r == ratios[0] for r in ratios])
