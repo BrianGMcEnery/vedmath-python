@@ -12,3 +12,6 @@ class Test_Triple:
         assert Triple(6, 8, 10).is_valid() == True
         assert Triple(1.5, 2, 2.5).is_valid() == True
         assert Triple(5, 4, 9).is_valid() == False
+
+    def test_repr(self):
+        assert repr(Triple(3, 4, 5)) == 'Triple(3, 4, 5)'
