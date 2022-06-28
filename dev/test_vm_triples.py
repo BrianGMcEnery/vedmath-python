@@ -2,7 +2,7 @@ from math import sqrt
 from vm import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
                 TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, CodeNumber,
                 CODENUMBER_0, CODENUMBER_90, CODENUMBER_180, CODENUMBER_270, 
-                CODENUMBER_360,
+                CODENUMBER_360, CODENUMBER_30, CODENUMBER_45, CODENUMBER_60,
                 code_number_of, triple_of)
 
 class Test_Triple:
@@ -67,11 +67,11 @@ class Test_Triple:
         assert b - c == Triple(-33, 56, 65)
         assert c.double() - b == Triple(-323, -36, 325)
         assert a - b - c == Triple(836, 123, 845)
-        assert a - a == Triple(169, 0, 169)
+        assert a - a == Triple(1, 0, 1)
 
-        assert Triple(7, 24, 25).half() == Triple(32, 24, 40)
-        assert Triple(4, 3, 5).half() == Triple(9, 3, sqrt(90))
-        assert Triple(-3, 4, 5).half() == Triple(2, 4, sqrt(20))
+        assert Triple(7, 24, 25).half() == Triple(4, 3, 5)
+        assert Triple(4, 3, 5).half() == Triple(3, 1, sqrt(10))
+        assert Triple(-3, 4, 5).half() == Triple(1, 2, sqrt(5))
 
     def test_quadrant_triples(self):
         assert TRIPLE_0 == Triple(1, 0, 1)
@@ -102,16 +102,41 @@ class Test_CodeNumber:
 
     def test_triple(self):
         assert CodeNumber(10, 3).get_triple() == Triple(91, 60, 109)
-        assert CodeNumber(6, 1).get_triple() == Triple(35, 12, 37)
+        assert CodeNumber(6).get_triple() == Triple(35, 12, 37)
         assert CodeNumber(-6, -4).get_triple().reduce() == Triple(5, 12, 13)
 
-    def test_quadrant_codenumbers(self):
+    def test_constant_codenumbers(self):
         assert CODENUMBER_0 == CodeNumber(1, 0)
         assert CODENUMBER_90 == CodeNumber(1, 1)
         assert CODENUMBER_180 == CodeNumber(0, 1)
         assert CODENUMBER_270 == CodeNumber(1, -1)
         assert CODENUMBER_360 == CodeNumber(1, 0)
 
+        assert CODENUMBER_30 == CodeNumber(2 + sqrt(3))
+        assert CODENUMBER_45 == CodeNumber(1 + sqrt(2))
+        assert CODENUMBER_60 == CodeNumber(sqrt(3))
+
+        assert CODENUMBER_45 + CODENUMBER_45 == CODENUMBER_90
+        assert CODENUMBER_90 - CODENUMBER_30 == CODENUMBER_60 
+
+    def test_arithmetic(self):
+        assert CodeNumber(5, 2) + CodeNumber(3, 1) == CodeNumber(13, 11)
+        assert CodeNumber(5, 3) - CodeNumber(9, 2) == CodeNumber(3, 1)
+
+        # sum of complimentary triples, see following test.
+        assert CodeNumber(20, 9) + CodeNumber(29, 11) == CODENUMBER_90
+
+        # sum of supplimentary triples, see following test.
+        assert CodeNumber(20, 9) + CodeNumber(9, 20) == CODENUMBER_180
+
+    def test_complimentary_supplimentary(self):
+        assert CodeNumber(20, 9).complimentary() == CodeNumber(29, 11)
+        assert CodeNumber(5, -2).complimentary() == CodeNumber(3, 7)
+        assert CodeNumber(20, 9).supplimentary() == CodeNumber(9, 20)
+        assert CodeNumber(7).supplimentary() == CodeNumber(1, 7)
+
+
 def test_code_number_and_triple():
     assert code_number_of(Triple(21, 20, 29)) == CodeNumber(5, 2)
     assert triple_of(CodeNumber(5, 2)) == Triple(21, 20, 29)
+    assert triple_of(CodeNumber(6)) == Triple(35, 12, 37)

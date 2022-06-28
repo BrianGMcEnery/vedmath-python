@@ -29,18 +29,18 @@ class Triple:
         '''Addition of triples, using formula on pp8 of book on Triples.'''
         x, y, r = self.get_values()
         bx, by, br = other.get_values()
-        return Triple(x * bx - y * by, y * bx + x * by, r * br)
+        return Triple(x * bx - y * by, y * bx + x * by, r * br).reduce()
 
     def __sub__(self, other):
         '''Subtraction of triples, using method on pp10 of book on Triples.'''
         x, y, r = self.get_values()
         bx, by, br = other.get_values()
-        return Triple(x * bx + y * by, y * bx - x * by, r * br)
+        return Triple(x * bx + y * by, y * bx - x * by, r * br).reduce()
 
     def double(self):
         '''Double angle formula, pp9 in Triple book.'''
         x, y, r = self.get_values()
-        return Triple(x * x - y * y, 2 * x * y, r * r)
+        return Triple(x * x - y * y, 2 * x * y, r * r).reduce()
 
     def half(self):
         '''Half angle method, pp17 in Triple Book'''
@@ -48,7 +48,7 @@ class Triple:
         hx = x + r
         hy = y
         hr = sqrt(hx * hx + hy * hy)
-        return Triple(hx, hy, hr)
+        return Triple(hx, hy, hr).reduce()
 
     def get_values(self):
         '''
@@ -137,11 +137,20 @@ class Triple:
         Reduce to the form where the first elements have no common factors.
         '''
         x, y, r = self.get_values()
-        d = gcd(x, y)
-        if d > 1:
-            x, y, r = x / d, y / d, r / d
+        if type(x) == int and type(y) == int:
+            d = gcd(x, y)
+            if d > 1:
+                x, y, r = x / d, y / d, r / d
 
         return Triple(x, y, r)
+
+    def normalise(self):
+        '''
+        Normalise to the form where the radius is one.
+        '''
+        x, y, r = self.get_values()
+        return Triple(x / r, y / r, 1)
+
 
 TRIPLE_0 = Triple(1, 0, 1)
 TRIPLE_90 = Triple(0, 1, 1)
@@ -158,7 +167,7 @@ class CodeNumber:
     see chapter 6 of the Triples book.
     '''
 
-    def __init__(self, c, d):
+    def __init__(self, c, d=1):
         '''Initialise attributes.'''
         self.c = c
         self.d = d
@@ -171,6 +180,20 @@ class CodeNumber:
         '''Comparison of codenumbers.'''
         return self.get_values() == other.get_values()
 
+    def __add__(self, other):
+        '''Addition of codenumbers, pp69 in Triples book.'''
+        sc, sd = self.get_values()
+        oc, od = other.get_values()
+        sum = CodeNumber(sc * oc - sd * od, sd * oc + sc * od)
+        return sum.reduce()
+
+    def __sub__(self, other):
+        '''Subtraction of codenumbers, pp70 in Triples book.'''
+        sc, sd = self.get_values()
+        oc, od = other.get_values()
+        dif = CodeNumber(sc * oc + sd * od, sd * oc - sc * od)
+        return dif.reduce()
+
     def get_values(self):
         '''Return a tuple of the attributes c, d.'''
         return (self.c, self.d)
@@ -179,7 +202,7 @@ class CodeNumber:
         '''Return a triple corresponding to the codenumbers c and d, as per 
         formula on pp67 of the Triple book.'''
         c, d = self.get_values()
-        return Triple(c * c - d * d, 2 * c * d, c * c + d * d)
+        return Triple(c * c - d * d, 2 * c * d, c * c + d * d).reduce()
 
     def reduce(self):
         '''
@@ -190,8 +213,22 @@ class CodeNumber:
             div = gcd(c, d)
             if div > 1:
                 c, d = c / div, d / div
+        elif abs(d) > 1:
+            c, d = c / d, 1
 
         return CodeNumber(c, d)
+
+    def complimentary(self):
+        '''Codenumbers corresponding to the complimentary triple, pp 71 in 
+        Triples book.'''
+        c,d = self.get_values()
+        return CodeNumber(c+d, c-d).reduce()
+
+    def supplimentary(self):
+        '''Codenumbers corresponding to the supplimentary triple, pp 72 in 
+        Triples book.'''
+        c,d = self.get_values()
+        return CodeNumber(d, c).reduce()
 
 # Constants as per pp 72 in the Triples book
 
@@ -201,6 +238,11 @@ CODENUMBER_180 = CodeNumber(0, 1)
 CODENUMBER_270 = CodeNumber(1, -1)
 CODENUMBER_360 = CodeNumber(1, 0)
 
+#Constants based on numerical experiments.
+
+CODENUMBER_30 = CodeNumber(2 + sqrt(3))
+CODENUMBER_45 = CodeNumber(1 + sqrt(2))
+CODENUMBER_60 = CodeNumber(sqrt(3))
 
 def code_number_of(t:Triple) -> CodeNumber:
     '''Return the codenumber corresponding to a triple, pp 68 in 
