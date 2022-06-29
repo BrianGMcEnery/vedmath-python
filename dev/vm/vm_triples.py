@@ -164,7 +164,7 @@ TRIPLE_60 = Triple(1, sqrt(3) ,2)
 
 class Quadruple:
     '''
-    Class for computing with Quadruples. For reference see the 
+    Class for computing with quadruples. For reference see the 
     book Triples by Kenneth Williams.
     '''
     def __init__(self, x, y, z, r):
@@ -227,3 +227,51 @@ QUAD_POSY = Quadruple(0, 1, 0, 1)
 QUAD_NEGY = Quadruple(0, -1, 0, 1)
 QUAD_POSZ = Quadruple(0, 0, 1, 1)
 QUAD_NEGZ = Quadruple(0, 0, -1, 1)
+
+class Quintuple:
+    '''
+    Class for computing with quintuples. For reference see the 
+    book Triples by Kenneth Williams. Required for quadruple subtraction pp164.
+    '''
+    def __init__(self, w, x, y, z, r):
+        '''
+        Initialise the attributes of a quintuple.
+        '''
+        self.w = w
+        self.x = x
+        self.y = y
+        self.z = z
+        self.r = r
+
+    def __repr__(self) -> str:
+        ''' Return canonical string representation.'''
+        return f'Quintuple{self.get_values()}'
+
+    def __eq__(self, other) -> bool:
+        ''' Comparison based on the values.'''
+        return self.get_values() == other.get_values()
+
+    def get_values(self):
+        '''
+        Return a tuple of the attributes w, x, y, z, r.
+        '''
+        return (self.w, self.x, self.y, self.z, self.r)
+
+    def is_valid(self):
+        '''
+        Tests for the validity of the quadruple.
+        '''
+        (w, x, y, z, r) = self.get_values()
+        return abs(w ** 2 + x ** 2 + y ** 2 + z ** 2 - r ** 2) <= APPROX_ZERO
+
+    def reduce(self):
+        '''
+        Reduce to the form where the first elements have no common factors.
+        '''
+        w, x, y, z, r = self.get_values()
+        if type(x) == int and type(y) == int and type(z) == int:
+            d = gcd(gcd(gcd(w, x), y), z)
+            if d > 1:
+                w, x, y, z, r = w / d, x / d, y / d, z / d, r / d
+
+        return Quintuple(w, x, y, z, r)

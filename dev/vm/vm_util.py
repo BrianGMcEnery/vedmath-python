@@ -1,4 +1,4 @@
-from .vm_triples import Triple, Quadruple
+from .vm_triples import Triple, Quadruple, Quintuple
 from .vm_codenumbers import CodeNumber, QuadCodeNumber
 
 def code_number_of(t:Triple) -> CodeNumber:
@@ -29,3 +29,17 @@ def quadruple_of(qn:QuadCodeNumber) -> Quadruple:
         2 * d * e, 
         c * c + d * d + e * e
         ).reduce()
+
+def sub_quadruples(q1:Quadruple, q2:Quadruple) -> Quintuple:
+    '''Subtract two quadruples, pp164, the Triples book.'''
+
+    x1, y1, z1, r1 = q1.get_values()
+    x2, y2, z2, r2 = q2.get_values()
+
+    return Quintuple(
+        x1 * x2 + y1 * y2 + z1 * z2,
+        y1 * x2 - x1 * y2,
+        z1 * x2 - x1 * z2,
+        z1 * y2 - y1 * z2,
+        r1 * r2
+    ).reduce()
