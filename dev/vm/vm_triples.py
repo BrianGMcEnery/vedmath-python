@@ -196,3 +196,14 @@ class Quadruple:
         '''
         (x, y, z, r) = self.get_values()
         return abs(x ** 2 + y ** 2 + z ** 2 - r ** 2) <= APPROX_ZERO
+
+    def get_composite_triples(self):
+        '''Return a list of the four composite triples, as per diagram
+        on pp 162 of the Triples book.'''
+        x, y, z, r = self.get_values()
+        return [
+            Triple(x, sqrt(r * r - x * x) ,r), 
+            Triple(y, z, sqrt(y * y + z * z)),
+            Triple(x, y, sqrt(x * x + y * y)),
+            Triple(sqrt(r * r - z * z), z, r)
+            ]

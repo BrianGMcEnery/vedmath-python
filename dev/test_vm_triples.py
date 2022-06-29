@@ -1,9 +1,6 @@
 from math import sqrt
 from vm import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
-                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, CodeNumber,
-                CODENUMBER_0, CODENUMBER_90, CODENUMBER_180, CODENUMBER_270, 
-                CODENUMBER_360, CODENUMBER_30, CODENUMBER_45, CODENUMBER_60,
-                code_number_of, triple_of)
+                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, Quadruple)
 
 class Test_Triple:
     def test_creation(self):
@@ -15,9 +12,11 @@ class Test_Triple:
         assert Triple(3, 4, 5).is_valid() == True
         assert Triple(6, 8, 10).is_valid() == True
         assert Triple(1.5, 2, 2.5).is_valid() == True
-        assert Triple(5, 4, 9).is_valid() == False
         assert Triple(2, 3, sqrt(13)).is_valid() == True
 
+        #The following is not a valid triple.
+        assert Triple(5, 4, 9).is_valid() == False
+        
     def test_repr(self):
         assert repr(Triple(3, 4, 5)) == 'Triple(3, 4, 5)'
 
@@ -93,47 +92,43 @@ class Test_Triple:
         triple_75 = TRIPLE_30 + TRIPLE_45
         assert triple_75 == Triple(sqrt(3) - 1, 1 + sqrt(3), 2 * sqrt(2))
 
-class Test_CodeNumber:
+class Test_Quadruple:
     def test_creation(self):
-        assert CodeNumber(7, 3).get_values() == (7, 3)
-    
+        assert Quadruple(1, 70, 70, 99).get_values() == (1, 70, 70, 99)
+        assert Quadruple(2, -1, 2, 3).get_values() == (2, -1, 2, 3)
+        assert Quadruple(0, 3, 4, 5).get_values() == (0, 3, 4, 5)
+        assert Quadruple(49, 64, 8, 81).get_values() == (49, 64, 8, 81)
+
+    def test_validation(self):
+        assert Quadruple(1, 70, 70, 99).is_valid() == True
+        assert Quadruple(2, -1, 2, 3).is_valid() == True
+        assert Quadruple(0, 3, 4, 5).is_valid() == True
+        assert Quadruple(49, 64, 8, 81).is_valid() == True
+
+        #The following is not a valid quadruple.
+        assert Quadruple(49, 64, 8, 80).is_valid() == False
+
     def test_repr(self):
-        assert repr(CodeNumber(7, 3)) == 'CodeNumber(7, 3)'
+        assert repr(Quadruple(1, 70, 70, 99)) == 'Quadruple(1, 70, 70, 99)'
 
-    def test_constant_codenumbers(self):
-        assert CODENUMBER_0 == CodeNumber(1, 0)
-        assert CODENUMBER_90 == CodeNumber(1, 1)
-        assert CODENUMBER_180 == CodeNumber(0, 1)
-        assert CODENUMBER_270 == CodeNumber(1, -1)
-        assert CODENUMBER_360 == CodeNumber(1, 0)
+    def test_cmparison(self):
+        assert Quadruple(1, 70, 70, 99) == Quadruple(1, 70, 70, 99)
 
-        assert CODENUMBER_30 == CodeNumber(2 + sqrt(3))
-        assert CODENUMBER_45 == CodeNumber(1 + sqrt(2))
-        assert CODENUMBER_60 == CodeNumber(sqrt(3))
+    def test_composite_triples(self):
+        #Answers derived from numerical experiments.
+        ans = [
+            Triple(6, sqrt(13), 7),
+            Triple(3, 2, sqrt(13)),
+            Triple(6, 3, sqrt(45)),
+            Triple(sqrt(45), 2, 7)
+        ]
+        assert Quadruple(6, 3, 2, 7).get_composite_triples() == ans
 
-        assert CODENUMBER_45 + CODENUMBER_45 == CODENUMBER_90
-        assert CODENUMBER_90 - CODENUMBER_30 == CODENUMBER_60 
-
-    def test_arithmetic(self):
-        assert CodeNumber(5, 2) + CodeNumber(3, 1) == CodeNumber(13, 11)
-        assert CodeNumber(5, 3) - CodeNumber(9, 2) == CodeNumber(3, 1)
-
-        # sum of complimentary triples, see following test.
-        assert CodeNumber(20, 9) + CodeNumber(29, 11) == CODENUMBER_90
-
-        # sum of supplimentary triples, see following test.
-        assert CodeNumber(20, 9) + CodeNumber(9, 20) == CODENUMBER_180
-
-    def test_complimentary_supplimentary(self):
-        assert CodeNumber(20, 9).complimentary() == CodeNumber(29, 11)
-        assert CodeNumber(5, -2).complimentary() == CodeNumber(3, 7)
-        assert CodeNumber(20, 9).supplimentary() == CodeNumber(9, 20)
-        assert CodeNumber(7).supplimentary() == CodeNumber(1, 7)
-
-
-def test_code_number_and_triple():
-    assert code_number_of(Triple(21, 20, 29)) == CodeNumber(5, 2)
-    assert triple_of(CodeNumber(5, 2)) == Triple(21, 20, 29)
-    assert triple_of(CodeNumber(6)) == Triple(35, 12, 37)
-    assert triple_of(CodeNumber(10, 3)) == Triple(91, 60, 109)
-    assert triple_of(CodeNumber(-6, -4)) == Triple(5, 12, 13)
+        ans = [
+            Triple(2, sqrt(5), 3),
+            Triple(-1, 2, sqrt(5)),
+            Triple(2, -1, sqrt(5)),
+            Triple(sqrt(5), 2, 3)
+        ]
+        assert Quadruple(2, -1, 2, 3).get_composite_triples() == ans
+        
