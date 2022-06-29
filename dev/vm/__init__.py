@@ -7,5 +7,6 @@ from .vm_triples import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
 
 from .vm_codenumbers import(CodeNumber, CODENUMBER_0, CODENUMBER_90, 
                             CODENUMBER_180, CODENUMBER_270, CODENUMBER_360, 
-                            CODENUMBER_30, CODENUMBER_45, CODENUMBER_60, 
-                            code_number_of, triple_of)
+                            CODENUMBER_30, CODENUMBER_45, CODENUMBER_60)
+
+from .vm_util import code_number_of, triple_of

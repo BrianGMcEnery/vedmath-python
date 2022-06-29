@@ -40,12 +40,6 @@ class CodeNumber:
         '''Return a tuple of the attributes c, d.'''
         return (self.c, self.d)
 
-    def get_triple(self):
-        '''Return a triple corresponding to the codenumbers c and d, as per 
-        formula on pp67 of the Triple book.'''
-        c, d = self.get_values()
-        return Triple(c * c - d * d, 2 * c * d, c * c + d * d).reduce()
-
     def reduce(self):
         '''
         Reduce to the form where the elements have no common factors.
@@ -85,14 +79,3 @@ CODENUMBER_360 = CodeNumber(1, 0)
 CODENUMBER_30 = CodeNumber(2 + sqrt(3))
 CODENUMBER_45 = CodeNumber(1 + sqrt(2))
 CODENUMBER_60 = CodeNumber(sqrt(3))
-
-def code_number_of(t:Triple) -> CodeNumber:
-    '''Return the codenumber corresponding to a triple, pp 68 in 
-    Triples book.'''
-    x, y, r = t.get_values()
-    return CodeNumber(x + r, y).reduce()
-
-def triple_of(cn:CodeNumber) -> Triple:
-    '''Return the triple corresponding to a codenumber. Function defined 
-    for completion.'''
-    return cn.get_triple()

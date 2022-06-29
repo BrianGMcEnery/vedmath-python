@@ -162,3 +162,37 @@ TRIPLE_30 = Triple(sqrt(3), 1 ,2)
 TRIPLE_45 = Triple(1, 1, sqrt(2))
 TRIPLE_60 = Triple(1, sqrt(3) ,2)
 
+class Quadruple:
+    '''
+    Class for computing with Quadruples. For reference see the 
+    book Triples by Kenneth Williams.
+    '''
+    def __init__(self, x, y, z, r):
+        '''
+        Initialise the attributes of a quadruple.
+        '''
+        self.x = x
+        self.y = y
+        self.z = z
+        self.r = r
+
+    def __repr__(self) -> str:
+        ''' Return canonical string representation.'''
+        return f'Quadruple{self.get_values()}'
+
+    def __eq__(self, other) -> bool:
+        ''' Comparison based on the values.'''
+        return self.get_values() == other.get_values()
+
+    def get_values(self):
+        '''
+        Return a tuple of the attributes x, y, z, r.
+        '''
+        return (self.x, self.y, self.z, self.r)
+
+    def is_valid(self):
+        '''
+        Tests for the validity of the quadruple.
+        '''
+        (x, y, z, r) = self.get_values()
+        return abs(x ** 2 + y ** 2 + z ** 2 - r ** 2) <= APPROX_ZERO
