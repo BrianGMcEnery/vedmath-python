@@ -1,6 +1,8 @@
 from math import sqrt
 from vm import (Triple, TRIPLE_0, TRIPLE_90, TRIPLE_180, TRIPLE_270,
-                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, Quadruple)
+                TRIPLE_360, TRIPLE_30, TRIPLE_45, TRIPLE_60, 
+                Quadruple, QUAD_POSX, QUAD_NEGX, QUAD_POSY, QUAD_NEGY,
+                QUAD_POSZ, QUAD_NEGZ)
 
 class Test_Triple:
     def test_creation(self):
@@ -134,4 +136,12 @@ class Test_Quadruple:
 
     def test_reduction(self):
         assert Quadruple(12, 6, 4, 14).reduce() == Quadruple(6, 3, 2, 7)
+
+    def test_coordinate_axes(self):
+        assert QUAD_POSX == Quadruple(1, 0, 0, 1)
+        assert QUAD_NEGX == Quadruple(-1, 0, 0, 1)
+        assert QUAD_POSY == Quadruple(0, 1, 0, 1)
+        assert QUAD_NEGY == Quadruple(0, -1, 0, 1)
+        assert QUAD_POSZ == Quadruple(0, 0, 1, 1)
+        assert QUAD_NEGZ == Quadruple(0, 0, -1, 1)
         

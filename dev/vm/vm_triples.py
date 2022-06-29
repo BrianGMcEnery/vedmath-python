@@ -219,3 +219,11 @@ class Quadruple:
                 x, y, z, r = x / d, y / d, z / d, r / d
 
         return Quadruple(x, y, z, r)
+
+# as per pp164 of the Triples book
+QUAD_POSX = Quadruple(1, 0, 0, 1)
+QUAD_NEGX = Quadruple(-1, 0, 0, 1)
+QUAD_POSY = Quadruple(0, 1, 0, 1)
+QUAD_NEGY = Quadruple(0, -1, 0, 1)
+QUAD_POSZ = Quadruple(0, 0, 1, 1)
+QUAD_NEGZ = Quadruple(0, 0, -1, 1)

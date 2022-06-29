@@ -91,7 +91,7 @@ class QuadCodeNumber:
 
     def __repr__(self) -> str:
         '''Return canonical string representation.'''
-        return f'CodeNumber{self.get_values()}'
+        return f'QuadCodeNumber{self.get_values()}'
 
     def __eq__(self, other) -> bool:
         '''Comparison of codenumbers.'''
@@ -112,3 +112,12 @@ class QuadCodeNumber:
                 c, d, e = c / div, d / div, e / div
                 
         return QuadCodeNumber(c, d, e)
+
+# As per pp164 of the Triples book.
+
+QCN_POSX = QuadCodeNumber(1, 0, 1)
+QCN_NEGX = QuadCodeNumber(0, 1, 0)
+QCN_POSY = QuadCodeNumber(1, 1, 0)
+QCN_NEGY = QuadCodeNumber(1, -1, 0)
+QCN_POSZ = QuadCodeNumber(0, 1, 1)
+QCN_NEGZ = QuadCodeNumber(0, -1, 1)
