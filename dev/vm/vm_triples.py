@@ -207,3 +207,15 @@ class Quadruple:
             Triple(x, y, sqrt(x * x + y * y)),
             Triple(sqrt(r * r - z * z), z, r)
             ]
+
+    def reduce(self):
+        '''
+        Reduce to the form where the first elements have no common factors.
+        '''
+        x, y, z, r = self.get_values()
+        if type(x) == int and type(y) == int and type(z) == int:
+            d = gcd(gcd(x, y), z)
+            if d > 1:
+                x, y, z, r = x / d, y / d, z / d, r / d
+
+        return Quadruple(x, y, z, r)

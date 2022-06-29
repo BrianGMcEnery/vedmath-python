@@ -131,4 +131,7 @@ class Test_Quadruple:
             Triple(sqrt(5), 2, 3)
         ]
         assert Quadruple(2, -1, 2, 3).get_composite_triples() == ans
+
+    def test_reduction(self):
+        assert Quadruple(12, 6, 4, 14).reduce() == Quadruple(6, 3, 2, 7)
         

@@ -1,6 +1,4 @@
 from math import sqrt, gcd
-from .vm_triples import Triple
-
 
 APPROX_ZERO = 1e-10
 
@@ -79,3 +77,38 @@ CODENUMBER_360 = CodeNumber(1, 0)
 CODENUMBER_30 = CodeNumber(2 + sqrt(3))
 CODENUMBER_45 = CodeNumber(1 + sqrt(2))
 CODENUMBER_60 = CodeNumber(sqrt(3))
+
+class QuadCodeNumber:
+    ''' Class to compute with the code numbers of quadruples. For details
+    see chapter 14 of the Triples book.
+    '''
+
+    def __init__(self, c, d, e):
+        '''Initialise attributes.'''
+        self.c = c
+        self.d = d
+        self.e = e
+
+    def __repr__(self) -> str:
+        '''Return canonical string representation.'''
+        return f'CodeNumber{self.get_values()}'
+
+    def __eq__(self, other) -> bool:
+        '''Comparison of codenumbers.'''
+        return self.get_values() == other.get_values()
+
+    def get_values(self):
+        '''Return a tuple of the attributes c, d, e.'''
+        return (self.c, self.d, self.e)
+
+    def reduce(self):
+        '''
+        Reduce to the form where the elements have no common factors.
+        '''
+        c, d, e = self.get_values()
+        if type(c) == int and type(d) == int and type(e) == int:
+            div = gcd(gcd(c, d), e)
+            if div > 1:
+                c, d, e = c / div, d / div, e / div
+                
+        return QuadCodeNumber(c, d, e)
