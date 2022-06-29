@@ -11,3 +11,9 @@ def test_code_number_and_triple():
 def test_quad_code_numbers_and_quadruples():
     assert quadruple_of(QuadCodeNumber(3, 1, 2)) == Quadruple(6, 3, 2, 7)
     assert quad_code_number_of(Quadruple(6, 3, 2, 7)) == QuadCodeNumber(3, 1, 2)
+    assert quadruple_of(QuadCodeNumber(5, 7, 5)) == Quadruple(1, 70, 70, 99)
+    assert quad_code_number_of(Quadruple(1, 70, 70, 99)) == QuadCodeNumber(5, 7, 5)
+    assert quadruple_of(QuadCodeNumber(-1, 1, 2)) == Quadruple(2, -1, 2, 3)
+    assert quad_code_number_of(Quadruple(2, -1, 2, 3)) == QuadCodeNumber(-1, 1, 2)
+    assert quadruple_of(QuadCodeNumber(3, 5, 4)) == Quadruple(0, 3, 4, 5)
+    assert quad_code_number_of(Quadruple(0, 3, 4, 5)) == QuadCodeNumber(3, 5, 4)

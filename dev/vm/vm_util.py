@@ -19,7 +19,7 @@ def triple_of(cn:CodeNumber) -> Triple:
     c, d = cn.get_values()
     return Triple(c * c - d * d, 2 * c * d, c * c + d * d).reduce()
 
-def quadruple_of(qn:CodeNumber) -> Quadruple:
+def quadruple_of(qn:QuadCodeNumber) -> Quadruple:
     '''Return a quadruple corresponding to the quadcodenumbers qn = (c, d, e), 
     as per formula on pp163 of the Triple book.'''
     c, d, e = qn.get_values()
