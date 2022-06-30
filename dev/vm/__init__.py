@@ -15,3 +15,5 @@ from .vm_codenumbers import(CodeNumber, CODENUMBER_0, CODENUMBER_90,
 
 from .vm_util import (code_number_of, triple_of, quad_code_number_of, 
         quadruple_of, sub_quadruples)
+
+from .vm_approx import approx_equal

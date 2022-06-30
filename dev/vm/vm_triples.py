@@ -1,7 +1,6 @@
 from math import sqrt, gcd
 
-
-APPROX_ZERO = 1e-10
+from .vm_approx import approx_equal
 
 class Triple:
     '''
@@ -61,7 +60,7 @@ class Triple:
         Tests for the validity of the triple.
         '''
         (x, y, r) = self.get_values()
-        return abs(x ** 2 + y ** 2 - r ** 2) <= APPROX_ZERO
+        return approx_equal(x ** 2 + y ** 2, r ** 2)
 
     def base(self):
         return self.x
@@ -195,7 +194,7 @@ class Quadruple:
         Tests for the validity of the quadruple.
         '''
         (x, y, z, r) = self.get_values()
-        return abs(x ** 2 + y ** 2 + z ** 2 - r ** 2) <= APPROX_ZERO
+        return approx_equal(x ** 2 + y ** 2 + z ** 2, r ** 2)
 
     def get_composite_triples(self):
         '''Return a list of the four composite triples, as per diagram
@@ -262,7 +261,7 @@ class Quintuple:
         Tests for the validity of the quadruple.
         '''
         (w, x, y, z, r) = self.get_values()
-        return abs(w ** 2 + x ** 2 + y ** 2 + z ** 2 - r ** 2) <= APPROX_ZERO
+        return approx_equal(w ** 2 + x ** 2 + y ** 2 + z ** 2, r ** 2)
 
     def reduce(self):
         '''
