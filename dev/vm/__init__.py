@@ -17,3 +17,6 @@ from .vm_util import (code_number_of, triple_of, quad_code_number_of,
         quadruple_of, sub_quadruples)
 
 from .vm_approx import approx_equal
+
+from .vm_quaternions import (Quaternion, QUATERNION_1, QUATERNION_I, 
+                            QUATERNION_J, QUATERNION_K)
