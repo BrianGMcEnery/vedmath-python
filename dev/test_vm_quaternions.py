@@ -34,6 +34,23 @@ class Test_Quaternion:
         assert QUATERNION_I * QUATERNION_J * QUATERNION_K == - QUATERNION_1
         assert QUATERNION_K * QUATERNION_K == - QUATERNION_1
 
+    def test_scalar_vector(self):
+        assert Quaternion(1, 2, 3, 4).scalar_part() == Quaternion(1, 0, 0, 0)
+        assert Quaternion(1, 2, 3, 4).vector_part() == Quaternion(0, 2, 3, 4)
+
+    def test_conjugate(self):
+        assert Quaternion(1, 2, 3, 4).conjugate() == Quaternion(1, -2, -3, -4)
+        s = Quaternion(1, 2, 3, 4).scalar_part()
+        v = Quaternion(1, 2, 3, 4).vector_part()
+        p = Quaternion(1, 2, 3, 4)
+        p_star = p.conjugate()
+        assert s == (p + p_star)/2
+        assert v == 1 / 2 * (p - p_star)
+
+
+
+
+
 
 
 

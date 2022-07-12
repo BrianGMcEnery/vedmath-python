@@ -29,6 +29,9 @@ class Quaternion:
         a2, b2, c2, d2 = other.get_components()
         return Quaternion(a1 + a2, b1 + b2, c1 + c2, d1 + d2)
 
+    def __sub__(self, other):
+        return self + (- other)
+
     def __mul__(self, other):
         a1, b1, c1, d1 = self.get_components()
         a2, b2, c2, d2 = other.get_components()
@@ -39,8 +42,30 @@ class Quaternion:
             a1 * d2 + b1 * c2 - c1 * b2 + d1 * a2
         )
 
+    def __rmul__(self, o:float):
+        a, b, c, d = self.get_components()
+        return Quaternion(a * o, b * o, c * o, d * o)
+
+
+    def __truediv__(self, o:int):
+        a, b, c, d = self.get_components()
+        return Quaternion(a / o, b / o, c / o, d / o)
+
+
     def get_components(self):
         return self.a, self.b, self.c, self.d
+
+    def scalar_part(self):
+        a, _, _, _ = self.get_components()
+        return Quaternion(a, 0, 0, 0)
+
+    def vector_part(self):
+        _, b, c, d = self.get_components()
+        return Quaternion(0, b, c, d)
+
+    def conjugate(self):
+        a, b, c, d = self.get_components()
+        return Quaternion(a, -b, -c, -d)
 
 
 
