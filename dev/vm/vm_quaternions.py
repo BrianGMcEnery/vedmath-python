@@ -1,3 +1,7 @@
+from math import sqrt
+
+from .vm_approx import approx_equal
+
 class Quaternion:
     '''A class to play around with quaternions. For details see
     the Wikipedia entry, https://en.wikipedia.org/wiki/Quaternion.'''
@@ -18,7 +22,10 @@ class Quaternion:
         return f'Quaternion({a}, {b}, {c}, {d})'
 
     def __eq__(self, other):
-        return self.get_components() == other.get_components()
+        a1, b1, c1, d1 = self.get_components()
+        a2, b2, c2, d2 = other.get_components()
+        return (approx_equal(a1, a2) and approx_equal(b1, b2) and
+                approx_equal(c1, c2) and approx_equal(d1, d2))
 
     def __neg__(self):
         a, b, c, d = self.get_components()
@@ -66,6 +73,19 @@ class Quaternion:
     def conjugate(self):
         a, b, c, d = self.get_components()
         return Quaternion(a, -b, -c, -d)
+
+    def norm(self):
+        a, b, c, d = self.get_components()
+        return sqrt(a * a + b * b + c * c + d * d)
+
+    def unit(self):
+        return self / self.norm()
+
+    def reciprocal(self):
+        return self.conjugate()/(self.norm() * self.norm())
+
+    def polar_decomposition(self):
+        return (self.norm(), self.unit())
 
 
 
