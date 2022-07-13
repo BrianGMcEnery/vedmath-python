@@ -43,6 +43,9 @@ class Test_Quaternion:
         assert Quaternion(1, 2, 3, 4).scalar() == 1
         assert Quaternion(1, 2, 3, 4).vector() == (2, 3, 4)
 
+        assert Quaternion(1.0, 2.0, 3.0, 4.0).scalar() == 1.0
+        assert Quaternion(1.0, 2.0, 3.0, 4.0).vector() == (2.0, 3.0, 4.0)
+
     def test_conjugate(self):
         assert Quaternion(1, 2, 3, 4).conjugate() == Quaternion(1, -2, -3, -4)
         
@@ -57,7 +60,7 @@ class Test_Quaternion:
 
         s = Quaternion(1, 2, 3, 4).scalar_part()
         v = Quaternion(1, 2, 3, 4).vector_part()
-        assert s == (p + p_star)/2
+        assert s == 1 / 2 * (p + p_star)
         assert v == 1 / 2 * (p - p_star)
 
     def test_norm(self):
