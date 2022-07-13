@@ -1,7 +1,9 @@
-from math import atan, pi, sin, sqrt
+from math import atan, atan2, cos, pi, sin, sqrt
 
 from vm import (Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K,
-                Cylindrical, cylindrical_of, vec3D_of)
+                Cylindrical, Spherical, cylindrical_of_vec3D, 
+                spherical_of_vec3D, vec3D_of_cylindrical, vec3D_of_spherical,
+                cylindrical_of_spherical, spherical_of_cylindrical)
 
 class Test_Vec3D:
     def test_creation(self):
@@ -63,9 +65,41 @@ class Test_Cylindrical:
     def test_str(self):
         assert str(Cylindrical(1, 2, 3)) == 'Cylindrical(1, 2, 3)'
 
+class Test_Spherical:
+    def test_creation(self):
+        assert Spherical(2, pi/3, pi/4).get_components() == (2, pi/3, pi/4)
+        
+    def test_repr(self):
+        assert repr(Spherical(1, 2, 3)) == 'Spherical(1, 2, 3)'
+
+    def test_str(self):
+        assert str(Spherical(1, 2, 3)) == 'Spherical(1, 2, 3)'
+
 def test_changing_coordinates():
     cyl = Cylindrical(2, -pi/3, 1)
-    assert vec3D_of(cyl) == Vec3D(1.0, 2 * sin(-pi / 3), 1.0)
+    assert vec3D_of_cylindrical(cyl) == Vec3D(1.0, 2 * sin(-pi / 3), 1.0)
+    assert spherical_of_cylindrical(cyl) == Spherical(
+        sqrt(5),
+        atan2(2, 1),
+        -pi/3
+    )
 
     vec = Vec3D(1, 2, 3)
-    assert cylindrical_of(vec) == Cylindrical(sqrt(5), atan(2), 3)
+    assert cylindrical_of_vec3D(vec) == Cylindrical(sqrt(5), atan(2), 3)
+    assert spherical_of_vec3D(vec) == Spherical(
+        sqrt(14),
+        atan(sqrt(5) / 3), 
+        atan(2)
+        )
+
+    sph = Spherical(2, pi/3, pi/4)
+    assert vec3D_of_spherical(sph) == Vec3D(
+        2 * cos(pi / 4) * sin(pi / 3),
+        2 * sin(pi / 4) * sin(pi / 3),
+        2 * cos(pi / 3)
+    )
+    assert cylindrical_of_spherical(sph) == Cylindrical(
+        2 * sin(pi / 3),
+        pi / 4,
+        2 * cos(pi / 3)
+    )

@@ -1,4 +1,4 @@
-from math import atan, cos, sin, sqrt
+from math import atan, atan2, cos, sin, sqrt
 from vm import approx_equal
 
 class Vec3D:
@@ -86,11 +86,62 @@ class Cylindrical:
         return (approx_equal(rho1, rho2) and approx_equal(phi1, phi2) and
                 approx_equal(z1, z2))
 
-def cylindrical_of(vec:Vec3D) -> Cylindrical:
-    x, y, z = vec.get_components()
-    return Cylindrical(sqrt(x * x + y * y), atan(y/x), z)
+class Spherical:
+    '''Work with spherical coords. 
+    https://en.wikipedia.org/wiki/Spherical_coordinate_system'''
 
-def vec3D_of(cyl:Cylindrical) -> Vec3D:
+    def __init__(self, r, theta, phi):
+        self.r = r
+        self.theta = theta
+        self.phi = phi
+
+    def __str__(self) -> str:
+        r, theta, phi = self.get_components()
+        return f'Spherical({r}, {theta}, {phi})'
+
+    def __repr__(self) -> str:
+        r, theta, phi = self.get_components()
+        return f'Spherical({r}, {theta}, {phi})'
+
+    def get_components(self):
+        return self.r, self.theta, self.phi
+
+    def __eq__(self, other):
+        r1, theta1, phi1 = self.get_components()
+        r2, theta2, phi2 = other.get_components()
+        return (approx_equal(r1, r2) and approx_equal(theta1, theta2) and
+                approx_equal(phi1, phi2))
+
+
+def cylindrical_of_vec3D(vec:Vec3D) -> Cylindrical:
+    x, y, z = vec.get_components()
+    return Cylindrical(sqrt(x * x + y * y), atan2(y, x), z)
+
+def cylindrical_of_spherical(sph:Spherical) -> Cylindrical:
+    r, theta, phi = sph.get_components()
+    return Cylindrical(r * sin(theta), phi, r * cos(theta))
+
+def spherical_of_vec3D(vec:Vec3D) -> Spherical:
+    x, y, z = vec.get_components()
+    return Spherical(
+        sqrt(x * x + y * y + z * z),
+        atan2(sqrt(x * x + y * y),  z),
+        atan2(y, x)
+    )
+
+def spherical_of_cylindrical(cyl:Cylindrical) -> Spherical:
+    rho, phi, z = cyl.get_components()
+    return Spherical(sqrt(rho * rho + z * z), atan2(rho, z), phi)
+
+def vec3D_of_cylindrical(cyl:Cylindrical) -> Vec3D:
     rho, phi, z = cyl.get_components()
     return Vec3D(rho * cos(phi), rho * sin(phi), z)
+
+def vec3D_of_spherical(sph:Spherical) -> Vec3D:
+    r, theta, phi = sph.get_components()
+    return Vec3D(
+        r * cos(phi) * sin(theta), 
+        r * sin(phi) * sin(theta), 
+        r * cos(theta)
+    )
 

@@ -22,4 +22,6 @@ from .vm_quaternions import (Quaternion, QUATERNION_1, QUATERNION_I,
                             QUATERNION_J, QUATERNION_K)
 
 from .vm_vector import (Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K, Cylindrical,
-                        cylindrical_of, vec3D_of)
+                        Spherical, cylindrical_of_vec3D, spherical_of_vec3D,
+                        vec3D_of_cylindrical, vec3D_of_spherical,
+                        cylindrical_of_spherical, spherical_of_cylindrical)
