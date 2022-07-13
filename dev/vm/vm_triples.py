@@ -22,7 +22,10 @@ class Triple:
 
     def __eq__(self, other) -> bool:
         ''' Comparison based on the values.'''
-        return self.get_values() == other.get_values()
+        x1, y1, z1 = self.get_values()
+        x2, y2, z2 = other.get_values()
+        return (approx_equal(x1, x2) and approx_equal(y1, y2) and 
+                approx_equal(z1, z2))
 
     def __add__(self, other):
         '''Addition of triples, using formula on pp8 of book on Triples.'''
