@@ -184,7 +184,10 @@ class Quadruple:
 
     def __eq__(self, other) -> bool:
         ''' Comparison based on the values.'''
-        return self.get_values() == other.get_values()
+        x1, y1, z1, r1 = self.get_values()
+        x2, y2, z2, r2 = other.get_values()
+        return (approx_equal(x1, x2) and approx_equal(y1, y2) and 
+                approx_equal(z1, z2) and approx_equal(r1, r2))
 
     def get_values(self):
         '''
@@ -251,7 +254,11 @@ class Quintuple:
 
     def __eq__(self, other) -> bool:
         ''' Comparison based on the values.'''
-        return self.get_values() == other.get_values()
+        w1, x1, y1, z1, r1 = self.get_values()
+        w2, x2, y2, z2, r2 = other.get_values()
+        return (approx_equal(w1, w2) and approx_equal(x1, x2) and 
+                approx_equal(y1, y2) and approx_equal(z1, z2) and 
+                approx_equal(r1, r2))
 
     def get_values(self):
         '''
@@ -261,7 +268,7 @@ class Quintuple:
 
     def is_valid(self):
         '''
-        Tests for the validity of the quadruple.
+        Tests for the validity of the quintuple.
         '''
         (w, x, y, z, r) = self.get_values()
         return approx_equal(w ** 2 + x ** 2 + y ** 2 + z ** 2, r ** 2)
@@ -271,7 +278,8 @@ class Quintuple:
         Reduce to the form where the first elements have no common factors.
         '''
         w, x, y, z, r = self.get_values()
-        if type(x) == int and type(y) == int and type(z) == int:
+        if (type(w) == int and type(x) == int and type(y) == int and 
+            type(z) == int):
             d = gcd(gcd(gcd(w, x), y), z)
             if d > 1:
                 w, x, y, z, r = w / d, x / d, y / d, z / d, r / d

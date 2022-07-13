@@ -40,6 +40,9 @@ class Test_Quaternion:
         assert Quaternion(1, 2, 3, 4).scalar_part() == Quaternion(1, 0, 0, 0)
         assert Quaternion(1, 2, 3, 4).vector_part() == Quaternion(0, 2, 3, 4)
 
+        assert Quaternion(1, 2, 3, 4).scalar() == 1
+        assert Quaternion(1, 2, 3, 4).vector() == (2, 3, 4)
+
     def test_conjugate(self):
         assert Quaternion(1, 2, 3, 4).conjugate() == Quaternion(1, -2, -3, -4)
         

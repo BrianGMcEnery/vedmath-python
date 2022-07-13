@@ -69,9 +69,17 @@ class Quaternion:
         a, _, _, _ = self.get_components()
         return Quaternion(a, 0, 0, 0)
 
+    def scalar(self):
+        a, _, _, _ = self.get_components()
+        return a
+
     def vector_part(self):
         _, b, c, d = self.get_components()
         return Quaternion(0, b, c, d)
+
+    def vector(self):
+        _, b, c, d = self.get_components()
+        return (b, c, d)
 
     def conjugate(self):
         a, b, c, d = self.get_components()
