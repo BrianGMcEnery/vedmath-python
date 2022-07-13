@@ -73,6 +73,11 @@ class Quaternion:
         a, _, _, _ = self.get_components()
         return a
 
+    def is_scalar(self):
+        _, b, c, d = self.get_components()
+        return (approx_equal(b, 0) and approx_equal(c, 0) and 
+                approx_equal(d, 0))
+
     def vector_part(self):
         _, b, c, d = self.get_components()
         return Quaternion(0, b, c, d)
@@ -80,6 +85,10 @@ class Quaternion:
     def vector(self):
         _, b, c, d = self.get_components()
         return (b, c, d)
+
+    def is_vector(self):
+        a, _, _, _ = self.get_components()
+        return approx_equal(a, 0)
 
     def conjugate(self):
         a, b, c, d = self.get_components()

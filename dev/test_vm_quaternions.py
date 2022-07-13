@@ -39,6 +39,10 @@ class Test_Quaternion:
     def test_scalar_vector(self):
         assert Quaternion(1, 2, 3, 4).scalar_part() == Quaternion(1, 0, 0, 0)
         assert Quaternion(1, 2, 3, 4).vector_part() == Quaternion(0, 2, 3, 4)
+        assert Quaternion(1, 2, 3, 4).is_scalar() == False
+        assert Quaternion(1, 2, 3, 4).scalar_part().is_scalar() == True
+        assert Quaternion(1, 2, 3, 4).is_vector() == False
+        assert Quaternion(1, 2, 3, 4).vector_part().is_vector() == True
 
         assert Quaternion(1, 2, 3, 4).scalar() == 1
         assert Quaternion(1, 2, 3, 4).vector() == (2, 3, 4)
@@ -69,6 +73,11 @@ class Test_Quaternion:
 
         q = Quaternion(5, 6, 7, 8)
         assert approx_equal((p * q).norm(), p.norm() * q.norm())
+
+        alpha = 0.5
+        assert approx_equal((alpha * q).norm(), abs(alpha) * q.norm())
+        alpha = -0.5
+        assert approx_equal((alpha * q).norm(), abs(alpha) * q.norm())
 
     def test_unit(self):
         p = Quaternion(1, 2, 3, 4)
