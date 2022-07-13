@@ -1,6 +1,7 @@
-from math import sqrt
+from math import atan, pi, sin, sqrt
 
-from vm import Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K
+from vm import (Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K,
+                Cylindrical, cylindrical_of, vec3D_of)
 
 class Test_Vec3D:
     def test_creation(self):
@@ -52,3 +53,19 @@ class Test_Vec3D:
         assert a.dot(b.cross(c)) == b.dot(c.cross(a))
         assert a.dot(b.cross(c)) == c.dot(a.cross(b))
 
+class Test_Cylindrical:
+    def test_creation(self):
+        assert Cylindrical(2, pi/3, 1).get_components() == (2, pi/3, 1)
+        
+    def test_repr(self):
+        assert repr(Cylindrical(1, 2, 3)) == 'Cylindrical(1, 2, 3)'
+
+    def test_str(self):
+        assert str(Cylindrical(1, 2, 3)) == 'Cylindrical(1, 2, 3)'
+
+def test_changing_coordinates():
+    cyl = Cylindrical(2, -pi/3, 1)
+    assert vec3D_of(cyl) == Vec3D(1.0, 2 * sin(-pi / 3), 1.0)
+
+    vec = Vec3D(1, 2, 3)
+    assert cylindrical_of(vec) == Cylindrical(sqrt(5), atan(2), 3)

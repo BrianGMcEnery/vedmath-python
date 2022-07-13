@@ -21,4 +21,5 @@ from .vm_approx import approx_equal
 from .vm_quaternions import (Quaternion, QUATERNION_1, QUATERNION_I, 
                             QUATERNION_J, QUATERNION_K)
 
-from .vm_vector import Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K
+from .vm_vector import (Vec3D, VEC3D_0, VEC3D_I, VEC3D_J, VEC3D_K, Cylindrical,
+                        cylindrical_of, vec3D_of)
