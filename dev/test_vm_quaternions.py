@@ -72,5 +72,5 @@ class Test_Quaternion:
         rp = p.reciprocal()
         assert p * rp == QUATERNION_1
 
-        (n, u) = p.polar_decomposition()
-        assert p == n * u
+        (norm, unit) = p.polar_decomposition()
+        assert p == norm * unit

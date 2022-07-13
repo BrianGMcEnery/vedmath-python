@@ -7,7 +7,6 @@ class Quaternion:
     the Wikipedia entry, https://en.wikipedia.org/wiki/Quaternion.'''
 
     def __init__(self, a, b, c, d):
-        '''Initialize the four components.'''
         self.a = a
         self.b = b
         self.c = c
@@ -55,6 +54,10 @@ class Quaternion:
 
 
     def __truediv__(self, o:int):
+        a, b, c, d = self.get_components()
+        return Quaternion(a / o, b / o, c / o, d / o)
+
+    def __truediv__(self, o:float):
         a, b, c, d = self.get_components()
         return Quaternion(a / o, b / o, c / o, d / o)
 
