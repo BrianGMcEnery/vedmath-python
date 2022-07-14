@@ -1,5 +1,5 @@
 from math import atan, atan2, cos, sin, sqrt
-from vm import approx_equal
+from .vm_approx import approx_equal
 
 class Vec3D:
     '''Simple class for 3-D vectors.'''
