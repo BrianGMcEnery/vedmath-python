@@ -57,3 +57,18 @@ class Cubic:
         p = (3 * a * c - b ** 2) / (3 * a ** 2)
         q = (2 * b ** 3 - 9 * a * b * c + 27 * (a ** 2) * d)/ (27 * a ** 3)
         return Cubic(1, 0, p, q)
+
+    def roots(self):
+        '''Based on the general cubic formula,
+        https://en.wikipedia.org/wiki/Cubic_equation#General_cubic_formula
+        '''
+        a, b, c, d = self.get_coeffs()
+        delta0 = b**2 - 3*a*c
+        delta1 = 2*b**3 - 9*a*b*c + 27*a**2*d
+        big_c = ((delta1 + sqrt(delta1**2 - 4*delta0**3)) / 2) ** (1/3)
+        xi = (-1 + sqrt(-3))/2
+        roots = [-1/(3*a)*(b + xi**k*big_c + delta0/(xi**k*big_c))
+        for k in [0, 1, 2]]
+
+        return tuple(roots)
+
