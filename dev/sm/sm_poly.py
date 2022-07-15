@@ -1,5 +1,9 @@
 from sympy import *
 
+def curt(x): 
+    '''Cube root of x.'''
+    return x**Rational(1,3)
+
 class Quadratic:
     '''Class to experiment with quadratics.'''
 
@@ -65,7 +69,7 @@ class Cubic:
         a, b, c, d = self.get_coeffs()
         delta0 = b**2 - 3*a*c
         delta1 = 2*b**3 - 9*a*b*c + 27*a**2*d
-        big_c = ((delta1 + sqrt(delta1**2 - 4*delta0**3)) / 2) ** (1/3)
+        big_c = curt((delta1 + sqrt(delta1**2 - 4*delta0**3)) / 2)
         xi = (-1 + sqrt(-3))/2
         roots = [-1/(3*a)*(b + xi**k*big_c + delta0/(xi**k*big_c))
         for k in [0, 1, 2]]
