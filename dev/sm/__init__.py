@@ -1,1 +1,1 @@
-from .sm_poly import Quadratic
+from .sm_poly import Quadratic, Cubic
